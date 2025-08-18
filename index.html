@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Best Turizo Insurance Platform</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* This centers everything horizontally */
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header img.logo {
+      width: 600px;
+      /* Adjust this value to make it bigger or smaller */
+      height: auto;
+      /* Maintains aspect ratio */
+      display: block;
+      margin: 0 auto;
+      /* Centers the logo */
+    }
+
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% center;
+      }
+
+      100% {
+        background-position: 200% center;
+      }
+    }
+
+    h2::after {
+      content: '';
+      display: block;
+      width: 43%;
+      height: 4px;
+      background: #be620c;
+      margin: 8px auto 0;
+      border-radius: 20px;
+    }
+
+    #loginSection {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+
+    #loginSection input {
+      padding: 20px;
+      font-size: 1rem;
+      width: 250px;
+    }
+
+    #loginSection button {
+      /* Base Styling */
+      padding: 17px 32px;
+      /* Slightly wider for better proportions */
+      font-size: 1.25rem;
+      margin-left: 20px;
+
+      /* Modern Aesthetics */
+      background-color: #c59b6a;
+      /* Warm gold tone (keep or change) */
+      color: white;
+      /* High-contrast text */
+      border: none;
+      /* Remove default border */
+      border-radius: 8px;
+      /* Soft rounded corners */
+      cursor: pointer;
+      /* Hand cursor on hover */
+      font-weight: 600;
+      /* Semi-bold text */
+      letter-spacing: 0.5px;
+      /* Slight spacing for elegance */
+      transition: all 0.3s ease;
+      /* Smooth hover effects */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      /* Subtle depth */
+
+      /* Optional: Gradient for extra modernity */
+      background: linear-gradient(to right, #c59b6a, #d4a872);
+    }
+
+    /* Hover Effects */
+    #loginSection button:hover {
+      transform: translateY(-2px);
+      /* Slight lift */
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      /* Deeper shadow */
+      background: linear-gradient(to right, #d4a872, #c59b6a, #9c4219);
+      /* Reverse gradient */
+    }
+
+    /* Active/Click Effect */
+    #loginSection button:active {
+      transform: translateY(1px);
+      /* Pressed-down effect */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    #searchSection {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+      gap: 12px;
+    }
+
+    #searchSection input[type="text"] {
+      flex: 0 0 60%;
+      max-width: 700px;
+      padding: 10px;
+      font-size: 1rem;
+    }
+
+    #searchSection button.search-btn {
+      padding: 18px 30px;
+      font-size: 2rem;
+      color: white;
+      background: linear-gradient(to right, #d4a872, #c59b6a, #9c4219);
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .form-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 16px;
+      justify-content: center;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .form-group input {
+      padding: 10px;
+      font-size: 1rem;
+      width: 220px;
+    }
+
+    .button-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 18px 0;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .button-group button {
+      padding: 18px 30px;
+      font-size: 2rem;
+      color: white;
+      font-style: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .add-btn {
+      background-color: #003366;
+    }
+
+    .edit-btn {
+      background-color: #3399FF;
+    }
+
+    .clear-btn {
+      background-color: #66CC66;
+    }
+
+    .refresh-btn {
+      background-color: rgb(235, 186, 122);
+      color: black;
+    }
+
+    .delete-btn {
+      background-color: red;
+    }
+
+    table {
+      margin: 0 auto;
+      border-collapse: collapse;
+      background: white;
+    }
+
+    table th,
+    table td {
+      border: 1px solid #ccc;
+      padding: 8px 10px;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    /* Notes column = 14th — make it wider and allow wrapping */
+    table th:nth-child(14),
+    table td:nth-child(14) {
+      width: 800px;
+      /* ← make wider; adjust to taste (e.g., 500–700px) */
+      max-width: none;
+      /* remove the 300px cap */
+      white-space: normal;
+      /* allow multi-line text */
+      vertical-align: top;
+      /* align text to the top of the cell */
+    }
+
+    /* (optional, if you’re using the .notes-box/.note-entry markup I gave earlier) */
+    .notes-box {
+      width: 100%;
+      max-height: 18em;
+      /* keeps the cell tidy with vertical scroll if very long */
+      overflow-y: auto;
+      padding: 4px 6px;
+    }
+
+    .note-entry {
+      margin-bottom: 10px;
+      /* clear separation between notes */
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+
+    table th {
+      background-color: #b4a653;
+      color: white;
+    }
+
+
+
+    tr.selected {
+      background-color: rgb(238, 217, 217);
+    }
+
+    /* Notes column scroll container; shows ~5 entries, scroll for older */
+    .notes-box {
+      max-height: 11.5em;
+      /* roughly fits ~5 note rows, adjust if needed */
+      overflow-y: auto;
+      /* scroll to see older notes */
+      padding: 4px 6px;
+      /* subtle breathing room */
+    }
+
+    .note-entry {
+      margin-bottom: 6px;
+      white-space: pre-wrap;
+      /* keep line breaks */
+      word-break: break-word;
+      /* prevent overflow on long tokens */
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <img class="logo"
+      src="https://raw.githubusercontent.com/Domichico20/Best-Turizo-Insurace-Software/11806dd4d5912b98aaba1ae08428968a18b2fa8a/logo.png"
+      alt="Logo">
+  </header>
+
+  <div id="loginSection">
+    <input type="text" id="appUser" placeholder="Enter Username" />
+    <input type="password" id="appPassword" placeholder="Enter Password"
+      onkeydown="if(event.key==='Enter'){event.preventDefault();checkPassword();}">
+    <button onclick="checkPassword()">Unlock</button>
+  </div>
+
+  <div id="appSection" style="display:none;">
+    <form id="searchForm" onsubmit="event.preventDefault(); searchData();">
+      <div id="searchSection">
+        <input type="text" id="searchQuery"
+          placeholder="Search by Policy #, Insurance, Name, Phone, Email, Year, Make, Model, VIN, Notes,">
+        <button type="submit" class="search-btn">Search</button>
+      </div>
+    </form>
+
+    <div class="form-section">
+      <div class="form-group"><label for="policy">Policy #</label><input type="text" id="policy"></div>
+      <div class="form-group"><label for="insurer">Insurer</label><input type="text" id="insurer"></div>
+      <div class="form-group"><label for="effDate">Effective Date</label><input type="date" id="effDate"></div>
+      <div class="form-group"><label for="expDate">Expiration Date</label><input type="date" id="expDate"></div>
+      <div class="form-group"><label for="firstName">First Name</label><input type="text" id="firstName"></div>
+      <div class="form-group"><label for="lastName">Last Name</label><input type="text" id="lastName"></div>
+      <div class="form-group"><label for="address">Address</label><input type="text" id="address"></div>
+      <div class="form-group"><label for="phone">Phone</label><input type="text" id="phone"></div>
+      <div class="form-group"><label for="email">Email</label><input type="email" id="email"></div>
+      <div class="form-group"><label for="year">Year</label><input type="text" id="year"></div>
+      <div class="form-group"><label for="make">Make</label><input type="text" id="make"></div>
+      <div class="form-group"><label for="model">Model</label><input type="text" id="model"></div>
+      <div class="form-group"><label for="vin">Vin #</label><input type="text" id="vin"></div>
+      <div class="form-group"><label for="notes">Notes</label><input type="text" id="notes"
+          placeholder="New note — timestamped"></div>
+      <input type="hidden" id="rowIndex" />
+    </div>
+
+    <div class="button-row">
+      <div class="button-group left"></div>
+      <div class="button-group center">
+        <button class="add-btn" onclick="addRow()" type="button">Add</button>
+        <button class="edit-btn" onclick="confirmEdit()" type="button">Edit</button>
+        <button class="clear-btn" onclick="clearForm()" type="button">Clear</button>
+        <button class="refresh-btn" onclick="loadData()" type="button">Refresh</button>
+      </div>
+      <div class="button-group right">
+        <button class="delete-btn" onclick="confirmDelete()" type="button">Delete</button>
+      </div>
+    </div>
+
+    <table id="dataTable">
+      <thead>
+        <tr>
+          <th>Policy #</th>
+          <th>Insurer</th>
+          <th>Effective</th>
+          <th>Expiration</th>
+          <th>First</th>
+          <th>Last</th>
+          <th>Address</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Year</th>
+          <th>Make</th>
+          <th>Model</th>
+          <th>Vin #</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+    const ROW_LIMIT = 25;
+    let sessionPassword = "";
+    let selectedRowIndex = null;
+
+    // Your current values
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyEcQFJppcms2_XKfAF3HZ6LJc7V98V7TJesexWry_CntOjnos-Ku_94yb2bB8t6HSF/exec';
+    const sheetId = '1q94KS8Dc2usWKc0h6iQvHP1sDfsPbgcybzXs4zpZANc'; // spreadsheet ID only
+    const apiKey = 'AIzaSyAhaKX_GIaCIXBsq43J3aMvqtGtFngdzrQ';
+    const range = 'policies!A1:N3000'; // 14 columns incl. Notes
+    // Allowed users
+    const USERS = {
+      "Edwin": "Insurance2025",
+      "Islendy": "Insurance2026",
+      "Penelope": "Insurance2027"
+    };
+
+    let existingPolicies = [];
+    let allDataRows = [];
+    let totalRows = 0;
+
+    let sessionUser = "";  // who is logged in
+
+    // --- helper to surface real server errors (no style changes) ---
+    async function postToScript(params) {
+      const res = await fetch(scriptURL, {
+        method: 'POST',
+        body: new URLSearchParams(params)
+      });
+      const text = await res.text();
+      if (!res.ok) throw new Error(`HTTP ${res.status}: ${text}`);
+      return text;
+    }
+
+    function checkPassword() {
+      const user = (document.getElementById('appUser').value || "").trim();
+      const pass = (document.getElementById('appPassword').value || "").trim();
+
+      if (USERS[user] && USERS[user] === pass) {
+        sessionUser = user;          // remember who is logged in
+        sessionPassword = pass;      // keep using your existing server password field
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('appSection').style.display = 'block';
+        loadData();
+      } else {
+        alert('Incorrect username or password');
+      }
+    }
+
+
+function formatNotes(cell = '') {
+  const escapeHtml = (s) => String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  const stripped = String(cell).replace(/#\d+:\s*/g, '').trim();
+
+  // Split concatenated notes at lines that start with "User:"
+  const blocks = stripped.split(/\n(?=User:\s)/).filter(Boolean);
+
+  if (blocks.length > 0 && /^User:\s/.test(blocks[0])) {
+    const inner = blocks.map(b => {
+      // Accept optional CR/LF between the em dash and timestamp
+      const m = b.match(/^User:\s*([^—\n]+)\s*—\s*(.*?)\r?\n([\s\S]*)?$/);
+      if (m) {
+        const header = `User: ${m[1].trim()} — ${m[2].trim()}`;
+        const body   = (m[3] || '').trim();
+        return `
+          <div class="note-entry">
+            <div>${escapeHtml(header)}</div>
+            ${body ? `<div>${escapeHtml(body)}</div>` : ``}
+          </div>
+        `;
+      }
+      return `<div class="note-entry">${escapeHtml(b)}</div>`;
+    }).join('');
+
+    return `<div class="notes-box">${inner}</div>`;
+  }
+
+  // Fallback for legacy notes (no "User:" prefix)
+  const parts = stripped.split(
+    /(?=(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s\d{1,2},\s\d{4},?\s\d{2}:\d{2}\s(?:AM|PM):?)/
+  );
+  const entries = parts.map(p => p.trim()).filter(Boolean);
+
+  const inner = entries.map(p =>
+    `<div class="note-entry">${escapeHtml(p)}</div><br>`
+  ).join('');
+
+  return `<div class="notes-box">${inner}</div>`;
+}
+
+
+    function loadData() {
+      fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`)
+        .then(res => res.json())
+        .then(data => {
+          console.log('Sheets API data:', data); // helps diagnose if empty
+          const rows = data.values || [];
+          totalRows = rows.length;
+          allDataRows = rows.slice(1).reverse();
+          existingPolicies = rows.slice(1).map(r => (r[0] || '').toLowerCase());
+
+          const tbody = document.querySelector('#dataTable tbody');
+          tbody.innerHTML = '';
+          document.getElementById('searchQuery').value = '';
+
+          allDataRows.slice(0, ROW_LIMIT).forEach((row, i) => {
+            const tr = tbody.insertRow();
+            for (let ci = 0; ci < 14; ci++) {
+              const td = tr.insertCell();
+              const val = row[ci] || '';
+              td.innerHTML = (ci === 13 ? formatNotes(val) : val);
+            }
+            tr.onclick = () => {
+              selectedRowIndex = totalRows - i; // map reversed index to sheet row (1-based)
+              document.querySelectorAll('#dataTable tr.selected').forEach(r => r.classList.remove('selected'));
+              tr.classList.add('selected');
+              const ids = ['policy', 'insurer', 'effDate', 'expDate', 'firstName', 'lastName', 'address', 'phone', 'email', 'year', 'make', 'model', 'vin'];
+              ids.forEach((id, idx) => document.getElementById(id).value = row[idx] || '');
+              document.getElementById('notes').value = '';
+              document.getElementById('rowIndex').value = selectedRowIndex;
+            };
+          });
+        })
+        .catch(err => {
+          console.error('Sheets fetch failed:', err);
+          alert('Could not load data. Check API key, sheetId, and sheet sharing (Anyone with the link → Viewer).');
+        });
+    }
+
+    function normalizePhone(s) {
+      const d = String(s || '').replace(/\D/g, '');
+      if (d.length === 10) return d.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+      if (d.length === 11 && d.startsWith('1')) return d.replace(/^1(\d{3})(\d{3})(\d{4})/, '1 ($1) $2-$3');
+      return s;
+    }
+
+    function searchData() {
+      const q = document.getElementById('searchQuery').value.toLowerCase().trim();
+      const tbody = document.querySelector('#dataTable tbody');
+      tbody.innerHTML = '';
+      if (!q) { loadData(); return; }
+
+      allDataRows.forEach((row, i) => {
+        if ((row.join(' ') || '').toLowerCase().includes(q)) {
+          const tr = tbody.insertRow();
+          for (let ci = 0; ci < 14; ci++) {
+            const td = tr.insertCell();
+            const val = row[ci] || '';
+            td.innerHTML = (ci === 13 ? formatNotes(val) : val);
+          }
+          tr.onclick = () => {
+            selectedRowIndex = totalRows - i;
+            document.querySelectorAll('#dataTable tr.selected').forEach(r => r.classList.remove('selected'));
+            tr.classList.add('selected');
+            const ids = ['policy', 'insurer', 'effDate', 'expDate', 'firstName', 'lastName', 'address', 'phone', 'email', 'year', 'make', 'model', 'vin'];
+            ids.forEach((id, idx) => document.getElementById(id).value = row[idx] || '');
+            document.getElementById('notes').value = '';
+            document.getElementById('rowIndex').value = selectedRowIndex;
+          };
+        }
+      });
+    }
+
+    function confirmDelete() {
+      if (selectedRowIndex === null) { alert('Select a row first.'); return; }
+      if (!confirm('Delete selected row?')) return;
+      deleteRow();
+    }
+    function deleteRow() {
+      postToScript({ action: 'delete', password: sessionPassword, row: selectedRowIndex })
+        .then(msg => { alert(msg); selectedRowIndex = null; loadData(); })
+        .catch(err => { console.error(err); alert(err.message); });
+    }
+
+    function confirmEdit() {
+      if (selectedRowIndex === null) { alert('Select a row first!'); return; }
+      if (!confirm('Save changes to this row?')) return;
+      editRow();
+    }
+
+    function editRow() {
+      const gi = id => (document.getElementById(id).value || '').trim();
+      const tr = document.querySelector('#dataTable tr.selected');
+      if (!tr) { alert('Please select a row first.'); return; }
+
+      const existing = tr.cells[13].textContent
+        .replace(/#\d+:\s*/g, '')
+        .split('\n').map(l => l.trim()).filter(Boolean).join('\n');
+
+      let combined = existing;
+      const rawNew = gi('notes');
+      if (rawNew) {
+        const ts = new Date().toLocaleString('en-US', {
+          timeZone: 'America/New_York', month: 'short', day: 'numeric', year: 'numeric',
+          hour: '2-digit', minute: '2-digit'
+        });
+combined = `User: ${sessionUser} — ${ts}\n${rawNew}` + (existing ? `\n${existing}` : '');
+      }
+
+      postToScript({
+        action: 'edit', password: sessionPassword, row: selectedRowIndex,
+        policy: gi('policy'), insurer: gi('insurer'),
+        effDate: gi('effDate'), expDate: gi('expDate'),
+        firstName: gi('firstName'), lastName: gi('lastName'),
+        address: gi('address'), phone: normalizePhone(gi('phone')),
+        email: gi('email'), year: gi('year'), make: gi('make'),
+        model: gi('model'), vin: gi('vin'),
+        notes: combined
+      })
+        .then(msg => { alert(msg); loadData(); })
+        .catch(err => { console.error(err); alert(err.message); });
+    }
+
+    function addRow() {
+      const gi = id => (document.getElementById(id).value || '').trim();
+      const policy = gi('policy');
+      if (!policy) { alert('Policy # is required'); return; }
+      if (existingPolicies.includes(policy.toLowerCase())) { alert('Policy # already exists'); return; }
+
+      const ts = new Date().toLocaleString('en-US', {
+        timeZone: 'America/New_York', month: 'short', day: 'numeric', year: 'numeric',
+        hour: '2-digit', minute: '2-digit'
+      });
+      const notesInput = gi('notes');
+const formattedNotes = notesInput ? `User: ${sessionUser} — ${ts}\n${notesInput}` : '';
+
+
+      postToScript({
+        action: 'add', password: sessionPassword,
+        policy, insurer: gi('insurer'),
+        effDate: gi('effDate'), expDate: gi('expDate'),
+        firstName: gi('firstName'), lastName: gi('lastName'),
+        address: gi('address'), phone: normalizePhone(gi('phone')),
+        email: gi('email'), year: gi('year'), make: gi('make'),
+        model: gi('model'), vin: gi('vin'),
+        notes: formattedNotes
+      })
+        .then(msg => { alert(msg); clearForm(); loadData(); })
+        .catch(err => { console.error(err); alert(err.message); });
+    }
+
+    function clearForm() {
+      ['policy', 'insurer', 'effDate', 'expDate', 'firstName', 'lastName', 'address', 'phone', 'email', 'year', 'make', 'model', 'vin', 'notes', 'searchQuery']
+        .forEach(id => { const e = document.getElementById(id); if (e) e.value = ''; });
+      document.querySelectorAll('#dataTable tr.selected').forEach(r => r.classList.remove('selected'));
+      selectedRowIndex = null;
+    }
+  </script>
+
+</body>
+
+</html>
