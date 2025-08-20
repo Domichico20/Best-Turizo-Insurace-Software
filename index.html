@@ -5,6 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Best Turizo Insurance Platform</title>
+
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -16,23 +18,22 @@
       /* This centers everything horizontally */
     }
 
-    header {
-      text-align: center;
-      margin-bottom: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+header{
+  /* kill all header spacing */
+  margin: 0;
+  padding: 0;
+  line-height: 0;   /* removes inline image line-height gap */
+  /* pull the next section up to compensate for the PNG’s transparent bottom */
+  margin-bottom: -40px;   /* adjust -20 to -80 until it looks right */
+}
 
-    header img.logo {
-      width: 600px;
-      /* Adjust this value to make it bigger or smaller */
-      height: auto;
-      /* Maintains aspect ratio */
-      display: block;
-      margin: 0 auto;
-      /* Centers the logo */
-    }
+header img.logo{
+  width: 600px;
+  height: auto;
+  display: block;
+  margin: 10px auto 0;   /* top 10px, zero bottom margin */
+}
+
 
     @keyframes gradientShift {
       0% {
@@ -56,48 +57,74 @@
 
     #loginSection {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 30px;
+      flex-direction: column;
+      width: 300px;
+      /* adjust as needed */
+      margin: 20px auto;
+      /* reduces gap between logo and box */
+      gap: 10px;
+    }
+
+    #loginSection input,
+    #loginSection button {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    #loginSection {
+      display: flex;
+      flex-direction: column;
+      /* stack items vertically */
+      width: 350px;
+      /* wider for modern look */
+      margin-top: 1px;
+      /* center horizontally + push down */
+      padding: 70px;
+      /* inner spacing */
+      gap: 18px;
+      /* spacing between inputs/buttons */
+      background: #ffffff;
+      /* white background card */
+      border-radius: 50px;
+      /* rounded corners */
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      /* subtle shadow */
+      font-family: Arial, sans-serif;
     }
 
     #loginSection input {
-      padding: 20px;
-      font-size: 1rem;
-      width: 250px;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      outline: none;
+      transition: border 1.2s;
+    }
+
+    #loginSection input:focus {
+      border-color: #007bff;
+      /* highlight when typing */
     }
 
     #loginSection button {
-      /* Base Styling */
-      padding: 17px 32px;
-      /* Slightly wider for better proportions */
-      font-size: 1.25rem;
-      margin-left: 20px;
-
-      /* Modern Aesthetics */
-      background-color: #c59b6a;
-      /* Warm gold tone (keep or change) */
-      color: white;
-      /* High-contrast text */
-      border: none;
-      /* Remove default border */
-      border-radius: 8px;
-      /* Soft rounded corners */
-      cursor: pointer;
-      /* Hand cursor on hover */
+      width: 100%;
+      box-sizing: border-box;
+      margin-left: 0;
+      /* <-- fixes the misalignment */
+      padding: 14px 16px;
+      /* similar rhythm to inputs */
+      font-size: 1.05rem;
       font-weight: 600;
-      /* Semi-bold text */
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      cursor: pointer;
       letter-spacing: 0.5px;
-      /* Slight spacing for elegance */
       transition: all 0.3s ease;
-      /* Smooth hover effects */
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      /* Subtle depth */
-
-      /* Optional: Gradient for extra modernity */
       background: linear-gradient(to right, #c59b6a, #d4a872);
     }
+
 
     /* Hover Effects */
     #loginSection button:hover {
@@ -244,12 +271,17 @@
       padding: 4px 6px;
     }
 
-    .note-entry {
-      margin-bottom: 10px;
-      /* clear separation between notes */
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
+.note-entry{
+  margin: 0;                 /* no default margins */
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* exactly one blank line between notes */
+.note-entry + .note-entry{
+  margin-top: 1em;           /* 1 line worth of space */
+}
+
 
 
     table th {
@@ -273,15 +305,16 @@
       /* subtle breathing room */
     }
 
-    .note-entry {
-      margin-bottom: 6px;
-      white-space: pre-wrap;
-      /* keep line breaks */
-      word-break: break-word;
-      /* prevent overflow on long tokens */
-    }
   </style>
+
+
+
 </head>
+
+
+
+
+
 
 <body>
   <header>
@@ -296,6 +329,7 @@
       onkeydown="if(event.key==='Enter'){event.preventDefault();checkPassword();}">
     <button onclick="checkPassword()">Unlock</button>
   </div>
+
 
   <div id="appSection" style="display:none;">
     <form id="searchForm" onsubmit="event.preventDefault(); searchData();">
@@ -367,7 +401,7 @@
     let selectedRowIndex = null;
 
     // Your current values
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbyEcQFJppcms2_XKfAF3HZ6LJc7V98V7TJesexWry_CntOjnos-Ku_94yb2bB8t6HSF/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyxC9XhJ-ygxv9V2PqaB26_wvNSgsPBUiZQ4e4CLafx3IT2Kn6tpKyMN0e7oHMn9IvT/exec';
     const sheetId = '1q94KS8Dc2usWKc0h6iQvHP1sDfsPbgcybzXs4zpZANc'; // spreadsheet ID only
     const apiKey = 'AIzaSyAhaKX_GIaCIXBsq43J3aMvqtGtFngdzrQ';
     const range = 'policies!A1:N3000'; // 14 columns incl. Notes
@@ -417,40 +451,21 @@ function formatNotes(cell = '') {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 
+  // Drop any "#123:" counters and trim
   const stripped = String(cell).replace(/#\d+:\s*/g, '').trim();
+  if (!stripped) return '';
 
-  // Split concatenated notes at lines that start with "User:"
-  const blocks = stripped.split(/\n(?=User:\s)/).filter(Boolean);
+  // Split BEFORE every "User:" (works even when there is no newline)
+  const blocks = stripped
+    .split(/(?=User:\s)/g)
+    .map(s => s.trim())
+    .filter(Boolean);
 
-  if (blocks.length > 0 && /^User:\s/.test(blocks[0])) {
-    const inner = blocks.map(b => {
-      // Accept optional CR/LF between the em dash and timestamp
-      const m = b.match(/^User:\s*([^—\n]+)\s*—\s*(.*?)\r?\n([\s\S]*)?$/);
-      if (m) {
-        const header = `User: ${m[1].trim()} — ${m[2].trim()}`;
-        const body   = (m[3] || '').trim();
-        return `
-          <div class="note-entry">
-            <div>${escapeHtml(header)}</div>
-            ${body ? `<div>${escapeHtml(body)}</div>` : ``}
-          </div>
-        `;
-      }
-      return `<div class="note-entry">${escapeHtml(b)}</div>`;
-    }).join('');
+  // One line per note; separate notes by ONE blank line in the cell
+const inner = blocks
+  .map(b => `<div class="note-entry">${escapeHtml(b.replace(/\r?\n+/g, ' '))}</div>`)
+  .join(''); // no <br> between divs; spacing handled by CSS
 
-    return `<div class="notes-box">${inner}</div>`;
-  }
-
-  // Fallback for legacy notes (no "User:" prefix)
-  const parts = stripped.split(
-    /(?=(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s\d{1,2},\s\d{4},?\s\d{2}:\d{2}\s(?:AM|PM):?)/
-  );
-  const entries = parts.map(p => p.trim()).filter(Boolean);
-
-  const inner = entries.map(p =>
-    `<div class="note-entry">${escapeHtml(p)}</div><br>`
-  ).join('');
 
   return `<div class="notes-box">${inner}</div>`;
 }
@@ -561,7 +576,8 @@ function formatNotes(cell = '') {
           timeZone: 'America/New_York', month: 'short', day: 'numeric', year: 'numeric',
           hour: '2-digit', minute: '2-digit'
         });
-combined = `User: ${sessionUser} — ${ts}\n${rawNew}` + (existing ? `\n${existing}` : '');
+        combined = `User: ${sessionUser} — ${ts} — ${rawNew}` + (existing ? `\n${existing}` : '');
+
       }
 
       postToScript({
@@ -589,7 +605,7 @@ combined = `User: ${sessionUser} — ${ts}\n${rawNew}` + (existing ? `\n${existi
         hour: '2-digit', minute: '2-digit'
       });
       const notesInput = gi('notes');
-const formattedNotes = notesInput ? `User: ${sessionUser} — ${ts}\n${notesInput}` : '';
+      const formattedNotes = notesInput ? `User: ${sessionUser} — ${ts} — ${notesInput}` : '';
 
 
       postToScript({
