@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=0.8, user-scalable=yes">
   <title>Best Turizo Insurance Platform</title>
 
 
@@ -18,22 +18,23 @@
       /* This centers everything horizontally */
     }
 
-header{
-  /* kill all header spacing */
-  margin: 0;
-  padding: 0;
-  line-height: 0;   /* removes inline image line-height gap */
-  /* pull the next section up to compensate for the PNG’s transparent bottom */
-  margin-bottom: -40px;   /* adjust -20 to -80 until it looks right */
-}
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-header img.logo{
-  width: 600px;
-  height: auto;
-  display: block;
-  margin: 10px auto 0;   /* top 10px, zero bottom margin */
-}
-
+    header img.logo {
+      width: 600px;
+      /* Adjust this value to make it bigger or smaller */
+      height: auto;
+      /* Maintains aspect ratio */
+      display: block;
+      margin: 0 auto;
+      /* Centers the logo */
+    }
 
     @keyframes gradientShift {
       0% {
@@ -305,6 +306,7 @@ header img.logo{
       /* subtle breathing room */
     }
 
+
   </style>
 
 
@@ -396,134 +398,113 @@ header img.logo{
   </div>
 
   <script>
-    const ROW_LIMIT = 25;
-    let sessionPassword = "";
-    let selectedRowIndex = null;
+  // Set zoom to 80% on page load
+  function setZoomLevel() {
+    document.body.style.zoom = "80%";
+  }
+  
+  // Call the function when the page loads
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setZoomLevel);
+  } else {
+    setZoomLevel();
+  }
+  
+  const ROW_LIMIT = 25;
+  let sessionPassword = "";
+  let selectedRowIndex = null;
 
-    // Your current values
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbyxC9XhJ-ygxv9V2PqaB26_wvNSgsPBUiZQ4e4CLafx3IT2Kn6tpKyMN0e7oHMn9IvT/exec';
-    const sheetId = '1q94KS8Dc2usWKc0h6iQvHP1sDfsPbgcybzXs4zpZANc'; // spreadsheet ID only
-    const apiKey = 'AIzaSyAhaKX_GIaCIXBsq43J3aMvqtGtFngdzrQ';
-    const range = 'policies!A1:N3000'; // 14 columns incl. Notes
-    // Allowed users
-    const USERS = {
-      "Edwin": "Insurance2025",
-      "Islendy": "Insurance2026",
-      "Penelope": "Insurance2027"
-    };
+  // Your current values
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbyxC9XhJ-ygxv9V2PqaB26_wvNSgsPBUiZQ4e4CLafx3IT2Kn6tpKyMN0e7oHMn9IvT/exec';
+  const sheetId = '1q94KS8Dc2usWKc0h6iQvHP1sDfsPbgcybzXs4zpZANc'; // spreadsheet ID only
+  const apiKey = 'AIzaSyAhaKX_GIaCIXBsq43J3aMvqtGtFngdzrQ';
+  const range = 'policies!A1:N3000'; // 14 columns incl. Notes
+  // Allowed users
+  const USERS = {
+    "Edwin": "Insurance2025",
+    "Islendy": "Insurance2026",
+    "Penelope": "Insurance2027"
+  };
 
-    let existingPolicies = [];
-    let allDataRows = [];
-    let totalRows = 0;
+  let existingPolicies = [];
+  let allDataRows = [];
+  let totalRows = 0;
 
-    let sessionUser = "";  // who is logged in
+  let sessionUser = "";  // who is logged in
 
-    // --- helper to surface real server errors (no style changes) ---
-    async function postToScript(params) {
-      const res = await fetch(scriptURL, {
-        method: 'POST',
-        body: new URLSearchParams(params)
-      });
-      const text = await res.text();
-      if (!res.ok) throw new Error(`HTTP ${res.status}: ${text}`);
-      return text;
+  // --- helper to surface real server errors (no style changes) ---
+  async function postToScript(params) {
+    const res = await fetch(scriptURL, {
+      method: 'POST',
+      body: new URLSearchParams(params)
+    });
+    const text = await res.text();
+    if (!res.ok) throw new Error(`HTTP ${res.status}: ${text}`);
+    return text;
+  }
+
+  // Store the original checkPassword function
+  const originalCheckPassword = function() {
+    const user = (document.getElementById('appUser').value || "").trim();
+    const pass = (document.getElementById('appPassword').value || "").trim();
+
+    if (USERS[user] && USERS[user] === pass) {
+      sessionUser = user;          // remember who is logged in
+      sessionPassword = pass;      // keep using your existing server password field
+      document.getElementById('loginSection').style.display = 'none';
+      document.getElementById('appSection').style.display = 'block';
+      loadData();
+      // Set zoom again after login
+      setTimeout(setZoomLevel, 100);
+      return true;
+    } else {
+      alert('Incorrect username or password');
+      return false;
     }
+  };
 
-    function checkPassword() {
-      const user = (document.getElementById('appUser').value || "").trim();
-      const pass = (document.getElementById('appPassword').value || "").trim();
+  // Replace the global checkPassword function
+  window.checkPassword = originalCheckPassword;
 
-      if (USERS[user] && USERS[user] === pass) {
-        sessionUser = user;          // remember who is logged in
-        sessionPassword = pass;      // keep using your existing server password field
-        document.getElementById('loginSection').style.display = 'none';
-        document.getElementById('appSection').style.display = 'block';
-        loadData();
-      } else {
-        alert('Incorrect username or password');
-      }
-    }
+  function formatNotes(cell = '') {
+    const escapeHtml = (s) => String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
 
+    // Drop any "#123:" counters and trim
+    const stripped = String(cell).replace(/#\d+:\s*/g, '').trim();
+    if (!stripped) return '';
 
-function formatNotes(cell = '') {
-  const escapeHtml = (s) => String(s)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
+    // Split BEFORE every "User:" (works even when there is no newline)
+    const blocks = stripped
+      .split(/(?=User:\s)/g)
+      .map(s => s.trim())
+      .filter(Boolean);
 
-  // Drop any "#123:" counters and trim
-  const stripped = String(cell).replace(/#\d+:\s*/g, '').trim();
-  if (!stripped) return '';
+    // One line per note; separate notes by ONE blank line in the cell
+    const inner = blocks
+      .map(b => `<div class="note-entry">${escapeHtml(b.replace(/\r?\n+/g, ' '))}</div>`)
+      .join(''); // no <br> between divs; spacing handled by CSS
 
-  // Split BEFORE every "User:" (works even when there is no newline)
-  const blocks = stripped
-    .split(/(?=User:\s)/g)
-    .map(s => s.trim())
-    .filter(Boolean);
+    return `<div class="notes-box">${inner}</div>`;
+  }
 
-  // One line per note; separate notes by ONE blank line in the cell
-const inner = blocks
-  .map(b => `<div class="note-entry">${escapeHtml(b.replace(/\r?\n+/g, ' '))}</div>`)
-  .join(''); // no <br> between divs; spacing handled by CSS
+  function loadData() {
+    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`)
+      .then(res => res.json())
+      .then(data => {
+        console.log('Sheets API data:', data); // helps diagnose if empty
+        const rows = data.values || [];
+        totalRows = rows.length;
+        allDataRows = rows.slice(1).reverse();
+        existingPolicies = rows.slice(1).map(r => (r[0] || '').toLowerCase());
 
+        const tbody = document.querySelector('#dataTable tbody');
+        tbody.innerHTML = '';
+        document.getElementById('searchQuery').value = '';
 
-  return `<div class="notes-box">${inner}</div>`;
-}
-
-
-    function loadData() {
-      fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`)
-        .then(res => res.json())
-        .then(data => {
-          console.log('Sheets API data:', data); // helps diagnose if empty
-          const rows = data.values || [];
-          totalRows = rows.length;
-          allDataRows = rows.slice(1).reverse();
-          existingPolicies = rows.slice(1).map(r => (r[0] || '').toLowerCase());
-
-          const tbody = document.querySelector('#dataTable tbody');
-          tbody.innerHTML = '';
-          document.getElementById('searchQuery').value = '';
-
-          allDataRows.slice(0, ROW_LIMIT).forEach((row, i) => {
-            const tr = tbody.insertRow();
-            for (let ci = 0; ci < 14; ci++) {
-              const td = tr.insertCell();
-              const val = row[ci] || '';
-              td.innerHTML = (ci === 13 ? formatNotes(val) : val);
-            }
-            tr.onclick = () => {
-              selectedRowIndex = totalRows - i; // map reversed index to sheet row (1-based)
-              document.querySelectorAll('#dataTable tr.selected').forEach(r => r.classList.remove('selected'));
-              tr.classList.add('selected');
-              const ids = ['policy', 'insurer', 'effDate', 'expDate', 'firstName', 'lastName', 'address', 'phone', 'email', 'year', 'make', 'model', 'vin'];
-              ids.forEach((id, idx) => document.getElementById(id).value = row[idx] || '');
-              document.getElementById('notes').value = '';
-              document.getElementById('rowIndex').value = selectedRowIndex;
-            };
-          });
-        })
-        .catch(err => {
-          console.error('Sheets fetch failed:', err);
-          alert('Could not load data. Check API key, sheetId, and sheet sharing (Anyone with the link → Viewer).');
-        });
-    }
-
-    function normalizePhone(s) {
-      const d = String(s || '').replace(/\D/g, '');
-      if (d.length === 10) return d.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
-      if (d.length === 11 && d.startsWith('1')) return d.replace(/^1(\d{3})(\d{3})(\d{4})/, '1 ($1) $2-$3');
-      return s;
-    }
-
-    function searchData() {
-      const q = document.getElementById('searchQuery').value.toLowerCase().trim();
-      const tbody = document.querySelector('#dataTable tbody');
-      tbody.innerHTML = '';
-      if (!q) { loadData(); return; }
-
-      allDataRows.forEach((row, i) => {
-        if ((row.join(' ') || '').toLowerCase().includes(q)) {
+        allDataRows.slice(0, ROW_LIMIT).forEach((row, i) => {
           const tr = tbody.insertRow();
           for (let ci = 0; ci < 14; ci++) {
             const td = tr.insertCell();
@@ -531,7 +512,7 @@ const inner = blocks
             td.innerHTML = (ci === 13 ? formatNotes(val) : val);
           }
           tr.onclick = () => {
-            selectedRowIndex = totalRows - i;
+            selectedRowIndex = totalRows - i; // map reversed index to sheet row (1-based)
             document.querySelectorAll('#dataTable tr.selected').forEach(r => r.classList.remove('selected'));
             tr.classList.add('selected');
             const ids = ['policy', 'insurer', 'effDate', 'expDate', 'firstName', 'lastName', 'address', 'phone', 'email', 'year', 'make', 'model', 'vin'];
@@ -539,96 +520,133 @@ const inner = blocks
             document.getElementById('notes').value = '';
             document.getElementById('rowIndex').value = selectedRowIndex;
           };
-        }
-      });
-    }
-
-    function confirmDelete() {
-      if (selectedRowIndex === null) { alert('Select a row first.'); return; }
-      if (!confirm('Delete selected row?')) return;
-      deleteRow();
-    }
-    function deleteRow() {
-      postToScript({ action: 'delete', password: sessionPassword, row: selectedRowIndex })
-        .then(msg => { alert(msg); selectedRowIndex = null; loadData(); })
-        .catch(err => { console.error(err); alert(err.message); });
-    }
-
-    function confirmEdit() {
-      if (selectedRowIndex === null) { alert('Select a row first!'); return; }
-      if (!confirm('Save changes to this row?')) return;
-      editRow();
-    }
-
-    function editRow() {
-      const gi = id => (document.getElementById(id).value || '').trim();
-      const tr = document.querySelector('#dataTable tr.selected');
-      if (!tr) { alert('Please select a row first.'); return; }
-
-      const existing = tr.cells[13].textContent
-        .replace(/#\d+:\s*/g, '')
-        .split('\n').map(l => l.trim()).filter(Boolean).join('\n');
-
-      let combined = existing;
-      const rawNew = gi('notes');
-      if (rawNew) {
-        const ts = new Date().toLocaleString('en-US', {
-          timeZone: 'America/New_York', month: 'short', day: 'numeric', year: 'numeric',
-          hour: '2-digit', minute: '2-digit'
         });
-        combined = `User: ${sessionUser} — ${ts} — ${rawNew}` + (existing ? `\n${existing}` : '');
-
-      }
-
-      postToScript({
-        action: 'edit', password: sessionPassword, row: selectedRowIndex,
-        policy: gi('policy'), insurer: gi('insurer'),
-        effDate: gi('effDate'), expDate: gi('expDate'),
-        firstName: gi('firstName'), lastName: gi('lastName'),
-        address: gi('address'), phone: normalizePhone(gi('phone')),
-        email: gi('email'), year: gi('year'), make: gi('make'),
-        model: gi('model'), vin: gi('vin'),
-        notes: combined
       })
-        .then(msg => { alert(msg); loadData(); })
-        .catch(err => { console.error(err); alert(err.message); });
-    }
+      .catch(err => {
+        console.error('Sheets fetch failed:', err);
+        alert('Could not load data. Check API key, sheetId, and sheet sharing (Anyone with the link → Viewer).');
+      });
+  }
 
-    function addRow() {
-      const gi = id => (document.getElementById(id).value || '').trim();
-      const policy = gi('policy');
-      if (!policy) { alert('Policy # is required'); return; }
-      if (existingPolicies.includes(policy.toLowerCase())) { alert('Policy # already exists'); return; }
+  function normalizePhone(s) {
+    const d = String(s || '').replace(/\D/g, '');
+    if (d.length === 10) return d.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+    if (d.length === 11 && d.startsWith('1')) return d.replace(/^1(\d{3})(\d{3})(\d{4})/, '1 ($1) $2-$3');
+    return s;
+  }
 
+  function searchData() {
+    const q = document.getElementById('searchQuery').value.toLowerCase().trim();
+    const tbody = document.querySelector('#dataTable tbody');
+    tbody.innerHTML = '';
+    if (!q) { loadData(); return; }
+
+    allDataRows.forEach((row, i) => {
+      if ((row.join(' ') || '').toLowerCase().includes(q)) {
+        const tr = tbody.insertRow();
+        for (let ci = 0; ci < 14; ci++) {
+          const td = tr.insertCell();
+          const val = row[ci] || '';
+          td.innerHTML = (ci === 13 ? formatNotes(val) : val);
+        }
+        tr.onclick = () => {
+          selectedRowIndex = totalRows - i;
+          document.querySelectorAll('#dataTable tr.selected').forEach(r => r.classList.remove('selected'));
+          tr.classList.add('selected');
+          const ids = ['policy', 'insurer', 'effDate', 'expDate', 'firstName', 'lastName', 'address', 'phone', 'email', 'year', 'make', 'model', 'vin'];
+          ids.forEach((id, idx) => document.getElementById(id).value = row[idx] || '');
+          document.getElementById('notes').value = '';
+          document.getElementById('rowIndex').value = selectedRowIndex;
+        };
+      }
+    });
+  }
+
+  function confirmDelete() {
+    if (selectedRowIndex === null) { alert('Select a row first.'); return; }
+    if (!confirm('Delete selected row?')) return;
+    deleteRow();
+  }
+  function deleteRow() {
+    postToScript({ action: 'delete', password: sessionPassword, row: selectedRowIndex })
+      .then(msg => { alert(msg); selectedRowIndex = null; loadData(); })
+      .catch(err => { console.error(err); alert(err.message); });
+  }
+
+  function confirmEdit() {
+    if (selectedRowIndex === null) { alert('Select a row first!'); return; }
+    if (!confirm('Save changes to this row?')) return;
+    editRow();
+  }
+
+  function editRow() {
+    const gi = id => (document.getElementById(id).value || '').trim();
+    const tr = document.querySelector('#dataTable tr.selected');
+    if (!tr) { alert('Please select a row first.'); return; }
+
+    const existing = tr.cells[13].textContent
+      .replace(/#\d+:\s*/g, '')
+      .split('\n').map(l => l.trim()).filter(Boolean).join('\n');
+
+    let combined = existing;
+    const rawNew = gi('notes');
+    if (rawNew) {
       const ts = new Date().toLocaleString('en-US', {
         timeZone: 'America/New_York', month: 'short', day: 'numeric', year: 'numeric',
         hour: '2-digit', minute: '2-digit'
       });
-      const notesInput = gi('notes');
-      const formattedNotes = notesInput ? `User: ${sessionUser} — ${ts} — ${notesInput}` : '';
+      combined = `User: ${sessionUser} — ${ts} — ${rawNew}` + (existing ? `\n${existing}` : '');
 
-
-      postToScript({
-        action: 'add', password: sessionPassword,
-        policy, insurer: gi('insurer'),
-        effDate: gi('effDate'), expDate: gi('expDate'),
-        firstName: gi('firstName'), lastName: gi('lastName'),
-        address: gi('address'), phone: normalizePhone(gi('phone')),
-        email: gi('email'), year: gi('year'), make: gi('make'),
-        model: gi('model'), vin: gi('vin'),
-        notes: formattedNotes
-      })
-        .then(msg => { alert(msg); clearForm(); loadData(); })
-        .catch(err => { console.error(err); alert(err.message); });
     }
 
-    function clearForm() {
-      ['policy', 'insurer', 'effDate', 'expDate', 'firstName', 'lastName', 'address', 'phone', 'email', 'year', 'make', 'model', 'vin', 'notes', 'searchQuery']
-        .forEach(id => { const e = document.getElementById(id); if (e) e.value = ''; });
-      document.querySelectorAll('#dataTable tr.selected').forEach(r => r.classList.remove('selected'));
-      selectedRowIndex = null;
-    }
-  </script>
+    postToScript({
+      action: 'edit', password: sessionPassword, row: selectedRowIndex,
+      policy: gi('policy'), insurer: gi('insurer'),
+      effDate: gi('effDate'), expDate: gi('expDate'),
+      firstName: gi('firstName'), lastName: gi('lastName'),
+      address: gi('address'), phone: normalizePhone(gi('phone')),
+      email: gi('email'), year: gi('year'), make: gi('make'),
+      model: gi('model'), vin: gi('vin'),
+      notes: combined
+    })
+      .then(msg => { alert(msg); loadData(); })
+      .catch(err => { console.error(err); alert(err.message); });
+  }
+
+  function addRow() {
+    const gi = id => (document.getElementById(id).value || '').trim();
+    const policy = gi('policy');
+    if (!policy) { alert('Policy # is required'); return; }
+    if (existingPolicies.includes(policy.toLowerCase())) { alert('Policy # already exists'); return; }
+
+    const ts = new Date().toLocaleString('en-US', {
+      timeZone: 'America/New_York', month: 'short', day: 'numeric', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    });
+    const notesInput = gi('notes');
+    const formattedNotes = notesInput ? `User: ${sessionUser} — ${ts} — ${notesInput}` : '';
+
+    postToScript({
+      action: 'add', password: sessionPassword,
+      policy, insurer: gi('insurer'),
+      effDate: gi('effDate'), expDate: gi('expDate'),
+      firstName: gi('firstName'), lastName: gi('lastName'),
+      address: gi('address'), phone: normalizePhone(gi('phone')),
+      email: gi('email'), year: gi('year'), make: gi('make'),
+      model: gi('model'), vin: gi('vin'),
+      notes: formattedNotes
+    })
+      .then(msg => { alert(msg); clearForm(); loadData(); })
+      .catch(err => { console.error(err); alert(err.message); });
+  }
+
+  function clearForm() {
+    ['policy', 'insurer', 'effDate', 'expDate', 'firstName', 'lastName', 'address', 'phone', 'email', 'year', 'make', 'model', 'vin', 'notes', 'searchQuery']
+      .forEach(id => { const e = document.getElementById(id); if (e) e.value = ''; });
+    document.querySelectorAll('#dataTable tr.selected').forEach(r => r.classList.remove('selected'));
+    selectedRowIndex = null;
+  }
+</script>
 
 </body>
 
