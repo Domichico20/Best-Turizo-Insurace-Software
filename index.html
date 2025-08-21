@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
- <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=0.8, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=0.8, user-scalable=yes">
   <title>Best Turizo Insurance Platform</title>
 
 
@@ -209,7 +209,7 @@
       padding: 18px 30px;
       font-size: 2rem;
       color: white;
-      font-style: bold;
+      font-weight: 700;
       border: none;
       border-radius: 6px;
       cursor: pointer;
@@ -232,11 +232,16 @@
       color: black;
     }
 
+    .attachment-btn {
+      background-color: rgb(95, 231, 220);
+      color: black;
+    }
+
     .delete-btn {
       background-color: red;
     }
 
-       .addnotes-btn {
+    .addnotes-btn {
       background-color: rgb(206, 173, 216);
     }
 
@@ -251,8 +256,10 @@
       border: 1px solid #ccc;
       padding: 8px 10px;
       text-align: left;
-      white-space: nowrap;
     }
+#dataTable th, #dataTable td {    /* only main grid stays single-line */
+  white-space: nowrap;
+}
 
     /* Notes column = 14th — make it wider and allow wrapping */
     table th:nth-child(14),
@@ -276,16 +283,18 @@
       padding: 4px 6px;
     }
 
-.note-entry{
-  margin: 0;                 /* no default margins */
-  white-space: pre-wrap;
-  word-break: break-word;
-}
+    .note-entry {
+      margin: 0;
+      /* no default margins */
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
 
-/* exactly one blank line between notes */
-.note-entry + .note-entry{
-  margin-top: 1em;           /* 1 line worth of space */
-}
+    /* exactly one blank line between notes */
+    .note-entry+.note-entry {
+      margin-top: 1em;
+      /* 1 line worth of space */
+    }
 
 
 
@@ -309,7 +318,30 @@
       padding: 4px 6px;
       /* subtle breathing room */
     }
-
+    .attc-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 6px 0 12px;
+}
+.attc-actions input[type="file"] { display: none !important; } /* hide native control */
+.attc-upload-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(90deg, #2563eb, #0ea5e9, #14b8a6);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 11px 16px;
+  cursor: pointer;
+  font-weight: 800;
+  letter-spacing: .2px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, .18);
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+}
+.attc-upload-btn:hover { transform: translateY(-1px); filter: brightness(1.03); box-shadow: 0 10px 22px rgba(0,0,0,.22); }
+.attc-upload-btn:active { transform: translateY(0); }
 
   </style>
 
@@ -372,7 +404,9 @@
         <button class="edit-btn" onclick="confirmEdit()" type="button">Edit</button>
         <button class="clear-btn" onclick="clearForm()" type="button">Clear</button>
         <button class="refresh-btn" onclick="loadData()" type="button">Refresh</button>
-<button class="addnotes-btn" onclick="confirmAddNote()" type="button">Add New Note</button>
+        <button class="attachment-btn" onclick="openAttachmentsPage()" type="button">Attachments</button>
+        <button class="addnotes-btn" onclick="confirmAddNote()" type="button">Add New Note</button>
+
       </div>
       <div class="button-group right">
         <button class="delete-btn" onclick="confirmDelete()" type="button">Delete</button>
@@ -403,113 +437,163 @@
   </div>
 
   <script>
-  // Set zoom to 80% on page load
-  function setZoomLevel() {
-    document.body.style.zoom = "80%";
-  }
-  
-  // Call the function when the page loads
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setZoomLevel);
-  } else {
-    setZoomLevel();
-  }
-  
-  const ROW_LIMIT = 25;
-  let sessionPassword = "";
-  let selectedRowIndex = null;
-
-  // Your current values
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbyxC9XhJ-ygxv9V2PqaB26_wvNSgsPBUiZQ4e4CLafx3IT2Kn6tpKyMN0e7oHMn9IvT/exec';
-  const sheetId = '1q94KS8Dc2usWKc0h6iQvHP1sDfsPbgcybzXs4zpZANc'; // spreadsheet ID only
-  const apiKey = 'AIzaSyAhaKX_GIaCIXBsq43J3aMvqtGtFngdzrQ';
-  const range = 'policies!A1:N3000'; // 14 columns incl. Notes
-  // Allowed users
-  const USERS = {
-    "Edwin": "Insurance2025",
-    "Islendy": "Insurance2026",
-    "Penelope": "Insurance2027"
-  };
-
-  let existingPolicies = [];
-  let allDataRows = [];
-  let totalRows = 0;
-
-  let sessionUser = "";  // who is logged in
-
-  // --- helper to surface real server errors (no style changes) ---
-  async function postToScript(params) {
-    const res = await fetch(scriptURL, {
-      method: 'POST',
-      body: new URLSearchParams(params)
-    });
-    const text = await res.text();
-    if (!res.ok) throw new Error(`HTTP ${res.status}: ${text}`);
-    return text;
-  }
-
-  // Store the original checkPassword function
-  const originalCheckPassword = function() {
-    const user = (document.getElementById('appUser').value || "").trim();
-    const pass = (document.getElementById('appPassword').value || "").trim();
-
-    if (USERS[user] && USERS[user] === pass) {
-      sessionUser = user;          // remember who is logged in
-      sessionPassword = pass;      // keep using your existing server password field
-      document.getElementById('loginSection').style.display = 'none';
-      document.getElementById('appSection').style.display = 'block';
-      loadData();
-      // Set zoom again after login
-      setTimeout(setZoomLevel, 100);
-      return true;
-    } else {
-      alert('Incorrect username or password');
-      return false;
+    // Set zoom to 80% on page load
+    function setZoomLevel() {
+      document.body.style.zoom = "80%";
     }
-  };
 
-  // Replace the global checkPassword function
-  window.checkPassword = originalCheckPassword;
+    // Call the function when the page loads
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setZoomLevel);
+    } else {
+      setZoomLevel();
+    }
 
-  function formatNotes(cell = '') {
-    const escapeHtml = (s) => String(s)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
+    const ROW_LIMIT = 25;
+    let sessionPassword = "";
+    let selectedRowIndex = null;
 
-    // Drop any "#123:" counters and trim
-    const stripped = String(cell).replace(/#\d+:\s*/g, '').trim();
-    if (!stripped) return '';
+    // Your current values
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyxC9XhJ-ygxv9V2PqaB26_wvNSgsPBUiZQ4e4CLafx3IT2Kn6tpKyMN0e7oHMn9IvT/exec';
+    const sheetId = '1q94KS8Dc2usWKc0h6iQvHP1sDfsPbgcybzXs4zpZANc'; // spreadsheet ID only
+    const apiKey = 'AIzaSyAhaKX_GIaCIXBsq43J3aMvqtGtFngdzrQ';
+const range = 'policies!A1:P'; // read all used rows up to column P
 
-    // Split BEFORE every "User:" (works even when there is no newline)
-    const blocks = stripped
-      .split(/(?=User:\s)/g)
-      .map(s => s.trim())
-      .filter(Boolean);
+    // Allowed users
+    const USERS = {
+      "Edwin": "Insurance2025",
+      "Islendy": "Insurance2026",
+      "Penelope": "Insurance2027"
+    };
 
-    // One line per note; separate notes by ONE blank line in the cell
-    const inner = blocks
-      .map(b => `<div class="note-entry">${escapeHtml(b.replace(/\r?\n+/g, ' '))}</div>`)
-      .join(''); // no <br> between divs; spacing handled by CSS
+    // ---- Global inline SVG used for the "View" icon ----
+const PDF_ICON_SVG = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="PDF">
+  <rect x="3" y="2" width="18" height="20" rx="2" fill="#e53935"/>
+  <polygon points="16,2 21,2 21,7" fill="#ffffff" opacity="0.9"/>
+  <text x="12" y="16" text-anchor="middle"
+        font-family="Arial,Helvetica,sans-serif"
+        font-size="8" font-weight="700" fill="#ffffff">PDF</text>
+</svg>`;
 
-    return `<div class="notes-box">${inner}</div>`;
-  }
 
-  function loadData() {
-    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`)
-      .then(res => res.json())
-      .then(data => {
-        console.log('Sheets API data:', data); // helps diagnose if empty
-        const rows = data.values || [];
-        totalRows = rows.length;
-        allDataRows = rows.slice(1).reverse();
-        existingPolicies = rows.slice(1).map(r => (r[0] || '').toLowerCase());
+    let existingPolicies = [];
+    let allDataRows = [];
+    let totalRows = 0;
 
-        const tbody = document.querySelector('#dataTable tbody');
-        tbody.innerHTML = '';
-        document.getElementById('searchQuery').value = '';
+    let sessionUser = "";  // who is logged in
 
-        allDataRows.slice(0, ROW_LIMIT).forEach((row, i) => {
+    // --- helper to surface real server errors (no style changes) ---
+    async function postToScript(params) {
+      const res = await fetch(scriptURL, {
+        method: 'POST',
+        body: new URLSearchParams(params)
+      });
+      const text = await res.text();
+      if (!res.ok) throw new Error(`HTTP ${res.status}: ${text}`);
+      return text;
+    }
+
+    // Store the original checkPassword function
+    const originalCheckPassword = function () {
+      const user = (document.getElementById('appUser').value || "").trim();
+      const pass = (document.getElementById('appPassword').value || "").trim();
+
+      if (USERS[user] && USERS[user] === pass) {
+        sessionUser = user;          // remember who is logged in
+        sessionPassword = pass;      // keep using your existing server password field
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('appSection').style.display = 'block';
+        loadData();
+        // Set zoom again after login
+        setTimeout(setZoomLevel, 100);
+        return true;
+      } else {
+        alert('Incorrect username or password');
+        return false;
+      }
+    };
+
+    // Replace the global checkPassword function
+    window.checkPassword = originalCheckPassword;
+
+    function formatNotes(cell = '') {
+      const escapeHtml = (s) => String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+      // Drop any "#123:" counters and trim
+      const stripped = String(cell).replace(/#\d+:\s*/g, '').trim();
+      if (!stripped) return '';
+
+      // Split BEFORE every "User:" (works even when there is no newline)
+      const blocks = stripped
+        .split(/(?=User:\s)/g)
+        .map(s => s.trim())
+        .filter(Boolean);
+
+      // One line per note; separate notes by ONE blank line in the cell
+      const inner = blocks
+        .map(b => `<div class="note-entry">${escapeHtml(b.replace(/\r?\n+/g, ' '))}</div>`)
+        .join(''); // no <br> between divs; spacing handled by CSS
+
+      return `<div class="notes-box">${inner}</div>`;
+    }
+
+    function loadData() {
+      fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`)
+        .then(res => res.json())
+        .then(data => {
+          console.log('Sheets API data:', data); // helps diagnose if empty
+          const rows = data.values || [];
+          totalRows = rows.length;
+          allDataRows = rows.slice(1).reverse();
+          existingPolicies = rows.slice(1).map(r => (r[0] || '').toLowerCase());
+
+          const tbody = document.querySelector('#dataTable tbody');
+          tbody.innerHTML = '';
+          document.getElementById('searchQuery').value = '';
+
+          allDataRows.slice(0, ROW_LIMIT).forEach((row, i) => {
+            const tr = tbody.insertRow();
+            for (let ci = 0; ci < 14; ci++) {
+              const td = tr.insertCell();
+              const val = row[ci] || '';
+              td.innerHTML = (ci === 13 ? formatNotes(val) : val);
+            }
+            tr.onclick = () => {
+              selectedRowIndex = totalRows - i; // map reversed index to sheet row (1-based)
+              document.querySelectorAll('#dataTable tr.selected').forEach(r => r.classList.remove('selected'));
+              tr.classList.add('selected');
+              const ids = ['policy', 'insurer', 'effDate', 'expDate', 'firstName', 'lastName', 'address', 'phone', 'email', 'year', 'make', 'model', 'vin'];
+              ids.forEach((id, idx) => document.getElementById(id).value = row[idx] || '');
+              document.getElementById('notes').value = '';
+              document.getElementById('rowIndex').value = selectedRowIndex;
+            };
+          });
+        })
+        .catch(err => {
+          console.error('Sheets fetch failed:', err);
+          alert('Could not load data. Check API key, sheetId, and sheet sharing (Anyone with the link → Viewer).');
+        });
+    }
+
+    function normalizePhone(s) {
+      const d = String(s || '').replace(/\D/g, '');
+      if (d.length === 10) return d.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+      if (d.length === 11 && d.startsWith('1')) return d.replace(/^1(\d{3})(\d{3})(\d{4})/, '1 ($1) $2-$3');
+      return s;
+    }
+
+    function searchData() {
+      const q = document.getElementById('searchQuery').value.toLowerCase().trim();
+      const tbody = document.querySelector('#dataTable tbody');
+      tbody.innerHTML = '';
+      if (!q) { loadData(); return; }
+
+      allDataRows.forEach((row, i) => {
+        if ((row.join(' ') || '').toLowerCase().includes(q)) {
           const tr = tbody.insertRow();
           for (let ci = 0; ci < 14; ci++) {
             const td = tr.insertCell();
@@ -517,7 +601,7 @@
             td.innerHTML = (ci === 13 ? formatNotes(val) : val);
           }
           tr.onclick = () => {
-            selectedRowIndex = totalRows - i; // map reversed index to sheet row (1-based)
+            selectedRowIndex = totalRows - i;
             document.querySelectorAll('#dataTable tr.selected').forEach(r => r.classList.remove('selected'));
             tr.classList.add('selected');
             const ids = ['policy', 'insurer', 'effDate', 'expDate', 'firstName', 'lastName', 'address', 'phone', 'email', 'year', 'make', 'model', 'vin'];
@@ -525,207 +609,648 @@
             document.getElementById('notes').value = '';
             document.getElementById('rowIndex').value = selectedRowIndex;
           };
-        });
-      })
-      .catch(err => {
-        console.error('Sheets fetch failed:', err);
-        alert('Could not load data. Check API key, sheetId, and sheet sharing (Anyone with the link → Viewer).');
-      });
-  }
-
-  function normalizePhone(s) {
-    const d = String(s || '').replace(/\D/g, '');
-    if (d.length === 10) return d.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
-    if (d.length === 11 && d.startsWith('1')) return d.replace(/^1(\d{3})(\d{3})(\d{4})/, '1 ($1) $2-$3');
-    return s;
-  }
-
-  function searchData() {
-    const q = document.getElementById('searchQuery').value.toLowerCase().trim();
-    const tbody = document.querySelector('#dataTable tbody');
-    tbody.innerHTML = '';
-    if (!q) { loadData(); return; }
-
-    allDataRows.forEach((row, i) => {
-      if ((row.join(' ') || '').toLowerCase().includes(q)) {
-        const tr = tbody.insertRow();
-        for (let ci = 0; ci < 14; ci++) {
-          const td = tr.insertCell();
-          const val = row[ci] || '';
-          td.innerHTML = (ci === 13 ? formatNotes(val) : val);
         }
-        tr.onclick = () => {
-          selectedRowIndex = totalRows - i;
-          document.querySelectorAll('#dataTable tr.selected').forEach(r => r.classList.remove('selected'));
-          tr.classList.add('selected');
-          const ids = ['policy', 'insurer', 'effDate', 'expDate', 'firstName', 'lastName', 'address', 'phone', 'email', 'year', 'make', 'model', 'vin'];
-          ids.forEach((id, idx) => document.getElementById(id).value = row[idx] || '');
-          document.getElementById('notes').value = '';
-          document.getElementById('rowIndex').value = selectedRowIndex;
-        };
+      });
+    }
+
+    function confirmDelete() {
+      if (selectedRowIndex === null) { alert('Select a row first.'); return; }
+      if (!confirm('Delete selected row?')) return;
+      deleteRow();
+    }
+    function deleteRow() {
+      postToScript({ action: 'delete', password: sessionPassword, row: selectedRowIndex })
+        .then(msg => { alert(msg); selectedRowIndex = null; loadData(); })
+        .catch(err => { console.error(err); alert(err.message); });
+    }
+
+    function confirmEdit() {
+      if (selectedRowIndex === null) { alert('Select a row first!'); return; }
+      if (!confirm('Save changes to this row?')) return;
+      editRow();
+    }
+
+    function editRow() {
+      const gi = id => (document.getElementById(id).value || '').trim();
+      const tr = document.querySelector('#dataTable tr.selected');
+      if (!tr) { alert('Please select a row first.'); return; }
+
+      const existing = tr.cells[13].textContent
+        .replace(/#\d+:\s*/g, '')
+        .split('\n').map(l => l.trim()).filter(Boolean).join('\n');
+
+      let combined = existing;
+      const rawNew = gi('notes');
+      if (rawNew) {
+        const ts = new Date().toLocaleString('en-US', {
+          timeZone: 'America/New_York', month: 'short', day: 'numeric', year: 'numeric',
+          hour: '2-digit', minute: '2-digit'
+        });
+        combined = `User: ${sessionUser} — ${ts} — ${rawNew}` + (existing ? `\n${existing}` : '');
+
       }
-    });
-  }
 
-  function confirmDelete() {
-    if (selectedRowIndex === null) { alert('Select a row first.'); return; }
-    if (!confirm('Delete selected row?')) return;
-    deleteRow();
-  }
-  function deleteRow() {
-    postToScript({ action: 'delete', password: sessionPassword, row: selectedRowIndex })
-      .then(msg => { alert(msg); selectedRowIndex = null; loadData(); })
-      .catch(err => { console.error(err); alert(err.message); });
-  }
 
-  function confirmEdit() {
-    if (selectedRowIndex === null) { alert('Select a row first!'); return; }
-    if (!confirm('Save changes to this row?')) return;
-    editRow();
-  }
 
-  function editRow() {
-    const gi = id => (document.getElementById(id).value || '').trim();
-    const tr = document.querySelector('#dataTable tr.selected');
-    if (!tr) { alert('Please select a row first.'); return; }
+      postToScript({
+        action: 'edit', password: sessionPassword, row: selectedRowIndex,
+        policy: gi('policy'), insurer: gi('insurer'),
+        effDate: gi('effDate'), expDate: gi('expDate'),
+        firstName: gi('firstName'), lastName: gi('lastName'),
+        address: gi('address'), phone: normalizePhone(gi('phone')),
+        email: gi('email'), year: gi('year'), make: gi('make'),
+        model: gi('model'), vin: gi('vin'),
+        notes: combined
+      })
+        .then(msg => { alert(msg); loadData(); })
+        .catch(err => { console.error(err); alert(err.message); });
+    }
 
-    const existing = tr.cells[13].textContent
-      .replace(/#\d+:\s*/g, '')
-      .split('\n').map(l => l.trim()).filter(Boolean).join('\n');
+    function addRow() {
+      const gi = id => (document.getElementById(id).value || '').trim();
+      const policy = gi('policy');
+      if (!policy) { alert('Policy # is required'); return; }
+      if (existingPolicies.includes(policy.toLowerCase())) { alert('Policy # already exists'); return; }
 
-    let combined = existing;
-    const rawNew = gi('notes');
-    if (rawNew) {
       const ts = new Date().toLocaleString('en-US', {
         timeZone: 'America/New_York', month: 'short', day: 'numeric', year: 'numeric',
         hour: '2-digit', minute: '2-digit'
       });
-      combined = `User: ${sessionUser} — ${ts} — ${rawNew}` + (existing ? `\n${existing}` : '');
+      const notesInput = gi('notes');
+      const formattedNotes = notesInput ? `User: ${sessionUser} — ${ts} — ${notesInput}` : '';
 
+      postToScript({
+        action: 'add', password: sessionPassword,
+        policy, insurer: gi('insurer'),
+        effDate: gi('effDate'), expDate: gi('expDate'),
+        firstName: gi('firstName'), lastName: gi('lastName'),
+        address: gi('address'), phone: normalizePhone(gi('phone')),
+        email: gi('email'), year: gi('year'), make: gi('make'),
+        model: gi('model'), vin: gi('vin'),
+        notes: formattedNotes
+      })
+        .then(msg => { alert(msg); clearForm(); loadData(); })
+        .catch(err => { console.error(err); alert(err.message); });
     }
 
+    function clearForm() {
+      ['policy', 'insurer', 'effDate', 'expDate', 'firstName', 'lastName', 'address', 'phone', 'email', 'year', 'make', 'model', 'vin', 'notes', 'searchQuery']
+        .forEach(id => { const e = document.getElementById(id); if (e) e.value = ''; });
+      document.querySelectorAll('#dataTable tr.selected').forEach(r => r.classList.remove('selected'));
+      selectedRowIndex = null;
+    }
+
+    // Add-a-note flow (only updates the Notes column)
+    function confirmAddNote() {
+      if (selectedRowIndex === null) {
+        alert('Select a row first!');
+        return;
+      }
+      if (!document.getElementById('notes').value.trim()) {
+        alert('Please enter a note before adding.');
+        return;
+      }
+      if (!confirm('Add new note to this row?')) return;
+      addNote();
+    }
+
+    function addNote() {
+      // helper to read inputs
+      const gi = id => (document.getElementById(id).value || '').trim();
+
+      // must have a selected row
+      const tr = document.querySelector('#dataTable tr.selected');
+      if (!tr) {
+        alert('Please select a row first.');
+        return;
+      }
+
+      // get EXISTING notes from the selected row (cell 13) and strip "#123:" prefixes
+      const existing = tr.cells[13].textContent
+        .replace(/#\d+:\s*/g, '')
+        .split('\n').map(l => l.trim()).filter(Boolean)
+        .join('\n');
+
+      // build the new, prepended note (timestamp + user), keep all old notes under it
+      const rawNew = gi('notes');
+      const ts = new Date().toLocaleString('en-US', {
+        timeZone: 'America/New_York',
+        month: 'short', day: 'numeric', year: 'numeric',
+        hour: '2-digit', minute: '2-digit'
+      });
+      const combined = `User: ${sessionUser} — ${ts} — ${rawNew}` + (existing ? `\n${existing}` : '');
+
+      // Send an 'edit' with ALL the other columns unchanged so we only affect Notes
+      // (we read the current values from the selected row cells)
+      postToScript({
+        action: 'edit',
+        password: sessionPassword,
+        row: selectedRowIndex,
+        policy: tr.cells[0].textContent,
+        insurer: tr.cells[1].textContent,
+        effDate: tr.cells[2].textContent,
+        expDate: tr.cells[3].textContent,
+        firstName: tr.cells[4].textContent,
+        lastName: tr.cells[5].textContent,
+        address: tr.cells[6].textContent,
+        phone: tr.cells[7].textContent,
+        email: tr.cells[8].textContent,
+        year: tr.cells[9].textContent,
+        make: tr.cells[10].textContent,
+        model: tr.cells[11].textContent,
+        vin: tr.cells[12].textContent,
+        notes: combined
+      })
+        .then(msg => {
+          alert(msg);
+          document.getElementById('notes').value = ''; // clear the input
+          loadData();                                  // refresh table to show the new top note
+        })
+        .catch(err => {
+          console.error(err);
+          alert(err.message);
+        });
+    }
+    // ===== Attachments Page Logic =====
+    let attcRowNum = null;        // 1-based sheet row selected
+    let attcPolicy = '';          // policy number for convenience
+    let attcRowData = null;       // full row object returned by backend
+    // ADD this near your other globals (top-level, outside any function)
+
+    function openAttachmentsPage() {
+      if (selectedRowIndex === null) { alert('Select a row first.'); return; }
+      attcRowNum = selectedRowIndex;
+
+      // Ask backend for the live row, including JSON in new columns
+      postToScript({ action: 'getRow', password: sessionPassword, row: attcRowNum })
+        .then(text => {
+          let payload;
+          try { payload = JSON.parse(text); } catch (e) { throw new Error('Invalid JSON from server: ' + text); }
+          if (!payload || !payload.ok) throw new Error(payload && payload.error ? payload.error : 'Unknown error');
+          attcRowData = payload.row; // keys are exactly the header names
+          attcPolicy = attcRowData['Policy #'] || '';
+
+          // Fill customer details (excluding Notes)
+          renderAttachmentDetails(attcRowData);
 
 
-    postToScript({
-      action: 'edit', password: sessionPassword, row: selectedRowIndex,
-      policy: gi('policy'), insurer: gi('insurer'),
-      effDate: gi('effDate'), expDate: gi('expDate'),
-      firstName: gi('firstName'), lastName: gi('lastName'),
-      address: gi('address'), phone: normalizePhone(gi('phone')),
-      email: gi('email'), year: gi('year'), make: gi('make'),
-      model: gi('model'), vin: gi('vin'),
-      notes: combined
-    })
-      .then(msg => { alert(msg); loadData(); })
-      .catch(err => { console.error(err); alert(err.message); });
-  }
 
-  function addRow() {
-    const gi = id => (document.getElementById(id).value || '').trim();
-    const policy = gi('policy');
-    if (!policy) { alert('Policy # is required'); return; }
-    if (existingPolicies.includes(policy.toLowerCase())) { alert('Policy # already exists'); return; }
+          // Fill tables
+          renderAttachmentTable('policy', attcRowData['Policy Forms']);
+          renderAttachmentTable('accord', attcRowData['Accord Forms']);
 
-    const ts = new Date().toLocaleString('en-US', {
-      timeZone: 'America/New_York', month: 'short', day: 'numeric', year: 'numeric',
-      hour: '2-digit', minute: '2-digit'
-    });
-    const notesInput = gi('notes');
-    const formattedNotes = notesInput ? `User: ${sessionUser} — ${ts} — ${notesInput}` : '';
+          // Switch views
+          document.getElementById('appSection').style.display = 'none';
+          document.getElementById('attachmentsPage').style.display = 'block';
+          setTimeout(setZoomLevel, 50);
+        })
+        .catch(err => { console.error(err); alert(err.message); });
+    }
 
-    postToScript({
-      action: 'add', password: sessionPassword,
-      policy, insurer: gi('insurer'),
-      effDate: gi('effDate'), expDate: gi('expDate'),
-      firstName: gi('firstName'), lastName: gi('lastName'),
-      address: gi('address'), phone: normalizePhone(gi('phone')),
-      email: gi('email'), year: gi('year'), make: gi('make'),
-      model: gi('model'), vin: gi('vin'),
-      notes: formattedNotes
-    })
-      .then(msg => { alert(msg); clearForm(); loadData(); })
-      .catch(err => { console.error(err); alert(err.message); });
-  }
+    function closeAttachmentsPage() {
+      document.getElementById('attachmentsPage').style.display = 'none';
+      document.getElementById('appSection').style.display = 'block';
+      setTimeout(setZoomLevel, 50);
+    }
 
-  function clearForm() {
-    ['policy', 'insurer', 'effDate', 'expDate', 'firstName', 'lastName', 'address', 'phone', 'email', 'year', 'make', 'model', 'vin', 'notes', 'searchQuery']
-      .forEach(id => { const e = document.getElementById(id); if (e) e.value = ''; });
-    document.querySelectorAll('#dataTable tr.selected').forEach(r => r.classList.remove('selected'));
-    selectedRowIndex = null;
-  }
+    // Build the details grid (no Notes)
+    function renderAttachmentDetails(rowObj) {
+      // case/space-insensitive header lookup
+      const normalize = s => String(s || '').trim().toLowerCase();
+      const map = Object.keys(rowObj).reduce((acc, k) => {
+        acc[normalize(k)] = rowObj[k];
+        return acc;
+      }, {});
 
-// Add-a-note flow (only updates the Notes column)
-function confirmAddNote() {
-  if (selectedRowIndex === null) { 
-    alert('Select a row first!'); 
-    return; 
-  }
-  if (!document.getElementById('notes').value.trim()) {
-    alert('Please enter a note before adding.');
+      // pick the first header that exists (with fuzzy fallback)
+      const find = (keys) => {
+        for (const k of keys) {
+          const nk = normalize(k);
+          if (map[nk] !== undefined && String(map[nk]).trim() !== '') return String(map[nk]);
+        }
+        // fuzzy: try any header that contains the first key text
+        const want = normalize(keys[0]);
+        for (const [nk, val] of Object.entries(map)) {
+          if (nk.includes(want) && String(val).trim() !== '') return String(val);
+        }
+        return '';
+      };
+
+      // format ISO or “YYYY-MM-DDTHH:mm…” → MM/DD/YYYY
+      const onlyDate = (s) => {
+        if (!s) return '';
+        const raw = String(s).trim();
+        const d = new Date(raw);
+        if (!isNaN(d)) {
+          const mm = String(d.getMonth() + 1).padStart(2, '0');
+          const dd = String(d.getDate()).padStart(2, '0');
+          const yy = d.getFullYear();
+          return `${mm}/${dd}/${yy}`;
+        }
+        return raw.split('T')[0]; // last resort: strip time if present
+      };
+
+      const fields = [
+        { label: 'Policy #', keys: ['Policy #', 'Policy Number', 'Policy'] },
+        { label: 'Insurer', keys: ['Insurer', 'Insurance', 'Carrier'] },
+        { label: 'Effective', keys: ['Effective', 'Effective Date', 'Eff Date'], transform: onlyDate },
+        { label: 'Expiration', keys: ['Expiration', 'Expiration Date', 'Exp Date', 'Expiry', 'Exp'], transform: onlyDate },
+
+        { label: 'First', keys: ['First', 'First Name', 'Given Name'] },
+        { label: 'Last', keys: ['Last', 'Last Name', 'Surname'] },
+        { label: 'Address', keys: ['Address', 'Street'] },
+        { label: 'Phone', keys: ['Phone', 'Phone #', 'Phone Number'] },
+
+        { label: 'Email', keys: ['Email'] },
+        { label: 'Year', keys: ['Year'] },
+        { label: 'Make', keys: ['Make'] },
+        { label: 'Model', keys: ['Model'] },
+        { label: 'Vin #', keys: ['Vin #', 'VIN', 'VIN #'] }
+      ];
+
+      const grid = document.getElementById('attcDetailsGrid');
+      grid.innerHTML = '';
+      fields.forEach(f => {
+        let val = find(f.keys);
+        if (f.transform) val = f.transform(val);
+        const card = document.createElement('div'); card.className = 'attc-card';
+        const lab = document.createElement('div'); lab.className = 'attc-label'; lab.textContent = f.label;
+        const vEl = document.createElement('div'); vEl.className = 'attc-value'; vEl.textContent = val;
+        card.append(lab, vEl); grid.append(card);
+      });
+    }
+
+function renderAttachmentTable(kind, jsonCell){
+  const isPolicy = (kind === 'policy');
+  const tbody = document.getElementById(isPolicy ? 'policyTable' : 'accordTable').querySelector('tbody');
+  const empty = document.getElementById(isPolicy ? 'policyEmpty' : 'accordEmpty');
+
+  let items = [];
+  try { items = jsonCell ? JSON.parse(jsonCell) : []; }
+  catch(e){ console.warn('Bad JSON in', kind, jsonCell); items = []; }
+
+  tbody.innerHTML = '';
+  if (!items.length){
+    empty.style.display = 'block';
     return;
   }
-  if (!confirm('Add new note to this row?')) return;
-  addNote();
-}
+  empty.style.display = 'none';
 
-function addNote() {
-  // helper to read inputs
-  const gi = id => (document.getElementById(id).value || '').trim();
+  items.forEach(meta => {
+    const tr = document.createElement('tr');
+    tr.className = 'attc-row';
 
-  // must have a selected row
-  const tr = document.querySelector('#dataTable tr.selected');
-  if (!tr) { 
-    alert('Please select a row first.'); 
-    return; 
-  }
+    // Text cells
+    ['name','addedAt','addedBy','policyNumber'].forEach(key => {
+      const td = document.createElement('td');
+      td.textContent = meta[key] || '';
+      tr.appendChild(td);
+    });
 
-  // get EXISTING notes from the selected row (cell 13) and strip "#123:" prefixes
-  const existing = tr.cells[13].textContent
-    .replace(/#\d+:\s*/g, '')
-    .split('\n').map(l => l.trim()).filter(Boolean)
-    .join('\n');
+    // View cell (icon button) -- safer DOM build
+    const viewTd = document.createElement('td');
+    const url = typeof meta.url === 'string' ? meta.url : '';
+    if (url) {
+      const a = document.createElement('a');
+      a.href = url;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.className = 'attc-icon attc-icon--pdf';
+      a.title = 'Open PDF';
+      a.setAttribute('aria-label', 'Open PDF');
+      a.innerHTML = PDF_ICON_SVG; // only our trusted inline SVG
+      viewTd.appendChild(a);
+    }
+    tr.appendChild(viewTd);
 
-  // build the new, prepended note (timestamp + user), keep all old notes under it
-  const rawNew = gi('notes');
-  const ts = new Date().toLocaleString('en-US', {
-    timeZone: 'America/New_York',
-    month: 'short', day: 'numeric', year: 'numeric',
-    hour: '2-digit', minute: '2-digit'
-  });
-  const combined = `User: ${sessionUser} — ${ts} — ${rawNew}` + (existing ? `\n${existing}` : '');
-
-  // Send an 'edit' with ALL the other columns unchanged so we only affect Notes
-  // (we read the current values from the selected row cells)
-  postToScript({
-    action: 'edit',
-    password: sessionPassword,
-    row: selectedRowIndex,
-    policy: tr.cells[0].textContent,
-    insurer: tr.cells[1].textContent,
-    effDate: tr.cells[2].textContent,
-    expDate: tr.cells[3].textContent,
-    firstName: tr.cells[4].textContent,
-    lastName: tr.cells[5].textContent,
-    address: tr.cells[6].textContent,
-    phone: tr.cells[7].textContent,
-    email: tr.cells[8].textContent,
-    year: tr.cells[9].textContent,
-    make: tr.cells[10].textContent,
-    model: tr.cells[11].textContent,
-    vin: tr.cells[12].textContent,
-    notes: combined
-  })
-  .then(msg => {
-    alert(msg);
-    document.getElementById('notes').value = ''; // clear the input
-    loadData();                                  // refresh table to show the new top note
-  })
-  .catch(err => { 
-    console.error(err); 
-    alert(err.message); 
+    tbody.appendChild(tr); // make sure the row is added!
   });
 }
-</script>
+
+
+
+
+    // Upload handler (reads file, posts to Apps Script)
+    function handleAttachmentUpload(kind) {
+      const input = document.getElementById(kind === 'policy' ? 'policyUpload' : 'accordUpload');
+      const file = input.files && input.files[0];
+      if (!file) { return; }
+      if (file.type !== 'application/pdf') { alert('Please choose a PDF.'); input.value = ''; return; }
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const b64 = reader.result.split(',')[1];
+        postToScript({
+          action: 'uploadAttachment',
+          password: sessionPassword,
+          row: attcRowNum,
+          policyNumber: attcPolicy,
+          kind,               // 'policy' or 'accord'
+          fileName: file.name,
+          fileB64: b64,
+          addedBy: sessionUser
+        })
+          .then(text => {
+            let payload;
+            try { payload = JSON.parse(text); } catch (e) { throw new Error('Invalid JSON from server: ' + text); }
+            if (!payload || !payload.ok) throw new Error(payload && payload.error ? payload.error : 'Upload failed');
+            // Re-render section from returned arrays so the table refreshes immediately
+            renderAttachmentTable('policy', JSON.stringify(payload.policyForms || []));
+            renderAttachmentTable('accord', JSON.stringify(payload.accordForms || []));
+            input.value = '';
+            alert('Uploaded!');
+          })
+          .catch(err => { console.error(err); alert(err.message); });
+      };
+      reader.readAsDataURL(file);
+    }
+
+  </script>
+  <!-- Attachments Page (hidden by default) -->
+  <div id="attachmentsPage" style="display:none;">
+    <style>
+      /* === Attachments Page — modern, centered, responsive === */
+
+      /* Center the white card and prevent overflow */
+      .attc-wrap {
+        width: min(1600px, 98vw);
+        /* was 1200 / 92vw */
+        margin: 40px auto;
+        background: #ffffff;
+        border-radius: 24px;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.10);
+        padding: 32px;
+        /* a touch more breathing room */
+        box-sizing: border-box;
+      }
+
+
+      /* Top bar: title + back button */
+      .attc-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 18px;
+      }
+
+      .attc-title {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 2rem;
+        font-weight: 900;
+        letter-spacing: .3px;
+        background: linear-gradient(90deg, #7c5b2e, #c79d4b);
+        /* warm gold → luxe */
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .attc-title::before {
+        content: "";
+        width: 12px;
+        height: 28px;
+        border-radius: 8px;
+        background: linear-gradient(180deg, #e8c98b, #b67a2e);
+      }
+
+      .attc-title::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -6px;
+        height: 6px;
+        width: 140px;
+        background: linear-gradient(90deg, #f5d79c, #e0b15e, #b7742c);
+        border-radius: 6px;
+        opacity: .9;
+      }
+
+      /* Back button — pill, subtle gradient, hover/active states */
+      .attc-back {
+        --bg1: #f7efe6;
+        --bg2: #efe2cf;
+        --border: #e7d4bd;
+        --ink: #5a4a38;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 16px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: linear-gradient(180deg, var(--bg1), var(--bg2));
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .06), inset 0 1px 0 rgba(255, 255, 255, .6);
+        font-weight: 700;
+        color: var(--ink);
+        cursor: pointer;
+        transition: transform .12s ease, box-shadow .12s ease, background .2s ease;
+      }
+
+      .attc-back::before {
+        content: "";
+        width: 18px;
+        height: 18px;
+        flex: 0 0 18px;
+        mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.7 5.3a1 1 0 010 1.4L10.41 11l4.3 4.3a1 1 0 11-1.42 1.4l-5-5a1 1 0 010-1.4l5-5a1 1 0 011.41 0z"/></svg>') center/contain no-repeat;
+        background: var(--ink);
+      }
+
+      .attc-back:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, .12), inset 0 1px 0 rgba(255, 255, 255, .6);
+      }
+
+      .attc-back:active {
+        transform: translateY(0);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, .10);
+      }
+
+      .attc-back:focus-visible {
+        outline: 2px solid #c59b6a;
+        outline-offset: 2px;
+      }
+
+      /* Details grid — centered, cards */
+      .attc-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        /* was 4 → wider cards */
+        gap: 18px;
+        /* a bit more gap */
+        margin: 18px 0 26px;
+      }
+
+      @media (min-width:2500px) {
+        .attc-grid {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        /* go back to 4 on very wide screens */
+      }
+
+      .attc-card {
+        background: #faf8f5;
+        border: 1px solid #eee1d2;
+        border-radius: 12px;
+        padding: 14px 16px;
+        min-width: 0;
+      }
+
+      .attc-label {
+        font-size: .85rem;
+        color: #7a6a55;
+        margin-bottom: 6px;
+      }
+
+      .attc-value {
+        font-weight: 700;
+        color: #4a3b2a;
+        white-space: normal;
+        /* was nowrap */
+        line-height: 1.25;
+        word-break: break-word;
+        /* allow long addresses/emails to wrap */
+      }
+
+      /* Two sections side-by-side; never overflow the wrapper */
+      .attc-sections {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        /* two equal columns */
+        gap: 26px;
+        align-items: start;
+        justify-items: stretch;
+        /* keeps both panels same width */
+      }
+
+      @media (max-width:1100px) {
+        .attc-sections {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* individual panel card — usually leave as-is, but keep this to avoid overflow */
+      .attc-section {
+        min-width: 0;
+      }
+
+      /* Attachments tables */
+.attc-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  table-layout: fixed;
+}
+
+/* allow multi-line header text */
+.attc-table th {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+/* keep data cells single-line with ellipsis */
+.attc-table td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* View icon as a PDF file */
+.attc-icon{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:36px; height:36px; line-height:0;
+  border-radius:10px;
+  background:#fff;
+  border:1px solid #e8e8e8;
+  text-decoration:none;
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.attc-icon svg{ width:20px; height:24px; display:block; }
+.attc-icon:hover{ transform:translateY(-1px); box-shadow:0 6px 14px rgba(0,0,0,.08); }
+.attc-icon:focus-visible{ outline:2px solid #e53935; outline-offset:2px; }
+.attc-icon--pdf{ border-color:#ffd2d2; }
+
+
+      .attc-emptystate {
+        color: #766c58;
+        font-style: italic;
+        padding: 8px 0;
+      }
+
+      /* Responsive: stack gracefully on narrower screens */
+      @media (max-width:1100px) {
+        .attc-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .attc-sections {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+
+    <div class="attc-wrap">
+      <div class="attc-topbar">
+        <div class="attc-title">Attachments</div>
+        <button class="attc-back" onclick="closeAttachmentsPage()">← Back</button>
+      </div>
+
+      <!-- Customer details (no notes) -->
+      <div class="attc-grid" id="attcDetailsGrid">
+        <!-- filled by JS -->
+      </div>
+
+      <div class="attc-sections">
+        <!-- Policy Forms -->
+        <div class="attc-section">
+          <h3>Policy Forms</h3>
+          <div class="attc-actions">
+            <label for="policyUpload" class="attc-upload-btn">Upload PDF</label>
+            <input id="policyUpload" type="file" accept="application/pdf" onchange="handleAttachmentUpload('policy')">
+          </div>
+          <table class="attc-table" id="policyTable">
+            <thead>
+              <tr>
+                <th>File Name</th>
+                <th>Date Added</th>
+                <th>Added By</th>
+                <th>Policy #</th>
+                <th>View</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <div class="attc-emptystate" id="policyEmpty" style="display:none;">No policy forms uploaded yet.</div>
+        </div>
+
+        <!-- Accord Forms -->
+        <div class="attc-section">
+          <h3>Accord Forms</h3>
+          <div class="attc-actions">
+            <label for="accordUpload" class="attc-upload-btn">Upload PDF</label>
+            <input id="accordUpload" type="file" accept="application/pdf" onchange="handleAttachmentUpload('accord')">
+          </div>
+          <table class="attc-table" id="accordTable">
+            <thead>
+              <tr>
+                <th>File Name</th>
+                <th>Date Added</th>
+                <th>Added By</th>
+                <th>Policy #</th>
+                <th>View</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <div class="attc-emptystate" id="accordEmpty" style="display:none;">No accord forms uploaded yet.</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 </body>
