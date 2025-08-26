@@ -1075,12 +1075,20 @@
       }
     }
 
-    /* Notes input size */
-    #noteInput {
-      height: 80px;
-      /* tweak this number */
-      max-width: 1310px;
-    }
+ /* Notes input size (fixed, non-resizable) */
+#noteInput {
+  width: 100%;
+  max-width: 1310px;
+
+  height: 80px;
+  min-height: 80px;
+  max-height: 80px;
+
+  resize: none;     /* disable user resizing */
+  overflow: auto;   /* show scrollbar instead */
+  box-sizing: border-box; /* keep 80px including padding/border */
+}
+
 
     /* ---- Put tabs back in the document flow (not floating) ---- */
     #customerPage .tabs {
@@ -1322,7 +1330,6 @@
       <section id="tab-notes" class="tabpanel" role="tabpanel" aria-labelledby="tabbtn-notes">
         <div class="form">
           <div class="fg row-full">
-
             <textarea id="noteInput" rows="2" placeholder="Add New Note Here"></textarea>
           </div>
         </div>
