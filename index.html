@@ -41,21 +41,26 @@
       --radius: 14px;
       --shadow: 0 8px 24px rgba(16, 24, 40, .06);
     }
-/* PDF icon size (35% of a 24px base = 8.4px) */
-:root { --pdf-icon-size: 40px; }         /* tweak if you want bigger (e.g., 24px or 32px) */
 
-.attc-icon {
-  display: inline-flex;
-  width: var(--pdf-icon-size);
-  height: var(--pdf-icon-size);
-  align-items: center;
-  justify-content: center;
-}
+    /* PDF icon size (35% of a 24px base = 8.4px) */
+    :root {
+      --pdf-icon-size: 40px;
+    }
 
-.attc-icon svg {
-  width: 100%;
-  height: 100%;
-}
+    /* tweak if you want bigger (e.g., 24px or 32px) */
+
+    .attc-icon {
+      display: inline-flex;
+      width: var(--pdf-icon-size);
+      height: var(--pdf-icon-size);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .attc-icon svg {
+      width: 100%;
+      height: 100%;
+    }
 
     html,
     body {
@@ -384,17 +389,17 @@
     }
 
     .badge.active {
-     border: 1px solid #113f18;
+      border: 1px solid #113f18;
       background: #66b684;
       color: #1e1ca3;
-      cursor:default;
+      cursor: default;
     }
 
     .badge.inactive {
       background: #fdecec;
       color: #991b1b;
       border: 1px solid #fecaca;
-      cursor:default
+      cursor: default
     }
 
     .go-btn {
@@ -438,30 +443,10 @@
       flex-wrap: wrap;
     }
 
-    #customerPage .tabs {
-      position: fixed;
-      top: 92px;
-      /* nudge to sit just above the white box */
-      left: 50%;
-      transform: translateX(-50%);
-      /* center the tabs container to page */
-      z-index: 2000;
 
-      width: min(1400px, 96vw);
-      /* same width as .wrap */
-      justify-content: flex-start;
-      /* left edge aligns with the card */
-      gap: 12px;
 
-      margin: 0;
-      padding: 0;
-      background: transparent;
-    }
+   body.is-customer #customerPage .wrap { margin-top: 16px; }  /* small, sane gap */
 
-    /* Make room for the floating tabs so they don't overlap the card */
-    body.is-customer #customerPage .wrap {
-      margin-top: 150px;
-    }
 
     /* Small screens */
     @media (max-width: 900px) {
@@ -712,19 +697,19 @@
       box-shadow: 0 8px 20px rgba(16, 24, 40, .10);
     }
 
-  .btn.primary {
-  background: linear-gradient(90deg, var(--brand1), var(--brand2));
-  color: #fff;
-  border: 0;
+    .btn.primary {
+      background: linear-gradient(90deg, var(--brand1), var(--brand2));
+      color: #fff;
+      border: 0;
 
-  /* match top tab size */
-  width: 140px;
-  min-height: 44px;
-  padding: 12px 20px;
-  border-radius: 999px;
-  font-size: 1.20rem;
-  line-height: 1;
-}
+      /* match top tab size */
+      width: 140px;
+      min-height: 44px;
+      padding: 12px 20px;
+      border-radius: 999px;
+      font-size: 1.20rem;
+      line-height: 1;
+    }
 
 
     .btn.safe {
@@ -748,7 +733,7 @@
       border-radius: 999px;
 
       /* identical visuals */
-background: linear-gradient(90deg,
+      background: linear-gradient(90deg,
           #9c4219 0%,
           #a54a1c 1.5%,
           #b05220 3%,
@@ -916,12 +901,14 @@ background: linear-gradient(90deg,
       margin-bottom: 6px;
     }
 
-  .note-text {
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  font-size: 1.55rem;   /* increase to 1.25rem, 1.35rem, etc. */
-  line-height: 1.6;     /* optional for readability */
-}
+    .note-text {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font-size: 1.55rem;
+      /* increase to 1.25rem, 1.35rem, etc. */
+      line-height: 1.6;
+      /* optional for readability */
+    }
 
 
     .pager {
@@ -1003,74 +990,124 @@ background: linear-gradient(90deg,
     .attc-file .name {
       font-weight: 700;
     }
+
     /* ---- Floating uploader (bottom-right outside the white card) ---- */
-#tab-files .attc-upload,
-#tab-accord .attc-upload {
-  position: fixed;           /* pull it out of the flow/card */
-  right: 175px;               /* sit in the page margin at lower-right */
-  bottom: 465px;
-  width: 300px;              /* fits the red box in your screenshot */
-  margin: 0;
-  z-index: 3000;             /* above the card / tables */
-  pointer-events: auto;
-}
+    #tab-files .attc-upload,
+    #tab-accord .attc-upload {
+      position: fixed;
+      /* pull it out of the flow/card */
+      right: 175px;
+      /* sit in the page margin at lower-right */
+      bottom: 465px;
+      width: 300px;
+      /* fits the red box in your screenshot */
+      margin: 0;
+      z-index: 3000;
+      /* above the card / tables */
+      pointer-events: auto;
+    }
 
-/* Compact the dropzone so it reads well in a 300px panel */
-#tab-files .attc-dropzone,
-#tab-accord .attc-dropzone {
-  grid-template-columns: 24px 1fr;  /* smaller icon column */
-  gap: 10px;
-  padding: 12px 14px;
-  border-radius: 12px;
-}
-#tab-files .attc-dropzone svg,
-#tab-accord .attc-dropzone svg {
-  width: 24px;
-  height: 24px;
-}
-#tab-files .attc-dropzone .text strong,
-#tab-accord .attc-dropzone .text strong {
-  font-size: 1rem;
-}
-#tab-files .attc-dropzone .text span,
-#tab-accord .attc-dropzone .text span {
-  font-size: .9rem;
-}
-#tab-files .attc-dropzone .meta,
-#tab-accord .attc-dropzone .meta {
-  font-size: .8rem;
-}
+    /* Compact the dropzone so it reads well in a 300px panel */
+    #tab-files .attc-dropzone,
+    #tab-accord .attc-dropzone {
+      grid-template-columns: 24px 1fr;
+      /* smaller icon column */
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 12px;
+    }
 
-/* The little "Selected: filename" line stays with the floating box */
-#tab-files .attc-file,
-#tab-accord .attc-file {
-  margin-top: 8px;
-  font-size: 1.1rem;
-}
+    #tab-files .attc-dropzone svg,
+    #tab-accord .attc-dropzone svg {
+      width: 24px;
+      height: 24px;
+    }
 
-/* Optional: on very small screens, tuck it tighter */
-@media (max-width: 1200px) {
-  #tab-files .attc-upload,
-  #tab-accord .attc-upload {
-    right: 12px;
-    bottom: 12px;
-    width: 260px;
-  }
-}
-/* quick spinner for optimistic rows */
-.attc-spin {
-  display:inline-block; width:14px; height:14px; border:2px solid #d7c3a6;
-  border-top-color:#ab7d4a; border-radius:50%; animation:attcspin .6s linear infinite;
-  vertical-align:middle; margin-right:6px;
-}
-@keyframes attcspin { to { transform: rotate(360deg); } }
+    #tab-files .attc-dropzone .text strong,
+    #tab-accord .attc-dropzone .text strong {
+      font-size: 1rem;
+    }
 
-/* Notes input size */
-#noteInput{
-  height: 80px;        /* tweak this number */
-  max-width: 1310px;
-}
+    #tab-files .attc-dropzone .text span,
+    #tab-accord .attc-dropzone .text span {
+      font-size: .9rem;
+    }
 
+    #tab-files .attc-dropzone .meta,
+    #tab-accord .attc-dropzone .meta {
+      font-size: .8rem;
+    }
+
+    /* The little "Selected: filename" line stays with the floating box */
+    #tab-files .attc-file,
+    #tab-accord .attc-file {
+      margin-top: 8px;
+      font-size: 1.1rem;
+    }
+
+    /* Optional: on very small screens, tuck it tighter */
+    @media (max-width: 1200px) {
+
+      #tab-files .attc-upload,
+      #tab-accord .attc-upload {
+        right: 12px;
+        bottom: 12px;
+        width: 260px;
+      }
+    }
+
+    /* quick spinner for optimistic rows */
+    .attc-spin {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid #d7c3a6;
+      border-top-color: #ab7d4a;
+      border-radius: 50%;
+      animation: attcspin .6s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+
+    @keyframes attcspin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Notes input size */
+    #noteInput {
+      height: 80px;
+      /* tweak this number */
+      max-width: 1310px;
+    }
+
+    /* ---- Put tabs back in the document flow (not floating) ---- */
+    #customerPage .tabs {
+      position: static !important;
+      top: auto !important;
+      left: auto !important;
+      transform: none !important;
+      z-index: auto !important;
+
+      width: 100% !important;
+      margin: 12px 0 16px !important;
+      /* restore original spacing */
+      padding: 0 !important;
+      background: transparent !important;
+    }
+
+ body.is-customer #customerPage .wrap { margin-top: 16px !important; }
+
+    @media (max-width: 900px) {
+      #customerPage .tabs {
+        top: auto !important;
+      }
+
+      body.is-customer #customerPage .wrap {
+        margin-top: 12px !important;
+      }
+    }
   </style>
 </head>
 
@@ -1121,26 +1158,21 @@ background: linear-gradient(90deg,
 
   <!-- ===== Customer Overview Page ===== -->
   <div id="customerPage" style="display:none;">
-    <div class="wrap">
-      <div class="topbar">
-        <div class="title">Customer Overview</div>
-      </div>
+<div class="wrap">
+  <div class="topbar">
+    <div class="title">Customer Overview</div>
+  </div>
 
-      <div class="grid" id="custDetailsGrid"></div>
+  <div class="tabs" role="tablist">
+    <button class="tab" id="tabbtn-main" role="tab" aria-selected="false" onclick="goMainTab()">Main Page</button>
+    <button class="tab" id="tabbtn-info" role="tab" aria-controls="tab-info" aria-selected="true" onclick="switchTab('info')">Customer Info</button>
+    <button class="tab" id="tabbtn-policies" role="tab" aria-controls="tab-policies" aria-selected="false" onclick="switchTab('policies')">Policies</button>
+    <button class="tab" id="tabbtn-files" role="tab" aria-controls="tab-files" aria-selected="false" onclick="switchTab('files')">Files</button>
+    <button class="tab" id="tabbtn-accord" role="tab" aria-controls="tab-accord" aria-selected="false" onclick="switchTab('accord')">Accord</button>
+    <button class="tab" id="tabbtn-notes" role="tab" aria-controls="tab-notes" aria-selected="false" onclick="switchTab('notes')">Notes</button>
+  </div>
 
-      <div class="tabs" role="tablist">
-        <button class="tab" id="tabbtn-main" role="tab" aria-selected="false" onclick="goMainTab()">Main Page</button>
-        <button class="tab" id="tabbtn-info" role="tab" aria-controls="tab-info" aria-selected="true"
-          onclick="switchTab('info')">Customer Info</button>
-        <button class="tab" id="tabbtn-policies" role="tab" aria-controls="tab-policies" aria-selected="false"
-          onclick="switchTab('policies')">Policies</button>
-        <button class="tab" id="tabbtn-files" role="tab" aria-controls="tab-files" aria-selected="false"
-          onclick="switchTab('files')">Files</button>
-        <button class="tab" id="tabbtn-accord" role="tab" aria-controls="tab-accord" aria-selected="false"
-          onclick="switchTab('accord')">Accord</button>
-        <button class="tab" id="tabbtn-notes" role="tab" aria-controls="tab-notes" aria-selected="false"
-          onclick="switchTab('notes')">Notes</button>
-      </div>
+  <div class="grid" id="custDetailsGrid"></div>
 
       <!-- Customer Info panel -->
       <section id="tab-info" class="tabpanel active" role="tabpanel" aria-labelledby="tabbtn-info">
@@ -1166,6 +1198,8 @@ background: linear-gradient(90deg,
           <button class="btn primary" onclick="saveCustomerInfo()">Save Changes</button>
         </div>
       </section>
+
+   
 
       <!-- Policies panel -->
       <section id="tab-policies" class="tabpanel" role="tabpanel" aria-labelledby="tabbtn-policies">
@@ -1288,7 +1322,7 @@ background: linear-gradient(90deg,
       <section id="tab-notes" class="tabpanel" role="tabpanel" aria-labelledby="tabbtn-notes">
         <div class="form">
           <div class="fg row-full">
-          
+
             <textarea id="noteInput" rows="2" placeholder="Add New Note Here"></textarea>
           </div>
         </div>
@@ -1339,22 +1373,22 @@ background: linear-gradient(90deg,
     function setZoomLevel() { document.body.style.zoom = '80%'; }
     document.addEventListener('DOMContentLoaded', setZoomLevel);
 
-  async function postToScript(params, timeoutMs = 60000) {
-  const ctrl = new AbortController();
-  const t = setTimeout(() => ctrl.abort('timeout'), timeoutMs);
-  try {
-    const res = await fetch(scriptURL, {
-      method: 'POST',
-      body: new URLSearchParams(params),
-      signal: ctrl.signal,
-    });
-    const text = await res.text();
-    if (!res.ok) throw new Error(`HTTP ${res.status}: ${text}`);
-    return text;
-  } finally {
-    clearTimeout(t);
-  }
-}
+    async function postToScript(params, timeoutMs = 60000) {
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort('timeout'), timeoutMs);
+      try {
+        const res = await fetch(scriptURL, {
+          method: 'POST',
+          body: new URLSearchParams(params),
+          signal: ctrl.signal,
+        });
+        const text = await res.text();
+        if (!res.ok) throw new Error(`HTTP ${res.status}: ${text}`);
+        return text;
+      } finally {
+        clearTimeout(t);
+      }
+    }
 
 
     window.checkPassword = function () {
@@ -1385,32 +1419,32 @@ background: linear-gradient(90deg,
     function computeStatus(exp) { const d = parseExpDate(exp); if (!d) return 'Inactive'; const today = new Date(); today.setHours(0, 0, 0, 0); return (d >= today) ? 'Active' : 'Inactive'; }
     function statusBadge(status) { const cls = status === 'Active' ? 'active' : 'inactive'; return `<span class="badge ${cls}">${status}</span>`; }
     // Normalize any sheet date string to "YYYY-MM-DD" for <input type="date">
- function toYMD(v) {
-  if (!v) return '';
-  const d1 = new Date(String(v));
-  if (!isNaN(d1.getTime())) {
-    const y = d1.getFullYear();
-    const m = String(d1.getMonth() + 1).padStart(2, '0');
-    const d = String(d1.getDate()).padStart(2, '0');
-    return `${y}-${m}-${d}`;
-  }
-  const m = String(v).match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
-  if (m) {
-    const y = m[3].length === 2 ? (Number(m[3]) + 2000) : Number(m[3]);
-    return `${y}-${String(m[1]).padStart(2, '0')}-${String(m[2]).padStart(2, '0')}`;
-  }
-  return '';
-}
+    function toYMD(v) {
+      if (!v) return '';
+      const d1 = new Date(String(v));
+      if (!isNaN(d1.getTime())) {
+        const y = d1.getFullYear();
+        const m = String(d1.getMonth() + 1).padStart(2, '0');
+        const d = String(d1.getDate()).padStart(2, '0');
+        return `${y}-${m}-${d}`;
+      }
+      const m = String(v).match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
+      if (m) {
+        const y = m[3].length === 2 ? (Number(m[3]) + 2000) : Number(m[3]);
+        return `${y}-${String(m[1]).padStart(2, '0')}-${String(m[2]).padStart(2, '0')}`;
+      }
+      return '';
+    }
 
-// helper to read a sheet cell by case/space-insensitive aliases
-function getCell(row, ...aliases) {
-  const norm = s => String(s).toLowerCase().replace(/\s+/g, '');
-  const keys = Object.keys(row || {});
-  for (const k of keys) {
-    if (aliases.some(a => norm(k) === norm(a))) return row[k];
-  }
-  return '';
-}
+    // helper to read a sheet cell by case/space-insensitive aliases
+    function getCell(row, ...aliases) {
+      const norm = s => String(s).toLowerCase().replace(/\s+/g, '');
+      const keys = Object.keys(row || {});
+      for (const k of keys) {
+        if (aliases.some(a => norm(k) === norm(a))) return row[k];
+      }
+      return '';
+    }
 
 
     function clearSelection() {
@@ -1528,25 +1562,25 @@ function getCell(row, ...aliases) {
       // Show notes immediately; defer only the heavy attachments
       rebuildNotes(custRowObj['Notes'] || custRowObj['Note'] || custRowObj['Notes Log'] || '');
 
-    // If attachments are present in the cached row, render now.
- if (custRowObj['Policy Forms'] || custRowObj['Accord Forms']) {
-   renderAttachmentTable('policy', custRowObj['Policy Forms'] || '[]');
-   renderAttachmentTable('accord', custRowObj['Accord Forms'] || '[]');
- } else {
-   // Otherwise fetch the full row (includes attachment cells) and render.
-   postToScript({ action: 'getRow', password: sessionPassword, row: custRowNum })
-     .then(txt => {
-       const p = JSON.parse(txt);
-       if (p && p.ok) {
-         custRowObj = p.row; // keep the richer row around
-       }
-     })
-     .finally(() => {
-       renderAttachmentTable('policy', custRowObj['Policy Forms'] || '[]');
-       renderAttachmentTable('accord', custRowObj['Accord Forms'] || '[]');
-     });
- }
-}
+      // If attachments are present in the cached row, render now.
+      if (custRowObj['Policy Forms'] || custRowObj['Accord Forms']) {
+        renderAttachmentTable('policy', custRowObj['Policy Forms'] || '[]');
+        renderAttachmentTable('accord', custRowObj['Accord Forms'] || '[]');
+      } else {
+        // Otherwise fetch the full row (includes attachment cells) and render.
+        postToScript({ action: 'getRow', password: sessionPassword, row: custRowNum })
+          .then(txt => {
+            const p = JSON.parse(txt);
+            if (p && p.ok) {
+              custRowObj = p.row; // keep the richer row around
+            }
+          })
+          .finally(() => {
+            renderAttachmentTable('policy', custRowObj['Policy Forms'] || '[]');
+            renderAttachmentTable('accord', custRowObj['Accord Forms'] || '[]');
+          });
+      }
+    }
 
 
 
@@ -1585,17 +1619,17 @@ function getCell(row, ...aliases) {
         return '';
       };
 
- const fields = [
-  ['Policy #', () => getCell(row, 'Policy #')],
-  ['Insurer', () => getCell(row, 'Insurer')],
-  ['Effective', () => getCell(row, 'Effective Date', 'Effective')],
-  ['Expiration', () => getCell(row, 'Expiration Date', 'Expiration')],
-  ['First', () => getCell(row, 'First Name', 'First')],
-  ['Last', () => getCell(row, 'Last Name', 'Last')],
-  ['Address', () => getCell(row, 'Address')],
-  ['Phone', () => getCell(row, 'Phone')],
-  ['Email', () => getCell(row, 'Email')]
-];
+      const fields = [
+        ['Policy #', () => getCell(row, 'Policy #')],
+        ['Insurer', () => getCell(row, 'Insurer')],
+        ['Effective', () => getCell(row, 'Effective Date', 'Effective')],
+        ['Expiration', () => getCell(row, 'Expiration Date', 'Expiration')],
+        ['First', () => getCell(row, 'First Name', 'First')],
+        ['Last', () => getCell(row, 'Last Name', 'Last')],
+        ['Address', () => getCell(row, 'Address')],
+        ['Phone', () => getCell(row, 'Phone')],
+        ['Email', () => getCell(row, 'Email')]
+      ];
 
 
       grid.innerHTML = '';
@@ -1621,8 +1655,8 @@ function getCell(row, ...aliases) {
       const g = id => document.getElementById(id);
       g('ci_policy').value = row['Policy #'] || '';
       g('ci_insurer').value = row['Insurer'] || '';
-   g('ci_effDate').value = toYMD(getCell(row, 'Effective Date', 'Effective'));
-g('ci_expDate').value = toYMD(getCell(row, 'Expiration Date', 'Expiration'));
+      g('ci_effDate').value = toYMD(getCell(row, 'Effective Date', 'Effective'));
+      g('ci_expDate').value = toYMD(getCell(row, 'Expiration Date', 'Expiration'));
       g('ci_firstName').value = row['First Name'] || row['First'] || '';
       g('ci_lastName').value = row['Last Name'] || row['Last'] || '';
       g('ci_address').value = row['Address'] || '';
@@ -1714,8 +1748,8 @@ g('ci_expDate').value = toYMD(getCell(row, 'Expiration Date', 'Expiration'));
           const p = JSON.parse(txt); if (!p.ok) throw new Error('Row not found');
           const r = p.row; const g = id => document.getElementById(id);
           g('pe_policy').value = r['Policy #'] || ''; g('pe_insurer').value = r['Insurer'] || '';
-   g('pe_effDate').value = toYMD(getCell(r, 'Effective Date', 'Effective'));
-g('pe_expDate').value = toYMD(getCell(r, 'Expiration Date', 'Expiration'));
+          g('pe_effDate').value = toYMD(getCell(r, 'Effective Date', 'Effective'));
+          g('pe_expDate').value = toYMD(getCell(r, 'Expiration Date', 'Expiration'));
 
           g('pe_address').value = r['Address'] || ''; g('pe_phone').value = r['Phone'] || '';
           g('pe_email').value = r['Email'] || '';
@@ -1790,114 +1824,114 @@ g('pe_expDate').value = toYMD(getCell(r, 'Expiration Date', 'Expiration'));
       });
     }
 
-function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const fr = new FileReader();
-    fr.onload = () => {
-      const s = String(fr.result || '');
-      const i = s.indexOf(',');
-      resolve(i >= 0 ? s.slice(i + 1) : s);
-    };
-    fr.onerror = () => reject(fr.error || new Error('File read failed'));
-    fr.readAsDataURL(file);
-  });
-}
-
-
-// Insert an optimistic "uploading..." row and return a handle we can replace
-function addOptimisticRow(kind, meta) {
-  const isPolicy = (kind === 'policy');
-  const table = document.getElementById(isPolicy ? 'policyTable' : 'accordTable');
-  const tbody = table.querySelector('tbody');
-  document.getElementById(isPolicy ? 'policyEmpty' : 'accordEmpty').style.display = 'none';
-
-  const tr = document.createElement('tr');
-  tr.dataset.optimistic = '1';
-  const cells = [
-    `${meta.name} (pending)`,
-    meta.addedAt,
-    meta.addedBy,
-    meta.policyNumber,
-    `<span class="attc-spin"></span>Uploading…`
-  ];
-  cells.forEach(html => {
-    const td = document.createElement('td');
-    td.innerHTML = html;
-    tr.appendChild(td);
-  });
-  // Put new item on top for snappy feedback
-  tbody.insertBefore(tr, tbody.firstChild || null);
-  return tr;
-}
-
-function replaceOptimisticWithReal(kind, optimisticTr, items) {
-  const isPolicy = (kind === 'policy');
-  // Only re-render the target table (faster than drawing both)
-  renderAttachmentTable(kind, JSON.stringify(items || []));
-  if (optimisticTr && optimisticTr.parentNode) {
-    optimisticTr.remove(); // already re-rendered list includes the real row
-  }
-}
-
-// NEW: much faster handler with optimistic UI + chunked encoding
-async function handleAttachmentUpload(kind) {
-  if (!custRowNum) { alert('Open a customer first'); return; }
-  const input = document.getElementById(kind === 'policy' ? 'policyUpload' : 'accordUpload');
-  const metaBox = document.getElementById(kind === 'policy' ? 'policyFileMeta' : 'accordFileMeta');
-  const file = input.files && input.files[0];
-  if (!file) return;
-  if (file.type !== 'application/pdf') { alert('Please choose a PDF.'); input.value=''; return; }
-
-  // Show immediate feedback in the table
-  const quickMeta = {
-    name: file.name,
-    addedAt: new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }),
-    addedBy: sessionUser || '',
-    policyNumber: (custRowObj && custRowObj['Policy #']) || ''
-  };
-  const optimisticTr = addOptimisticRow(kind, quickMeta);
-  metaBox.textContent = `Uploading ${file.name}…`;
-
-  try {
-    const b64 = await fileToBase64(file);
-
-
-    // POST only once and only re-render the target table
-    const text = await postToScript({
-      action: 'uploadAttachment',
-      password: sessionPassword,
-      row: custRowNum,
-      policyNumber: quickMeta.policyNumber,
-      kind,
-      fileName: file.name,
-      fileB64: b64,
-      addedBy: sessionUser
-    });
-
-    const resp = JSON.parse(text);
-    if (!resp || !resp.ok) throw new Error(resp && resp.error ? resp.error : 'Upload failed');
-
-    // Update our local cache so we don't need an extra fetch later
-    if (!custRowObj) custRowObj = {};
-    if (kind === 'policy') {
-      custRowObj['Policy Forms'] = JSON.stringify(resp.policyForms || []);
-      replaceOptimisticWithReal('policy', optimisticTr, resp.policyForms);
-    } else {
-      custRowObj['Accord Forms'] = JSON.stringify(resp.accordForms || []);
-      replaceOptimisticWithReal('accord', optimisticTr, resp.accordForms);
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const fr = new FileReader();
+        fr.onload = () => {
+          const s = String(fr.result || '');
+          const i = s.indexOf(',');
+          resolve(i >= 0 ? s.slice(i + 1) : s);
+        };
+        fr.onerror = () => reject(fr.error || new Error('File read failed'));
+        fr.readAsDataURL(file);
+      });
     }
 
-    metaBox.textContent = `Uploaded ${file.name}`;
-  } catch (err) {
-    console.error(err);
-    metaBox.textContent = '';
-    alert(err.message || 'Upload failed');
-    // Clean up the optimistic row on error
-    if (optimisticTr && optimisticTr.parentNode) optimisticTr.remove();
-  } finally {
-    input.value = '';
-  }
-}
+
+    // Insert an optimistic "uploading..." row and return a handle we can replace
+    function addOptimisticRow(kind, meta) {
+      const isPolicy = (kind === 'policy');
+      const table = document.getElementById(isPolicy ? 'policyTable' : 'accordTable');
+      const tbody = table.querySelector('tbody');
+      document.getElementById(isPolicy ? 'policyEmpty' : 'accordEmpty').style.display = 'none';
+
+      const tr = document.createElement('tr');
+      tr.dataset.optimistic = '1';
+      const cells = [
+        `${meta.name} (pending)`,
+        meta.addedAt,
+        meta.addedBy,
+        meta.policyNumber,
+        `<span class="attc-spin"></span>Uploading…`
+      ];
+      cells.forEach(html => {
+        const td = document.createElement('td');
+        td.innerHTML = html;
+        tr.appendChild(td);
+      });
+      // Put new item on top for snappy feedback
+      tbody.insertBefore(tr, tbody.firstChild || null);
+      return tr;
+    }
+
+    function replaceOptimisticWithReal(kind, optimisticTr, items) {
+      const isPolicy = (kind === 'policy');
+      // Only re-render the target table (faster than drawing both)
+      renderAttachmentTable(kind, JSON.stringify(items || []));
+      if (optimisticTr && optimisticTr.parentNode) {
+        optimisticTr.remove(); // already re-rendered list includes the real row
+      }
+    }
+
+    // NEW: much faster handler with optimistic UI + chunked encoding
+    async function handleAttachmentUpload(kind) {
+      if (!custRowNum) { alert('Open a customer first'); return; }
+      const input = document.getElementById(kind === 'policy' ? 'policyUpload' : 'accordUpload');
+      const metaBox = document.getElementById(kind === 'policy' ? 'policyFileMeta' : 'accordFileMeta');
+      const file = input.files && input.files[0];
+      if (!file) return;
+      if (file.type !== 'application/pdf') { alert('Please choose a PDF.'); input.value = ''; return; }
+
+      // Show immediate feedback in the table
+      const quickMeta = {
+        name: file.name,
+        addedAt: new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }),
+        addedBy: sessionUser || '',
+        policyNumber: (custRowObj && custRowObj['Policy #']) || ''
+      };
+      const optimisticTr = addOptimisticRow(kind, quickMeta);
+      metaBox.textContent = `Uploading ${file.name}…`;
+
+      try {
+        const b64 = await fileToBase64(file);
+
+
+        // POST only once and only re-render the target table
+        const text = await postToScript({
+          action: 'uploadAttachment',
+          password: sessionPassword,
+          row: custRowNum,
+          policyNumber: quickMeta.policyNumber,
+          kind,
+          fileName: file.name,
+          fileB64: b64,
+          addedBy: sessionUser
+        });
+
+        const resp = JSON.parse(text);
+        if (!resp || !resp.ok) throw new Error(resp && resp.error ? resp.error : 'Upload failed');
+
+        // Update our local cache so we don't need an extra fetch later
+        if (!custRowObj) custRowObj = {};
+        if (kind === 'policy') {
+          custRowObj['Policy Forms'] = JSON.stringify(resp.policyForms || []);
+          replaceOptimisticWithReal('policy', optimisticTr, resp.policyForms);
+        } else {
+          custRowObj['Accord Forms'] = JSON.stringify(resp.accordForms || []);
+          replaceOptimisticWithReal('accord', optimisticTr, resp.accordForms);
+        }
+
+        metaBox.textContent = `Uploaded ${file.name}`;
+      } catch (err) {
+        console.error(err);
+        metaBox.textContent = '';
+        alert(err.message || 'Upload failed');
+        // Clean up the optimistic row on error
+        if (optimisticTr && optimisticTr.parentNode) optimisticTr.remove();
+      } finally {
+        input.value = '';
+      }
+    }
 
     /* ===== Notes Tab (latest 3 + pagination) ===== */
     function parseNotesToArray(cell = '') {
@@ -1972,50 +2006,50 @@ async function handleAttachmentUpload(kind) {
         vin: custRowObj['Vin #'] || '', notes: combined
       }).catch(err => alert(err.message));
     }
-// ---- Drop-zone wiring: click + drag&drop -> handleAttachmentUpload(kind)
-function initDropZone(kind) {
-  const dz    = document.getElementById(kind + 'Drop');
-  const input = document.getElementById(kind + 'Upload');
-  const meta  = document.getElementById(kind + 'FileMeta');
+    // ---- Drop-zone wiring: click + drag&drop -> handleAttachmentUpload(kind)
+    function initDropZone(kind) {
+      const dz = document.getElementById(kind + 'Drop');
+      const input = document.getElementById(kind + 'Upload');
+      const meta = document.getElementById(kind + 'FileMeta');
 
-  if (!dz || !input) return;
+      if (!dz || !input) return;
 
-  // When user picks a file via the dialog
-  input.addEventListener('change', () => {
-    const f = input.files && input.files[0];
-    meta.innerHTML = f ? `Selected: <span class="name">${f.name}</span>` : '';
-    if (f) handleAttachmentUpload(kind);
-  });
+      // When user picks a file via the dialog
+      input.addEventListener('change', () => {
+        const f = input.files && input.files[0];
+        meta.innerHTML = f ? `Selected: <span class="name">${f.name}</span>` : '';
+        if (f) handleAttachmentUpload(kind);
+      });
 
-  // Drag & drop visuals
-  ['dragenter', 'dragover'].forEach(ev => {
-    dz.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); dz.classList.add('dragover'); });
-  });
-  ['dragleave', 'drop'].forEach(ev => {
-    dz.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); dz.classList.remove('dragover'); });
-  });
+      // Drag & drop visuals
+      ['dragenter', 'dragover'].forEach(ev => {
+        dz.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); dz.classList.add('dragover'); });
+      });
+      ['dragleave', 'drop'].forEach(ev => {
+        dz.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); dz.classList.remove('dragover'); });
+      });
 
-  // Handle a dropped file
-  dz.addEventListener('drop', e => {
-    const file = e.dataTransfer?.files?.[0];
-    if (!file) return;
-    if (file.type !== 'application/pdf') { alert('Please choose a PDF.'); return; }
+      // Handle a dropped file
+      dz.addEventListener('drop', e => {
+        const file = e.dataTransfer?.files?.[0];
+        if (!file) return;
+        if (file.type !== 'application/pdf') { alert('Please choose a PDF.'); return; }
 
-    // Put dropped file into the hidden input so your existing uploader runs
-    const dt = new DataTransfer();
-    dt.items.add(file);
-    input.files = dt.files;
+        // Put dropped file into the hidden input so your existing uploader runs
+        const dt = new DataTransfer();
+        dt.items.add(file);
+        input.files = dt.files;
 
-    meta.innerHTML = `Selected: <span class="name">${file.name}</span>`;
-    handleAttachmentUpload(kind);
-  });
-}
+        meta.innerHTML = `Selected: <span class="name">${file.name}</span>`;
+        handleAttachmentUpload(kind);
+      });
+    }
 
-// Initialize both uploaders when the page is ready
-document.addEventListener('DOMContentLoaded', () => {
-  initDropZone('policy');
-  initDropZone('accord');
-});
+    // Initialize both uploaders when the page is ready
+    document.addEventListener('DOMContentLoaded', () => {
+      initDropZone('policy');
+      initDropZone('accord');
+    });
 
   </script>
 </body>
