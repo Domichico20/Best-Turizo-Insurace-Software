@@ -7,11 +7,30 @@
   <title>Best Turizo Insurance Platform</title>
 
   <style>
+    /* Show logo only on Login + Main (list) pages */
+    body.is-customer header {
+      display: none;
+    }
+
+
+
+    /* Pause the rainbow animation once we leave the list page */
+    body.is-customer #searchSection .search-btn {
+      animation: none !important;
+    }
+
+
+
+    /* Keep header visible elsewhere */
+    body:not(.is-customer) header {
+      display: block;
+    }
+
     /* ===== Base / Theme ===== */
     :root {
       --bg: #f6f7f9;
       --card: #ffffff;
-      --ink: #1f2937;
+      --ink: #3b2f22;
       --muted: #6b7280;
       --border: #e5e7eb;
       --brand1: #c59b6a;
@@ -22,23 +41,65 @@
       --radius: 14px;
       --shadow: 0 8px 24px rgba(16, 24, 40, .06);
     }
+/* PDF icon size (35% of a 24px base = 8.4px) */
+:root { --pdf-icon-size: 40px; }         /* tweak if you want bigger (e.g., 24px or 32px) */
+
+.attc-icon {
+  display: inline-flex;
+  width: var(--pdf-icon-size);
+  height: var(--pdf-icon-size);
+  align-items: center;
+  justify-content: center;
+}
+
+.attc-icon svg {
+  width: 100%;
+  height: 100%;
+}
 
     html,
     body {
       background: var(--bg);
       color: var(--ink);
-      font: 14px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif
+      font: 14px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      margin: 0;
+      /* <-- remove default 8px gap around the page */
+      padding: 0;
     }
+
 
     header {
       text-align: center;
-      margin: 14px 0 8px;
+      margin: 0;
+      /* no external gap */
+      padding: 0;
+      /* no internal gap */
+      line-height: 0;
+      /* collapses any inline line box */
     }
 
+
+
     header img.logo {
+      display: block;
+      margin: 0 auto -40px;
+      /* <-- pull the next section up; adjust -20..-40 if needed */
       max-width: 540px;
+      height: auto;
       filter: drop-shadow(0 8px 18px rgba(0, 0, 0, .08));
     }
+
+    /* Ensure nothing re-introduces top spacing under the header */
+    #loginSection,
+    #appSection,
+    #appSection {
+      margin-top: 0 !important;
+    }
+
+
 
     /* ===== Login (UNCHANGED) ===== */
     #loginSection {
@@ -104,22 +165,23 @@
       justify-content: center;
       align-items: center;
       gap: 12px;
-      margin: 0 auto 6px;
-      /* tighter gap */
-      width: min(1100px, 92vw);
+      margin: 0 auto 12px;
+      width: min(1250px, 96vw);
     }
 
 
+
     #searchSection input[type="text"] {
-      flex: 0 1 760px;
-      max-width: 760px;
+      flex: 0 1 920px;
+      max-width: 920px;
       width: 100%;
       padding: 12px 14px;
-      font-size: 1rem;
+      font-size: 1.75rem;
       border: 1px solid var(--border);
       border-radius: 10px;
       background: #fff;
     }
+
 
     #searchSection input[type="text"]:focus {
       border-color: var(--brand1);
@@ -235,15 +297,44 @@
     #dataTable thead th {
       position: sticky;
       top: 0;
-      background: linear-gradient(180deg, #011d30, #6f93be);
+      z-index: 2;
+      /* Refined gold ribbon using same colors */
+      background: linear-gradient(180deg,
+          #d1a66e 0%,
+          #b1874f 20%,
+          #b3803d 45%,
+          #a06e2c 60%,
+          #b3803d 75%,
+          #b1874f 88%,
+          #d1a66e 100%);
       color: #f3f4f7;
       text-transform: uppercase;
-      letter-spacing: .08em;
+      letter-spacing: .10em;
       font-weight: 800;
       font-size: 1.45rem;
-      padding: 12px 14px;
+      padding: 14px 16px;
       text-align: center;
+      border-bottom: 1px solid rgba(0, 0, 0, .08);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .25),
+        inset 0 -1px 0 rgba(0, 0, 0, .08);
     }
+
+    /* Subtle column separators & rounded top corners */
+    #dataTable thead th+th {
+      box-shadow:
+        inset 1px 0 0 rgba(255, 255, 255, .18),
+        inset 0 -1px 0 rgba(0, 0, 0, .08);
+    }
+
+    #dataTable thead th:first-child {
+      border-top-left-radius: 14px;
+    }
+
+    #dataTable thead th:last-child {
+      border-top-right-radius: 14px;
+    }
+
 
 
 
@@ -264,6 +355,8 @@
       text-overflow: ellipsis;
       text-align: center;
     }
+
+
 
 
     #dataTable tbody tr:nth-child(odd) {
@@ -287,19 +380,21 @@
       padding: 4px 10px;
       border-radius: 999px;
       font-weight: 800;
-      font-size: 1.25rem;
+      font-size: 1.35rem;
     }
 
     .badge.active {
-      background: #eaf7ef;
-      color: #166534;
-      border: 1px solid #a7f3d0;
+     border: 1px solid #113f18;
+      background: #66b684;
+      color: #1e1ca3;
+      cursor:default;
     }
 
     .badge.inactive {
       background: #fdecec;
       color: #991b1b;
       border: 1px solid #fecaca;
+      cursor:default
     }
 
     .go-btn {
@@ -307,13 +402,13 @@
       border-radius: 10px;
       border: 1px solid #113f18;
       background: #66b684;
-      color: #f5fcf8;
+      color: #1e1ca3;
       cursor: pointer;
-      font-weight: 800;
+      font-weight: 1000;
     }
 
     .go-btn:hover {
-      background: #f3f4f6;
+      background: #fa5656;
     }
 
     #customerPage .topbar {
@@ -335,64 +430,123 @@
     }
 
 
-/* Tabs row */
-.tabs{
-  display:flex;
-  gap:12px;
-  margin:12px 0 16px;
-  flex-wrap:wrap;
-}
+    /* Tabs row */
+    .tabs {
+      display: flex;
+      gap: 12px;
+      margin: 12px 0 16px;
+      flex-wrap: wrap;
+    }
 
-/* Modern pill tabs */
+    #customerPage .tabs {
+      position: fixed;
+      top: 92px;
+      /* nudge to sit just above the white box */
+      left: 50%;
+      transform: translateX(-50%);
+      /* center the tabs container to page */
+      z-index: 2000;
 
-.tab{
-  appearance:none;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
+      width: min(1400px, 96vw);
+      /* same width as .wrap */
+      justify-content: flex-start;
+      /* left edge aligns with the card */
+      gap: 12px;
 
-  padding:10px 16px;
-  border-radius:999px;
-  border:1px solid #e7d4bd;                 /* soft, premium border */
-  background:linear-gradient(180deg,#ffffff,#faf6ef);
-  color:#4a3b2a;                              /* rich brown to match brand */
-  font-weight:700;
-  line-height:1;
+      margin: 0;
+      padding: 0;
+      background: transparent;
+    }
 
-  box-shadow:0 1px 0 #ffffff inset, 0 8px 14px rgba(16,24,40,.06);
-  transition:
-    background .2s ease,
-    transform .12s ease,
-    box-shadow .2s ease,
-    color .2s ease,
-    border-color .2s ease;
-}
+    /* Make room for the floating tabs so they don't overlap the card */
+    body.is-customer #customerPage .wrap {
+      margin-top: 150px;
+    }
 
-/* Hover / Press / Focus */
-.tab:hover{
-  transform:translateY(-1px);
-  background:linear-gradient(180deg,#ffffff,#f2eadf);
-  box-shadow:0 12px 22px rgba(16,24,40,.12);
-}
+    /* Small screens */
+    @media (max-width: 900px) {
+      #customerPage .tabs {
+        top: 86px;
+        gap: 8px;
+      }
 
-.tab:active{
-  transform:none;
-  box-shadow:0 4px 10px rgba(16,24,40,.10) inset;
-}
+      body.is-customer #customerPage .wrap {
+        margin-top: 140px;
+      }
+    }
 
-.tab:focus-visible{
-  outline:none;
-  box-shadow:0 0 0 3px rgba(197,155,106,.35);
-}
 
-/* Selected tab (brand gradient) */
-.tab[aria-selected="true"]{
-  background:linear-gradient(180deg,#c59b6a,#ab7d4a);
-  color:#ffffff;
-  border-color:transparent;
-  box-shadow:0 8px 18px rgba(171,125,74,.45);
-}
+
+    /* Modern pill tabs */
+
+    .tab {
+      appearance: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      /* bigger + consistent size */
+      padding: 12px 20px;
+      min-height: 44px;
+      width: 140px;
+      /* <- all 8 will match this width */
+      border-radius: 999px;
+
+      border: 1px solid #8a673c;
+      background: linear-gradient(180deg,
+          #d1a66e 0%,
+          #b1874f 35%,
+          #9c6a33 70%,
+          #7c5b2e 100%);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 1.20rem;
+      line-height: 1;
+
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 8px 14px rgba(16, 24, 40, .10);
+      transition:
+        background .2s ease,
+        transform .12s ease,
+        box-shadow .2s ease,
+        color .2s ease,
+        border-color .2s ease;
+    }
+
+
+
+    /* Hover / Press / Focus */
+    .tab:hover {
+      transform: translateY(-1px);
+      background: linear-gradient(180deg,
+          #e0be8a 0%,
+          #c39a62 38%,
+          #a5743c 70%,
+          #835829 100%);
+      box-shadow: 0 12px 22px rgba(16, 24, 40, .16);
+    }
+
+
+    .tab:active {
+      transform: none;
+      box-shadow: inset 0 4px 10px rgba(0, 0, 0, .18);
+      background: linear-gradient(180deg, #8a5f2d 0%, #70461b 100%);
+    }
+
+
+    .tab:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(197, 155, 106, .35);
+    }
+
+    /* Selected tab (brand gradient) */
+    .tab[aria-selected="true"] {
+      background: linear-gradient(180deg, #b14a4a 0%, #7d2a2a 50%, #522222 100%);
+      color: #ffffff;
+      border-color: #5a3b1a;
+      box-shadow: 0 8px 18px rgba(123, 88, 46, .45);
+    }
+
 
 
 
@@ -408,7 +562,15 @@
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 18px;
+      /* NEW: make this whole block look like a distinct panel */
+      padding: 16px;
+      margin-bottom: 14px;
+      border: 1px solid #e7d4bd;
+      border-radius: 16px;
+      background: radial-gradient(140% 140% at 0% 0%, #ffffff 0%, #f9f4ea 100%);
+      box-shadow: 0 10px 30px rgba(16, 24, 40, .06);
     }
+
 
 
     @media(max-width:1100px) {
@@ -418,30 +580,35 @@
     }
 
     .card {
-      background: linear-gradient(180deg, #ffffff, #faf8f5);
-      border: 1px solid #eee1d2;
+      background: linear-gradient(180deg, #ffffff 0%, #fbf7f0 100%);
+      border: 1px solid #eadcc6;
       border-radius: 14px;
-      padding: 14px 16px;
-      box-shadow: 0 6px 18px rgba(16, 24, 40, .06);
+      padding: 12px 14px;
+      box-shadow: 0 3px 10px rgba(16, 24, 40, .05);
     }
 
-.label{
-  font-family: Arial, Helvetica, sans-serif; /* consistent + legible */
-  font-size: .95rem;                        /* modern, not oversized */
-  line-height: 1.25;
-  font-weight: 700;                         /* strong, professional */
-  color: #4b5563;                           /* slate-600 */
-  letter-spacing: .02em;                    /* tighter = cleaner */
-  text-transform: none;                     /* sentence case reads better */
-}
+
+    .label {
+      font-size: 1.5rem;
+      color: #6f5a3e;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
 
 
     .value {
-      font-weight: 800;
-      color: #3f3325;
+      font-weight: 600;
+      font-size: 1.20rem;
+      color: #3b2f22;
+      /* ties to --ink feel */
+      letter-spacing: .01em;
+      line-height: 1.25;
       word-break: break-word;
-      font-size: 1.05rem;
     }
+
+
 
 
     /* Forms */
@@ -457,23 +624,33 @@
       flex-direction: column;
     }
 
-    .form .fg label {
-      font-size: 12px;
-      color: var(--muted);
-      margin: 0 0 4px;
+    #custInfoForm .fg label,
+    #policyEditor .fg label {
+      font-size: 1.5rem;
+      color: #6f5a3e;
+      letter-spacing: .06em;
+      text-transform: uppercase;
       font-weight: 700;
+      margin: 0 0 4px;
+      /* match the top cards */
     }
+
 
     .form .fg input,
     .form .fg textarea {
       width: 100%;
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 10px 12px;
+      padding: 12px 14px;
+      /* a touch more for the bigger font */
       background: #fff;
       box-shadow: 0 1px 0 rgba(16, 24, 40, .02) inset;
       transition: border-color .15s, box-shadow .15s;
+      font-size: 1.20rem;
+      /* match .value size in the cards */
+      line-height: 1.25;
     }
+
 
     .form .fg input:focus,
     .form .fg textarea:focus {
@@ -503,6 +680,16 @@
       grid-column: span 2;
     }
 
+    /* NEW: distinct, clean panel for the editable form */
+    #custInfoForm {
+      background: #ffffff;
+      border: 1px solid #ece5d6;
+      border-radius: 12px;
+      padding: 14px;
+      box-shadow: 0 6px 18px rgba(16, 24, 40, .04);
+    }
+
+
     .actionbar {
       display: flex;
       gap: 10px;
@@ -525,11 +712,20 @@
       box-shadow: 0 8px 20px rgba(16, 24, 40, .10);
     }
 
-    .btn.primary {
-      background: linear-gradient(90deg, var(--brand1), var(--brand2));
-      color: #fff;
-      border: 0;
-    }
+  .btn.primary {
+  background: linear-gradient(90deg, var(--brand1), var(--brand2));
+  color: #fff;
+  border: 0;
+
+  /* match top tab size */
+  width: 140px;
+  min-height: 44px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  font-size: 1.20rem;
+  line-height: 1;
+}
+
 
     .btn.safe {
       background: linear-gradient(90deg, #34d399, #10b981);
@@ -541,6 +737,87 @@
       background: linear-gradient(90deg, #ef4444, #dc2626);
       color: #fff;
       border: 0;
+    }
+
+    /* === Bottom policy pills (identical look) === */
+    .tab.pill-add,
+    .tab.pill-edit {
+      width: 140px;
+      min-height: 44px;
+      padding: 12px 20px;
+      border-radius: 999px;
+
+      /* identical visuals */
+background: linear-gradient(90deg,
+          #9c4219 0%,
+          #a54a1c 1.5%,
+          #b05220 3%,
+          #bb5a24 4.5%,
+          #c56328 6%,
+          #cf6b2c 7.5%,
+          #d87331 9%,
+          #e17c35 10.5%,
+          #e9853a 12%,
+          #f08e3f 13.5%,
+          #f49747 15%,
+          #f7a151 16.5%,
+          #f9ab5c 18%,
+          #fbb468 19.5%,
+          #fcbf75 21%,
+          #f8c985 22.5%,
+          #f1d394 24%,
+          #e6dc9f 26%,
+          #d9e3a7 28%,
+          #cae8ad 30%,
+          #b9edb3 32%,
+          #a6f0be 34%,
+          #8ff3cb 36%,
+          #76f4d9 38%,
+          #5deee8 40%,
+          #45e2f1 42%,
+          #3bd2f7 44%,
+          #3bbff7 46%,
+          #49a9f5 48%,
+          #5f90f4 50%,
+          #736ff2 52%,
+          #8055ef 54%,
+          #8b3fee 56%,
+          #9632ea 58%,
+          #a12de2 60%,
+          #ab31d6 62%,
+          #b33ac7 64%,
+          #b946b8 66%,
+          #bd54a7 68%,
+          #bf6396 70%,
+          #bf7486 72%,
+          #bc846f 74%,
+          #b7935a 76%,
+          #b1a148 78%,
+          #a8ad3c 80%,
+          #9fb736 82%,
+          #95bf37 84%,
+          #88c53e 86%,
+          #7acc4c 88%,
+          #6bd05f 90%,
+          #62c563 91.5%,
+          #5bb965 93%,
+          #56ad65 94.5%,
+          #529f63 96%,
+          #5c8f5b 97%,
+          #757d4e 98%,
+          #9a673d 99%,
+          #9c4219 100%);
+      background-size: 800% 100%;
+      animation: gradientShift 20s infinite linear;
+      box-shadow: 0 6px 20px rgba(156, 66, 25, .4);
+
+    }
+
+    .tab.pill-add:active,
+    .tab.pill-edit:active {
+      transform: none;
+      box-shadow: inset 0 4px 10px rgba(0, 0, 0, .18);
+      background: linear-gradient(180deg, #15b985 0%, #0a9665 100%) !important;
     }
 
 
@@ -564,25 +841,46 @@
     .themed-table td,
     .themed-table th {
       text-align: center;
-      font-size: 15px;
+      font-size: 1.35rem;
     }
 
 
     .themed-table thead th {
       position: sticky;
       top: 0;
-      background: linear-gradient(180deg, #011d30, #6f93be);
-      color: #f3f4f7;
+      z-index: 2;
+      background: linear-gradient(180deg,
+          #d1a66e 0%,
+          #b1874f 20%,
+          #b3803d 45%,
+          #a06e2c 60%,
+          #b3803d 75%,
+          #b1874f 88%,
+          #d1a66e 100%);
+      color: #fefefe;
       text-transform: uppercase;
-      letter-spacing: .08em;
+      letter-spacing: .10em;
       font-weight: 800;
-      font-size: 1rem;
+      font-size: 1.25rem;
       padding: 12px 14px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22),
+        inset 0 -1px 0 rgba(0, 0, 0, .10);
     }
 
+
     .themed-table thead th+th {
-      box-shadow: inset 1px 0 0 #edf2f7;
+      box-shadow: inset 1px 0 0 rgba(255, 255, 255, .18),
+        inset 0 -1px 0 rgba(0, 0, 0, .08);
     }
+
+    .themed-table thead th:first-child {
+      border-top-left-radius: 14px;
+    }
+
+    .themed-table thead th:last-child {
+      border-top-right-radius: 14px;
+    }
+
 
     .themed-table td {
       padding: 9px 12px;
@@ -613,15 +911,18 @@
     }
 
     .note-meta {
-      font-size: .85rem;
-      color: #6b7280;
+      font-size: 1.25rem;
+      color: #465a83;
       margin-bottom: 6px;
     }
 
-    .note-text {
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-    }
+  .note-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 1.55rem;   /* increase to 1.25rem, 1.35rem, etc. */
+  line-height: 1.6;     /* optional for readability */
+}
+
 
     .pager {
       display: flex;
@@ -630,6 +931,146 @@
       gap: 8px;
       margin-top: 8px;
     }
+
+    /* === Modern upload control === */
+    .hid-input {
+      display: none;
+    }
+
+    .attc-upload {
+      margin: 10px 0 16px;
+    }
+
+    .attc-dropzone {
+      display: grid;
+      grid-template-columns: 36px 1fr auto;
+      align-items: center;
+      gap: 12px;
+
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 2px dashed #d7c3a6;
+      background: linear-gradient(180deg, #ffffff 0%, #fbf7f0 100%);
+
+      color: var(--ink);
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(16, 24, 40, .06);
+      transition: border-color .2s, box-shadow .2s, transform .1s, background .2s;
+    }
+
+    .attc-dropzone:hover {
+      transform: translateY(-1px);
+      border-color: var(--brand1);
+      box-shadow: 0 10px 24px rgba(16, 24, 40, .10);
+    }
+
+    .attc-dropzone.dragover {
+      border-color: var(--brand2);
+      background: radial-gradient(120% 140% at 0% 0%, #fff 0%, #fffbed 100%);
+    }
+
+    .attc-dropzone svg {
+      width: 28px;
+      height: 28px;
+      color: var(--brand2);
+    }
+
+    .attc-dropzone .text strong {
+      display: block;
+      font-size: 1.1rem;
+      line-height: 1.1;
+    }
+
+    .attc-dropzone .text span {
+      display: block;
+      font-size: .95rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .attc-dropzone .meta {
+      font-size: .9rem;
+      color: #6b7280;
+      white-space: nowrap;
+    }
+
+    .attc-file {
+      margin-top: 8px;
+      font-size: .95rem;
+      color: #334155;
+    }
+
+    .attc-file .name {
+      font-weight: 700;
+    }
+    /* ---- Floating uploader (bottom-right outside the white card) ---- */
+#tab-files .attc-upload,
+#tab-accord .attc-upload {
+  position: fixed;           /* pull it out of the flow/card */
+  right: 175px;               /* sit in the page margin at lower-right */
+  bottom: 465px;
+  width: 300px;              /* fits the red box in your screenshot */
+  margin: 0;
+  z-index: 3000;             /* above the card / tables */
+  pointer-events: auto;
+}
+
+/* Compact the dropzone so it reads well in a 300px panel */
+#tab-files .attc-dropzone,
+#tab-accord .attc-dropzone {
+  grid-template-columns: 24px 1fr;  /* smaller icon column */
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+}
+#tab-files .attc-dropzone svg,
+#tab-accord .attc-dropzone svg {
+  width: 24px;
+  height: 24px;
+}
+#tab-files .attc-dropzone .text strong,
+#tab-accord .attc-dropzone .text strong {
+  font-size: 1rem;
+}
+#tab-files .attc-dropzone .text span,
+#tab-accord .attc-dropzone .text span {
+  font-size: .9rem;
+}
+#tab-files .attc-dropzone .meta,
+#tab-accord .attc-dropzone .meta {
+  font-size: .8rem;
+}
+
+/* The little "Selected: filename" line stays with the floating box */
+#tab-files .attc-file,
+#tab-accord .attc-file {
+  margin-top: 8px;
+  font-size: 1.1rem;
+}
+
+/* Optional: on very small screens, tuck it tighter */
+@media (max-width: 1200px) {
+  #tab-files .attc-upload,
+  #tab-accord .attc-upload {
+    right: 12px;
+    bottom: 12px;
+    width: 260px;
+  }
+}
+/* quick spinner for optimistic rows */
+.attc-spin {
+  display:inline-block; width:14px; height:14px; border:2px solid #d7c3a6;
+  border-top-color:#ab7d4a; border-radius:50%; animation:attcspin .6s linear infinite;
+  vertical-align:middle; margin-right:6px;
+}
+@keyframes attcspin { to { transform: rotate(360deg); } }
+
+/* Notes input size */
+#noteInput{
+  height: 80px;        /* tweak this number */
+  max-width: 1310px;
+}
+
   </style>
 </head>
 
@@ -728,10 +1169,14 @@
 
       <!-- Policies panel -->
       <section id="tab-policies" class="tabpanel" role="tabpanel" aria-labelledby="tabbtn-policies">
+
         <div class="actionbar">
-          <button class="btn safe" onclick="startAddPolicy()">Add Policy</button>
-          <button class="btn" onclick="startEditPolicy()">Edit Policy</button>
+          <button class="tab pill-add" onclick="startAddPolicy()">Add Policy</button>
+          <button class="tab pill-edit" onclick="startEditPolicy()">Edit Policy</button>
         </div>
+
+
+
         <table class="themed-table" id="policiesTable">
           <thead>
             <tr>
@@ -773,11 +1218,23 @@
 
       <!-- Files -->
       <section id="tab-files" class="tabpanel" role="tabpanel" aria-labelledby="tabbtn-files">
-        <div class="attc-actions">
-          <label for="policyUpload" class="attc-upload-btn">Upload PDF</label>
-          <input id="policyUpload" class="hid-input" type="file" accept="application/pdf"
-            onchange="handleAttachmentUpload('policy')">
+        <div class="attc-upload">
+          <label for="policyUpload" class="attc-dropzone" id="policyDrop">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M19 15a4 4 0 0 0-3.8-2.99A5 5 0 0 0 6 12a4 4 0 0 0-1 7.87V20h13a3 3 0 0 0 1-5.81zM12 6v8m0 0l-3-3m3 3l3-3"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <div class="text">
+              <strong>Upload PDF</strong>
+              <span>Drag & drop your file or click to browse</span>
+            </div>
+            <div class="meta">PDF only • up to 20MB</div>
+          </label>
+          <input id="policyUpload" class="hid-input" type="file" accept="application/pdf">
+          <div class="attc-file" id="policyFileMeta"></div>
         </div>
+
         <table class="themed-table" id="policyTable">
           <thead>
             <tr>
@@ -795,11 +1252,23 @@
 
       <!-- Accord -->
       <section id="tab-accord" class="tabpanel" role="tabpanel" aria-labelledby="tabbtn-accord">
-        <div class="attc-actions">
-          <label for="accordUpload" class="attc-upload-btn">Upload PDF</label>
-          <input id="accordUpload" class="hid-input" type="file" accept="application/pdf"
-            onchange="handleAttachmentUpload('accord')">
+        <div class="attc-upload">
+          <label for="accordUpload" class="attc-dropzone" id="accordDrop">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M19 15a4 4 0 0 0-3.8-2.99A5 5 0 0 0 6 12a4 4 0 0 0-1 7.87V20h13a3 3 0 0 0 1-5.81zM12 6v8m0 0l-3-3m3 3l3-3"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <div class="text">
+              <strong>Upload PDF</strong>
+              <span>Drag & drop your file or click to browse</span>
+            </div>
+            <div class="meta">PDF only • up to 20MB</div>
+          </label>
+          <input id="accordUpload" class="hid-input" type="file" accept="application/pdf">
+          <div class="attc-file" id="accordFileMeta"></div>
         </div>
+
         <table class="themed-table" id="accordTable">
           <thead>
             <tr>
@@ -819,8 +1288,8 @@
       <section id="tab-notes" class="tabpanel" role="tabpanel" aria-labelledby="tabbtn-notes">
         <div class="form">
           <div class="fg row-full">
-            <label>Add a new note</label>
-            <textarea id="noteInput" rows="3" placeholder="Type note and click Add Note"></textarea>
+          
+            <textarea id="noteInput" rows="2" placeholder="Add New Note Here"></textarea>
           </div>
         </div>
         <div class="actionbar">
@@ -840,12 +1309,24 @@
     const scriptURL = 'https://script.google.com/macros/s/AKfycbyxC9XhJ-ygxv9V2PqaB26_wvNSgsPBUiZQ4e4CLafx3IT2Kn6tpKyMN0e7oHMn9IvT/exec';
     const sheetId = '1q94KS8Dc2usWKc0h6iQvHP1sDfsPbgcybzXs4zpZANc';
     const apiKey = 'AIzaSyAhaKX_GIaCIXBsq43J3aMvqtGtFngdzrQ';
-    const range = 'policies!A1:P';
+    const range = 'policies!A1:ZZZ'; // pull all columns, incl. Policy/Accord Forms
 
     const USERS = { Edwin: 'Insurance2025', Islendy: 'Insurance2026', Penelope: 'Insurance2027' };
 
     const PDF_ICON_SVG = `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="PDF"><rect x="3" y="2" width="18" height="20" rx="2" fill="#e53935"/><polygon points="16,2 21,2 21,7" fill="#ffffff" opacity="0.9"/><text x="12" y="16" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="8" font-weight="700" fill="#ffffff">PDF</text></svg>`;
+    // Cache header names and per-row objects so we don't refetch on "GO"
+    let headers = [];
+    const rowCache = new Map(); // key: sheet row number, value: object keyed by header
+
+    function rowToObj(arr) {
+      const o = {};
+      headers.forEach((h, i) => (o[h] = arr[i] ?? ''));
+      return o;
+    }
+
+    // Run after first paint / when the browser is idle
+    function defer(fn) { (window.requestIdleCallback || setTimeout)(fn, 0); }
 
     // session state
     let sessionPassword = "", sessionUser = "", selectedRowIndex = null; // sheet row number (1-based)
@@ -858,12 +1339,23 @@
     function setZoomLevel() { document.body.style.zoom = '80%'; }
     document.addEventListener('DOMContentLoaded', setZoomLevel);
 
-    async function postToScript(params) {
-      const res = await fetch(scriptURL, { method: 'POST', body: new URLSearchParams(params) });
-      const text = await res.text();
-      if (!res.ok) throw new Error(`HTTP ${res.status}: ${text}`);
-      return text;
-    }
+  async function postToScript(params, timeoutMs = 60000) {
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort('timeout'), timeoutMs);
+  try {
+    const res = await fetch(scriptURL, {
+      method: 'POST',
+      body: new URLSearchParams(params),
+      signal: ctrl.signal,
+    });
+    const text = await res.text();
+    if (!res.ok) throw new Error(`HTTP ${res.status}: ${text}`);
+    return text;
+  } finally {
+    clearTimeout(t);
+  }
+}
+
 
     window.checkPassword = function () {
       const userEl = document.getElementById('appUser');
@@ -892,77 +1384,116 @@
     function compareByExpiration(a, b) { const da = parseExpDate(a.r[3]); const db = parseExpDate(b.r[3]); if (da && db) return da - db; if (da && !db) return -1; if (!da && db) return 1; return 0; }
     function computeStatus(exp) { const d = parseExpDate(exp); if (!d) return 'Inactive'; const today = new Date(); today.setHours(0, 0, 0, 0); return (d >= today) ? 'Active' : 'Inactive'; }
     function statusBadge(status) { const cls = status === 'Active' ? 'active' : 'inactive'; return `<span class="badge ${cls}">${status}</span>`; }
+    // Normalize any sheet date string to "YYYY-MM-DD" for <input type="date">
+ function toYMD(v) {
+  if (!v) return '';
+  const d1 = new Date(String(v));
+  if (!isNaN(d1.getTime())) {
+    const y = d1.getFullYear();
+    const m = String(d1.getMonth() + 1).padStart(2, '0');
+    const d = String(d1.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  }
+  const m = String(v).match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
+  if (m) {
+    const y = m[3].length === 2 ? (Number(m[3]) + 2000) : Number(m[3]);
+    return `${y}-${String(m[1]).padStart(2, '0')}-${String(m[2]).padStart(2, '0')}`;
+  }
+  return '';
+}
+
+// helper to read a sheet cell by case/space-insensitive aliases
+function getCell(row, ...aliases) {
+  const norm = s => String(s).toLowerCase().replace(/\s+/g, '');
+  const keys = Object.keys(row || {});
+  for (const k of keys) {
+    if (aliases.some(a => norm(k) === norm(a))) return row[k];
+  }
+  return '';
+}
+
 
     function clearSelection() {
       document.querySelectorAll('#dataTable tr.selected').forEach(r => r.classList.remove('selected'));
       selectedRowIndex = null;
     }
 
-    /* ===== List page: load & render ===== */
-    function renderRow(tbody, obj) {
-      const row = obj.r;
-      const tr = tbody.insertRow();
-
-      const status = computeStatus(row[3]);
-      const cells = [
-        row[0] || '', row[1] || '', row[2] || '', row[3] || '', statusBadge(status),
-        row[4] || '', row[5] || '', row[6] || '', row[7] || '', row[8] || ''
-      ];
-      cells.forEach((val, i) => {
-        const td = tr.insertCell();
-        td.innerHTML = (i === 4 ? val : (val || ''));
-      });
-
-      // Go button opens overview for THIS row (no selection needed)
-      const goTd = tr.insertCell();
-      const goBtn = document.createElement('button');
-      goBtn.className = 'go-btn';
-      goBtn.textContent = 'Go';
-      goBtn.addEventListener('click', (ev) => {
-        ev.stopPropagation();
-        openCustomerPage('info', false, obj.sheetRow);
-      });
-      goTd.appendChild(goBtn);
-
-      // row selection (for Delete/Edit/etc.)
-      tr.onclick = (e) => {
-        if (e.target.closest('.go-btn')) return;
-        selectedRowIndex = obj.sheetRow;
-        document.querySelectorAll('#dataTable tr.selected').forEach(r => r.classList.remove('selected'));
-        tr.classList.add('selected');
-      };
-    }
 
     function loadData() {
       fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`)
         .then(res => res.json())
         .then(data => {
           const rows = data.values || [];
-          const body = rows.slice(1).map((r, idx) => ({ r, sheetRow: idx + 2 }));
+          headers = rows[0] || [];
+          const body = rows.slice(1).map((r, idx) => {
+            const rowNum = idx + 2;                // 1-based in sheet
+            rowCache.set(rowNum, rowToObj(r));     // cache as object for instant use later
+            return { r, sheetRow: rowNum };
+          });
+
           body.sort(compareByExpiration);
           allDataRows = body;
 
-          const tbody = document.querySelector('#dataTable tbody');
-          tbody.innerHTML = '';
           document.getElementById('searchQuery').value = '';
-
-          body.slice(0, ROW_LIMIT).forEach(o => renderRow(tbody, o));
+          renderTable(body.slice(0, ROW_LIMIT));
         })
         .catch(err => {
           console.error(err);
           alert('Could not load data. Check API key, sheetId, and sharing.');
         });
     }
+    // One listener for selection and "Go" actions
+    document.addEventListener('click', (e) => {
+      const go = e.target.closest('button.go-btn');
+      if (go) {
+        const rn = parseInt(go.dataset.row, 10);
+        openCustomerPage('info', false, rn);
+        return;
+      }
+      const row = e.target.closest('#dataTable tbody tr');
+      if (row) {
+        selectedRowIndex = parseInt(row.dataset.row, 10);
+        const tbody = document.querySelector('#dataTable tbody');
+        tbody.querySelectorAll('tr.selected').forEach(el => el.classList.remove('selected'));
+        row.classList.add('selected');
+      }
+    });
+
+
+    function renderTable(rows) {
+      const tbody = document.querySelector('#dataTable tbody');
+      let html = '';
+      for (const o of rows) {
+        const r = o.r;
+        const status = computeStatus(r[3]);
+        html += `
+      <tr data-row="${o.sheetRow}">
+        <td>${r[0] ?? ''}</td>
+        <td>${r[1] ?? ''}</td>
+        <td>${r[2] ?? ''}</td>
+        <td>${r[3] ?? ''}</td>
+        <td>${statusBadge(status)}</td>
+        <td>${r[4] ?? ''}</td>
+        <td>${r[5] ?? ''}</td>
+        <td>${r[6] ?? ''}</td>
+        <td>${r[7] ?? ''}</td>
+        <td>${r[8] ?? ''}</td>
+        <td><button class="go-btn" data-row="${o.sheetRow}">Go</button></td>
+      </tr>`;
+      }
+      tbody.innerHTML = html;
+    }
+
 
     function searchData() {
       const q = document.getElementById('searchQuery').value.toLowerCase().trim();
-      const tbody = document.querySelector('#dataTable tbody');
-      tbody.innerHTML = '';
-      if (!q) { loadData(); return; }
+      if (!q) { renderTable(allDataRows.slice(0, ROW_LIMIT)); return; }
+
       const filtered = allDataRows.filter(o => (o.r.join(' ') || '').toLowerCase().includes(q));
       filtered.sort(compareByExpiration);
-      filtered.forEach(o => renderRow(tbody, o));
+      renderTable(filtered);
     }
+
 
     function confirmDelete() {
       if (selectedRowIndex === null) { alert('Select a row first.'); return; }
@@ -981,31 +1512,43 @@
       if (!rowNum) { alert('Select a row first.'); return; }
       custRowNum = rowNum;
 
-      postToScript({ action: 'getRow', password: sessionPassword, row: rowNum })
-        .then(txt => {
-          const payload = JSON.parse(txt);
-          if (!payload.ok) throw new Error(payload.error || 'Unknown error');
-          custRowObj = payload.row;
+      // Use cached data immediately (no network)
+      custRowObj = rowCache.get(rowNum) || {};
+      renderCustomerHeader(custRowObj);
+      fillCustomerInfo(custRowObj);
 
-          renderCustomerHeader(custRowObj);
-          fillCustomerInfo(custRowObj);
+      // Related policies can be computed from the already loaded table
+      renderPoliciesOfContact();
 
-          // files / accord
-          renderAttachmentTable('policy', custRowObj['Policy Forms']);
-          renderAttachmentTable('accord', custRowObj['Accord Forms']);
+      // Show the page right away
+      showPage('customer');
+      switchTab(addMode ? 'policies' : openTab);
+      if (addMode) startAddPolicy(true);
 
-          // policies for this contact
-          renderPoliciesOfContact();
+      // Show notes immediately; defer only the heavy attachments
+      rebuildNotes(custRowObj['Notes'] || custRowObj['Note'] || custRowObj['Notes Log'] || '');
 
-          // notes (latest 3 + pager)
-          rebuildNotes(custRowObj['Notes'] || '');
+    // If attachments are present in the cached row, render now.
+ if (custRowObj['Policy Forms'] || custRowObj['Accord Forms']) {
+   renderAttachmentTable('policy', custRowObj['Policy Forms'] || '[]');
+   renderAttachmentTable('accord', custRowObj['Accord Forms'] || '[]');
+ } else {
+   // Otherwise fetch the full row (includes attachment cells) and render.
+   postToScript({ action: 'getRow', password: sessionPassword, row: custRowNum })
+     .then(txt => {
+       const p = JSON.parse(txt);
+       if (p && p.ok) {
+         custRowObj = p.row; // keep the richer row around
+       }
+     })
+     .finally(() => {
+       renderAttachmentTable('policy', custRowObj['Policy Forms'] || '[]');
+       renderAttachmentTable('accord', custRowObj['Accord Forms'] || '[]');
+     });
+ }
+}
 
-          showPage('customer');
-          switchTab(addMode ? 'policies' : openTab);
-          if (addMode) startAddPolicy(true);
-        })
-        .catch(err => alert(err.message));
-    }
+
 
     function closeCustomerPage() { showPage('app'); setTimeout(setZoomLevel, 50); }
     function goMainTab() { closeCustomerPage(); }   // used by the "Main Page" tab
@@ -1013,7 +1556,11 @@
     function showPage(which) {
       document.getElementById('appSection').style.display = (which === 'app') ? 'block' : 'none';
       document.getElementById('customerPage').style.display = (which === 'customer') ? 'block' : 'none';
+
+      // Show the logo only on Login + Main (list) pages
+      document.body.classList.toggle('is-customer', which === 'customer');
     }
+
     function switchTab(name) {
       ['info', 'policies', 'files', 'accord', 'notes'].forEach(n => {
         const el = document.getElementById(`tab-${n}`);
@@ -1022,23 +1569,50 @@
         if (btn) btn.setAttribute('aria-selected', n === name ? 'true' : 'false');
       });
     }
-    function goMainTab() { closeCustomerPage(); }
+
 
 
     // header summary grid
     function renderCustomerHeader(row) {
       const grid = document.getElementById('custDetailsGrid');
-      const map = (k) => String(row[k] || '');
-      const fields = [
-        ['Policy #', 'Policy #'], ['Insurer', 'Insurer'], ['Effective', 'Effective'], ['Expiration', 'Expiration'],
-        ['First', 'First'], ['Last', 'Last'], ['Address', 'Address'], ['Phone', 'Phone'], ['Email', 'Email']
-      ];
+
+      // pick the first non-empty among aliases
+      const valueOf = (...keys) => {
+        for (const k of keys) {
+          const v = row[k];
+          if (v !== undefined && v !== null && String(v).trim() !== '') return String(v);
+        }
+        return '';
+      };
+
+ const fields = [
+  ['Policy #', () => getCell(row, 'Policy #')],
+  ['Insurer', () => getCell(row, 'Insurer')],
+  ['Effective', () => getCell(row, 'Effective Date', 'Effective')],
+  ['Expiration', () => getCell(row, 'Expiration Date', 'Expiration')],
+  ['First', () => getCell(row, 'First Name', 'First')],
+  ['Last', () => getCell(row, 'Last Name', 'Last')],
+  ['Address', () => getCell(row, 'Address')],
+  ['Phone', () => getCell(row, 'Phone')],
+  ['Email', () => getCell(row, 'Email')]
+];
+
+
       grid.innerHTML = '';
-      fields.forEach(([label, key]) => {
-        const card = document.createElement('div'); card.className = 'card';
-        const lab = document.createElement('div'); lab.className = 'label'; lab.textContent = label;
-        const val = document.createElement('div'); val.className = 'value'; val.textContent = map(key);
-        card.append(lab, val); grid.append(card);
+      fields.forEach(([label, getter]) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        const lab = document.createElement('div');
+        lab.className = 'label';
+        lab.textContent = label;
+
+        const val = document.createElement('div');
+        val.className = 'value';
+        val.textContent = getter();
+
+        card.append(lab, val);
+        grid.append(card);
       });
     }
 
@@ -1047,10 +1621,10 @@
       const g = id => document.getElementById(id);
       g('ci_policy').value = row['Policy #'] || '';
       g('ci_insurer').value = row['Insurer'] || '';
-      g('ci_effDate').value = (row['Effective'] || '').split('T')[0];
-      g('ci_expDate').value = (row['Expiration'] || '').split('T')[0];
-      g('ci_firstName').value = row['First'] || '';
-      g('ci_lastName').value = row['Last'] || '';
+   g('ci_effDate').value = toYMD(getCell(row, 'Effective Date', 'Effective'));
+g('ci_expDate').value = toYMD(getCell(row, 'Expiration Date', 'Expiration'));
+      g('ci_firstName').value = row['First Name'] || row['First'] || '';
+      g('ci_lastName').value = row['Last Name'] || row['Last'] || '';
       g('ci_address').value = row['Address'] || '';
       g('ci_phone').value = row['Phone'] || '';
       g('ci_email').value = row['Email'] || '';
@@ -1086,8 +1660,9 @@
 
       if (!custRowObj) { empty.style.display = 'block'; return; }
 
-      const first = (custRowObj['First'] || '').toLowerCase();
-      const last = (custRowObj['Last'] || '').toLowerCase();
+      const first = (custRowObj['First Name'] || custRowObj['First'] || '').toLowerCase();
+      const last = (custRowObj['Last Name'] || custRowObj['Last'] || '').toLowerCase();
+
       const phone = (custRowObj['Phone'] || '').replace(/\D/g, '');
 
       const matches = allDataRows.filter(o => {
@@ -1123,7 +1698,7 @@
       g('pe_effDate').value = ''; g('pe_expDate').value = '';
       g('pe_address').value = r['Address'] || '';
       g('pe_phone').value = r['Phone'] || ''; g('pe_email').value = r['Email'] || '';
-      g('pe_firstName').value = r['First'] || ''; g('pe_lastName').value = r['Last'] || '';
+      g('pe_firstName').value = r['First Name'] || r['First'] || ''; g('pe_lastName').value = r['Last Name'] || r['Last'] || '';
       g('pe_year').value = r['Year'] || ''; g('pe_make').value = r['Make'] || '';
       g('pe_model').value = r['Model'] || ''; g('pe_vin').value = r['Vin #'] || '';
       if (!fromTop) switchTab('policies');
@@ -1139,12 +1714,16 @@
           const p = JSON.parse(txt); if (!p.ok) throw new Error('Row not found');
           const r = p.row; const g = id => document.getElementById(id);
           g('pe_policy').value = r['Policy #'] || ''; g('pe_insurer').value = r['Insurer'] || '';
-          g('pe_effDate').value = (r['Effective'] || '').split('T')[0];
-          g('pe_expDate').value = (r['Expiration'] || '').split('T')[0];
+   g('pe_effDate').value = toYMD(getCell(r, 'Effective Date', 'Effective'));
+g('pe_expDate').value = toYMD(getCell(r, 'Expiration Date', 'Expiration'));
+
           g('pe_address').value = r['Address'] || ''; g('pe_phone').value = r['Phone'] || '';
-          g('pe_email').value = r['Email'] || ''; g('pe_firstName').value = r['First'] || '';
-          g('pe_lastName').value = r['Last'] || ''; g('pe_year').value = r['Year'] || '';
-          g('pe_make').value = r['Make'] || ''; g('pe_model').value = r['Model'] || '';
+          g('pe_email').value = r['Email'] || '';
+          g('pe_firstName').value = r['First Name'] || r['First'] || '';
+          g('pe_lastName').value = r['Last Name'] || r['Last'] || '';
+          g('pe_year').value = r['Year'] || '';
+          g('pe_make').value = r['Make'] || '';
+          g('pe_model').value = r['Model'] || '';
           g('pe_vin').value = r['Vin #'] || '';
         })
         .catch(err => alert(err.message));
@@ -1211,29 +1790,114 @@
       });
     }
 
-    function handleAttachmentUpload(kind) {
-      if (!custRowNum) { alert('Open a customer first'); return; }
-      const input = document.getElementById(kind === 'policy' ? 'policyUpload' : 'accordUpload');
-      const file = input.files && input.files[0]; if (!file) { return; }
-      if (file.type !== 'application/pdf') { alert('Please choose a PDF.'); input.value = ''; return; }
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const fr = new FileReader();
+    fr.onload = () => {
+      const s = String(fr.result || '');
+      const i = s.indexOf(',');
+      resolve(i >= 0 ? s.slice(i + 1) : s);
+    };
+    fr.onerror = () => reject(fr.error || new Error('File read failed'));
+    fr.readAsDataURL(file);
+  });
+}
 
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const b64 = reader.result.split(',')[1];
-        postToScript({
-          action: 'uploadAttachment', password: sessionPassword, row: custRowNum,
-          policyNumber: (custRowObj && custRowObj['Policy #']) || '',
-          kind, fileName: file.name, fileB64: b64, addedBy: sessionUser
-        }).then(text => {
-          const p = JSON.parse(text);
-          if (!p || !p.ok) throw new Error(p && p.error ? p.error : 'Upload failed');
-          renderAttachmentTable('policy', JSON.stringify(p.policyForms || []));
-          renderAttachmentTable('accord', JSON.stringify(p.accordForms || []));
-          input.value = ''; alert('Uploaded!');
-        }).catch(err => alert(err.message));
-      };
-      reader.readAsDataURL(file);
+
+// Insert an optimistic "uploading..." row and return a handle we can replace
+function addOptimisticRow(kind, meta) {
+  const isPolicy = (kind === 'policy');
+  const table = document.getElementById(isPolicy ? 'policyTable' : 'accordTable');
+  const tbody = table.querySelector('tbody');
+  document.getElementById(isPolicy ? 'policyEmpty' : 'accordEmpty').style.display = 'none';
+
+  const tr = document.createElement('tr');
+  tr.dataset.optimistic = '1';
+  const cells = [
+    `${meta.name} (pending)`,
+    meta.addedAt,
+    meta.addedBy,
+    meta.policyNumber,
+    `<span class="attc-spin"></span>Uploading…`
+  ];
+  cells.forEach(html => {
+    const td = document.createElement('td');
+    td.innerHTML = html;
+    tr.appendChild(td);
+  });
+  // Put new item on top for snappy feedback
+  tbody.insertBefore(tr, tbody.firstChild || null);
+  return tr;
+}
+
+function replaceOptimisticWithReal(kind, optimisticTr, items) {
+  const isPolicy = (kind === 'policy');
+  // Only re-render the target table (faster than drawing both)
+  renderAttachmentTable(kind, JSON.stringify(items || []));
+  if (optimisticTr && optimisticTr.parentNode) {
+    optimisticTr.remove(); // already re-rendered list includes the real row
+  }
+}
+
+// NEW: much faster handler with optimistic UI + chunked encoding
+async function handleAttachmentUpload(kind) {
+  if (!custRowNum) { alert('Open a customer first'); return; }
+  const input = document.getElementById(kind === 'policy' ? 'policyUpload' : 'accordUpload');
+  const metaBox = document.getElementById(kind === 'policy' ? 'policyFileMeta' : 'accordFileMeta');
+  const file = input.files && input.files[0];
+  if (!file) return;
+  if (file.type !== 'application/pdf') { alert('Please choose a PDF.'); input.value=''; return; }
+
+  // Show immediate feedback in the table
+  const quickMeta = {
+    name: file.name,
+    addedAt: new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }),
+    addedBy: sessionUser || '',
+    policyNumber: (custRowObj && custRowObj['Policy #']) || ''
+  };
+  const optimisticTr = addOptimisticRow(kind, quickMeta);
+  metaBox.textContent = `Uploading ${file.name}…`;
+
+  try {
+    const b64 = await fileToBase64(file);
+
+
+    // POST only once and only re-render the target table
+    const text = await postToScript({
+      action: 'uploadAttachment',
+      password: sessionPassword,
+      row: custRowNum,
+      policyNumber: quickMeta.policyNumber,
+      kind,
+      fileName: file.name,
+      fileB64: b64,
+      addedBy: sessionUser
+    });
+
+    const resp = JSON.parse(text);
+    if (!resp || !resp.ok) throw new Error(resp && resp.error ? resp.error : 'Upload failed');
+
+    // Update our local cache so we don't need an extra fetch later
+    if (!custRowObj) custRowObj = {};
+    if (kind === 'policy') {
+      custRowObj['Policy Forms'] = JSON.stringify(resp.policyForms || []);
+      replaceOptimisticWithReal('policy', optimisticTr, resp.policyForms);
+    } else {
+      custRowObj['Accord Forms'] = JSON.stringify(resp.accordForms || []);
+      replaceOptimisticWithReal('accord', optimisticTr, resp.accordForms);
     }
+
+    metaBox.textContent = `Uploaded ${file.name}`;
+  } catch (err) {
+    console.error(err);
+    metaBox.textContent = '';
+    alert(err.message || 'Upload failed');
+    // Clean up the optimistic row on error
+    if (optimisticTr && optimisticTr.parentNode) optimisticTr.remove();
+  } finally {
+    input.value = '';
+  }
+}
 
     /* ===== Notes Tab (latest 3 + pagination) ===== */
     function parseNotesToArray(cell = '') {
@@ -1272,9 +1936,6 @@
       list.scrollTop = 0;
     }
 
-
-    label.textContent = `${notesPage} / ${totalPages}`;
-
     function prevNotesPage() { }  // no-op (pager removed)
     function nextNotesPage() { }  // no-op (pager removed)
 
@@ -1283,32 +1944,79 @@
       const raw = (document.getElementById('noteInput').value || '').trim();
       if (!raw) { alert('Type a note first'); return; }
 
-      postToScript({ action: 'getRow', password: sessionPassword, row: custRowNum })
-        .then(txt => {
-          const p = JSON.parse(txt); if (!p.ok) throw new Error('Row not found');
-          const existing = (p.row['Notes'] || '').replace(/#\d+:\s*/g, '').trim();
-          const ts = new Date().toLocaleString('en-US', { timeZone: 'America/New_York', month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-          const combined = `User: ${sessionUser} — ${ts} — ${raw}` + (existing ? `\n${existing}` : '');
-          return postToScript({
-            action: 'edit', password: sessionPassword, row: custRowNum,
-            policy: p.row['Policy #'] || '', insurer: p.row['Insurer'] || '',
-            effDate: p.row['Effective'] || '', expDate: p.row['Expiration'] || '',
-            firstName: p.row['First'] || '', lastName: p.row['Last'] || '',
-            address: p.row['Address'] || '', phone: p.row['Phone'] || '',
-            email: p.row['Email'] || '', year: p.row['Year'] || '',
-            make: p.row['Make'] || '', model: p.row['Model'] || '',
-            vin: p.row['Vin #'] || '', notes: combined
-          });
-        })
-        .then(() => {
-          document.getElementById('noteInput').value = '';
-          return postToScript({ action: 'getRow', password: sessionPassword, row: custRowNum });
-        })
-        .then(txt => {
-          const p = JSON.parse(txt); custRowObj = p.row; rebuildNotes(custRowObj['Notes'] || ''); alert('Note added');
-        })
-        .catch(err => alert(err.message));
+      const existing = ((custRowObj && (custRowObj['Notes'] || custRowObj['Note'] || custRowObj['Notes Log'] || '')) || '')
+        .replace(/#\d+:\s*/g, '').trim();
+      const ts = new Date().toLocaleString('en-US', {
+        timeZone: 'America/New_York', month: 'short', day: 'numeric', year: 'numeric',
+        hour: '2-digit', minute: '2-digit'
+      });
+      const combined = `User: ${sessionUser} — ${ts} — ${raw}` + (existing ? `\n${existing}` : '');
+
+      // Instant UI update
+      custRowObj = custRowObj || {};
+      custRowObj['Notes'] = combined;
+      document.getElementById('noteInput').value = '';
+      rebuildNotes(combined);
+
+      // Persist with a single call
+      postToScript({
+        action: 'edit', password: sessionPassword, row: custRowNum,
+        policy: custRowObj['Policy #'] || '', insurer: custRowObj['Insurer'] || '',
+        effDate: custRowObj['Effective Date'] || custRowObj['Effective'] || '',
+        expDate: custRowObj['Expiration Date'] || custRowObj['Expiration'] || '',
+        firstName: custRowObj['First Name'] || custRowObj['First'] || '',
+        lastName: custRowObj['Last Name'] || custRowObj['Last'] || '',
+        address: custRowObj['Address'] || '', phone: custRowObj['Phone'] || '',
+        email: custRowObj['Email'] || '', year: custRowObj['Year'] || '',
+        make: custRowObj['Make'] || '', model: custRowObj['Model'] || '',
+        vin: custRowObj['Vin #'] || '', notes: combined
+      }).catch(err => alert(err.message));
     }
+// ---- Drop-zone wiring: click + drag&drop -> handleAttachmentUpload(kind)
+function initDropZone(kind) {
+  const dz    = document.getElementById(kind + 'Drop');
+  const input = document.getElementById(kind + 'Upload');
+  const meta  = document.getElementById(kind + 'FileMeta');
+
+  if (!dz || !input) return;
+
+  // When user picks a file via the dialog
+  input.addEventListener('change', () => {
+    const f = input.files && input.files[0];
+    meta.innerHTML = f ? `Selected: <span class="name">${f.name}</span>` : '';
+    if (f) handleAttachmentUpload(kind);
+  });
+
+  // Drag & drop visuals
+  ['dragenter', 'dragover'].forEach(ev => {
+    dz.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); dz.classList.add('dragover'); });
+  });
+  ['dragleave', 'drop'].forEach(ev => {
+    dz.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); dz.classList.remove('dragover'); });
+  });
+
+  // Handle a dropped file
+  dz.addEventListener('drop', e => {
+    const file = e.dataTransfer?.files?.[0];
+    if (!file) return;
+    if (file.type !== 'application/pdf') { alert('Please choose a PDF.'); return; }
+
+    // Put dropped file into the hidden input so your existing uploader runs
+    const dt = new DataTransfer();
+    dt.items.add(file);
+    input.files = dt.files;
+
+    meta.innerHTML = `Selected: <span class="name">${file.name}</span>`;
+    handleAttachmentUpload(kind);
+  });
+}
+
+// Initialize both uploaders when the page is ready
+document.addEventListener('DOMContentLoaded', () => {
+  initDropZone('policy');
+  initDropZone('accord');
+});
+
   </script>
 </body>
 
