@@ -18,14 +18,6 @@
     body.is-customer #searchSection .search-btn {
       animation: none !important;
     }
-
-
-
-    /* Keep header visible elsewhere */
-    body:not(.is-customer) header {
-      display: block;
-    }
-
     /* ===== Base / Theme ===== */
     :root {
       --bg: #f6f7f9;
@@ -40,14 +32,8 @@
       --danger: #ef4444;
       --radius: 14px;
       --shadow: 0 8px 24px rgba(16, 24, 40, .06);
-    }
-
-    /* PDF icon size (35% of a 24px base = 8.4px) */
-    :root {
       --pdf-icon-size: 40px;
     }
-
-    /* tweak if you want bigger (e.g., 24px or 32px) */
 
     .attc-icon {
       display: inline-flex;
@@ -98,11 +84,8 @@
     }
 
     /* Ensure nothing re-introduces top spacing under the header */
-    #loginSection,
-    #appSection,
-    #appSection {
-      margin-top: 0 !important;
-    }
+#loginSection, #appSection { margin-top: 0 !important; }
+
 
 
 
@@ -281,9 +264,6 @@
       }
     }
 
-    .button-row {
-      display: none !important;
-    }
 
     /* ===== Data Table ===== */
     #dataTable {
@@ -338,13 +318,6 @@
 
     #dataTable thead th:last-child {
       border-top-right-radius: 14px;
-    }
-
-
-
-
-    #dataTable thead th+th {
-      box-shadow: inset 1px 0 0 #edf2f7;
     }
 
     #dataTable tbody td,
@@ -442,24 +415,6 @@
       margin: 12px 0 16px;
       flex-wrap: wrap;
     }
-
-
-
-   body.is-customer #customerPage .wrap { margin-top: 16px; }  /* small, sane gap */
-
-
-    /* Small screens */
-    @media (max-width: 900px) {
-      #customerPage .tabs {
-        top: 86px;
-        gap: 8px;
-      }
-
-      body.is-customer #customerPage .wrap {
-        margin-top: 140px;
-      }
-    }
-
 
 
     /* Modern pill tabs */
@@ -711,19 +666,6 @@
       line-height: 1;
     }
 
-
-    .btn.safe {
-      background: linear-gradient(90deg, #34d399, #10b981);
-      color: #fff;
-      border: 0;
-    }
-
-    .btn.warn {
-      background: linear-gradient(90deg, #ef4444, #dc2626);
-      color: #fff;
-      border: 0;
-    }
-
     /* === Bottom policy pills (identical look) === */
     .tab.pill-add,
     .tab.pill-edit {
@@ -819,14 +761,12 @@
       table-layout: fixed;
     }
 
-    .themed-table thead th {
-      text-align: center;
-    }
-
+  
     .themed-table td,
     .themed-table th {
       text-align: center;
       font-size: 1.35rem;
+
     }
 
 
@@ -848,6 +788,7 @@
       font-weight: 800;
       font-size: 1.25rem;
       padding: 12px 14px;
+      text-align: center;
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22),
         inset 0 -1px 0 rgba(0, 0, 0, .10);
     }
@@ -908,15 +849,6 @@
       /* increase to 1.25rem, 1.35rem, etc. */
       line-height: 1.6;
       /* optional for readability */
-    }
-
-
-    .pager {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 8px;
-      margin-top: 8px;
     }
 
     /* === Modern upload control === */
@@ -1098,8 +1030,6 @@
       transform: none !important;
       z-index: auto !important;
 
-      width: 100% !important;
-      margin: 12px 0 16px !important;
       /* restore original spacing */
       padding: 0 !important;
       background: transparent !important;
@@ -1366,15 +1296,14 @@
       return o;
     }
 
-    // Run after first paint / when the browser is idle
-    function defer(fn) { (window.requestIdleCallback || setTimeout)(fn, 0); }
+ 
 
     // session state
     let sessionPassword = "", sessionUser = "", selectedRowIndex = null; // sheet row number (1-based)
     let allDataRows = []; // [{r:[], sheetRow:n}]
 
     // Notes pagination state
-    let notesArray = []; let notesPage = 1; const NOTES_PER_PAGE = 3;
+    let notesArray = []; 
 
     /* ===== Utilities ===== */
     function setZoomLevel() { document.body.style.zoom = '80%'; }
@@ -1454,11 +1383,6 @@
     }
 
 
-    function clearSelection() {
-      document.querySelectorAll('#dataTable tr.selected').forEach(r => r.classList.remove('selected'));
-      selectedRowIndex = null;
-    }
-
 
     function loadData() {
       fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`)
@@ -1535,15 +1459,6 @@
       renderTable(filtered);
     }
 
-
-    function confirmDelete() {
-      if (selectedRowIndex === null) { alert('Select a row first.'); return; }
-      if (!confirm('Delete selected row?')) return;
-      postToScript({ action: 'delete', password: sessionPassword, row: selectedRowIndex })
-        .then(msg => { alert(msg); selectedRowIndex = null; loadData(); })
-        .catch(err => alert(err.message));
-    }
-
     /* ===== Customer Overview: state ===== */
     let custRowNum = null, custRowObj = null; // current row in overview
     let peMode = 'add', peEditRow = null;     // policies editor state
@@ -1617,15 +1532,7 @@
     function renderCustomerHeader(row) {
       const grid = document.getElementById('custDetailsGrid');
 
-      // pick the first non-empty among aliases
-      const valueOf = (...keys) => {
-        for (const k of keys) {
-          const v = row[k];
-          if (v !== undefined && v !== null && String(v).trim() !== '') return String(v);
-        }
-        return '';
-      };
-
+  
       const fields = [
         ['Policy #', () => getCell(row, 'Policy #')],
         ['Insurer', () => getCell(row, 'Insurer')],
@@ -1977,8 +1884,6 @@
       list.scrollTop = 0;
     }
 
-    function prevNotesPage() { }  // no-op (pager removed)
-    function nextNotesPage() { }  // no-op (pager removed)
 
     function addNoteFromTab() {
       if (!custRowNum) { alert('Open a customer first'); return; }
