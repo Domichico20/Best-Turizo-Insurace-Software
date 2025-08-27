@@ -1,1969 +1,318 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=0.8, user-scalable=yes">
-  <title>Best Turizo Insurance Platform</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Google Sheets Manager</title>
+  <link rel="icon" href="1 logo.png" type="image/x-icon">
 
   <style>
-    /* Show logo only on Login + Main (list) pages */
-    body.is-customer header {
-      display: none;
-    }
-
-
-
-    /* Pause the rainbow animation once we leave the list page */
-    body.is-customer #searchSection .search-btn {
-      animation: none !important;
-    }
-    /* ===== Base / Theme ===== */
-    :root {
-      --bg: #f6f7f9;
-      --card: #ffffff;
-      --ink: #3b2f22;
-      --muted: #6b7280;
-      --border: #e5e7eb;
-      --brand1: #c59b6a;
-      --brand2: #ab7d4a;
-      --ok: #16a34a;
-      --warn: #f59e0b;
-      --danger: #ef4444;
-      --radius: 14px;
-      --shadow: 0 8px 24px rgba(16, 24, 40, .06);
-      --pdf-icon-size: 40px;
-    }
-
-    .attc-icon {
-      display: inline-flex;
-      width: var(--pdf-icon-size);
-      height: var(--pdf-icon-size);
-      align-items: center;
-      justify-content: center;
-    }
-
-    .attc-icon svg {
-      width: 100%;
-      height: 100%;
-    }
-
-    html,
-    body {
-      background: var(--bg);
-      color: var(--ink);
-      font: 14px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      text-rendering: optimizeLegibility;
-      margin: 0;
-      /* <-- remove default 8px gap around the page */
-      padding: 0;
-    }
-
-
-    header {
-      text-align: center;
-      margin: 0;
-      /* no external gap */
-      padding: 0;
-      /* no internal gap */
-      line-height: 0;
-      /* collapses any inline line box */
-    }
-
-
-
-    header img.logo {
-      display: block;
-      margin: 0 auto -40px;
-      /* <-- pull the next section up; adjust -20..-40 if needed */
-      max-width: 540px;
-      height: auto;
-      filter: drop-shadow(0 8px 18px rgba(0, 0, 0, .08));
-    }
-
-    /* Ensure nothing re-introduces top spacing under the header */
-#loginSection, #appSection { margin-top: 0 !important; }
-
-
-
-
-    /* ===== Login (UNCHANGED) ===== */
-    #loginSection {
-      width: 100%;
-      max-width: 400px;
-      padding: 28px;
-      gap: 12px;
-      margin: 0 auto;
-      border-radius: 20px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      display: flex;
-      flex-direction: column;
-    }
-
-    #loginSection input {
-      padding: 20px 100px;
-      font-size: 16px;
-      text-align: center;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      outline: none;
-      transition: border .15s;
-    }
-
-    #loginSection input::placeholder {
-      text-align: center;
-    }
-
-    #loginSection input:focus {
-      border-color: var(--brand1);
-      box-shadow: 0 0 0 3px rgba(197, 155, 106, .18);
-    }
-
-    #loginSection button {
-      width: 70%;
-      margin: 0 auto;
-      padding: 12px 14px;
-      font-size: 20px;
-      border-radius: 10px;
-      background: linear-gradient(90deg, var(--brand1), var(--brand2));
-      color: #fff;
-      border: 0;
-      cursor: pointer;
-    }
-
-    #customerPage .wrap {
-      width: min(1400px, 96vw);
-      margin: 0 auto;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(16, 24, 40, .08);
-      padding: 22px 24px;
-      box-sizing: border-box;
-    }
-
-
-    /* ===== Search Bar ===== */
-    #searchSection {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      margin: 0 auto 12px;
-      width: min(1250px, 96vw);
-    }
-
-
-
-    #searchSection input[type="text"] {
-      flex: 0 1 920px;
-      max-width: 920px;
-      width: 100%;
-      padding: 12px 14px;
-      font-size: 1.75rem;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: #fff;
-    }
-
-
-    #searchSection input[type="text"]:focus {
-      border-color: var(--brand1);
-      box-shadow: 0 0 0 3px rgba(197, 155, 106, .15);
-    }
-
-    #searchSection .search-btn {
-      font-size: 1.6rem;
-      padding: 20px 34px;
-      border-radius: 14px;
-      color: #fff;
-      border: 0;
-      cursor: pointer;
+    body { font-family: Arial, sans-serif; margin: 20px; background-color: #f0f0f0; }
+    header { text-align: center; margin-bottom: 20px; }
+    header img.logo { max-width: 200px; height: auto; }
+    h2 {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 1.75rem; font-weight: 600; text-align: center; margin-bottom: 20px;
       background: linear-gradient(90deg,
-          #9c4219 0%,
-          #a54a1c 1.5%,
-          #b05220 3%,
-          #bb5a24 4.5%,
-          #c56328 6%,
-          #cf6b2c 7.5%,
-          #d87331 9%,
-          #e17c35 10.5%,
-          #e9853a 12%,
-          #f08e3f 13.5%,
-          #f49747 15%,
-          #f7a151 16.5%,
-          #f9ab5c 18%,
-          #fbb468 19.5%,
-          #fcbf75 21%,
-          #f8c985 22.5%,
-          #f1d394 24%,
-          #e6dc9f 26%,
-          #d9e3a7 28%,
-          #cae8ad 30%,
-          #b9edb3 32%,
-          #a6f0be 34%,
-          #8ff3cb 36%,
-          #76f4d9 38%,
-          #5deee8 40%,
-          #45e2f1 42%,
-          #3bd2f7 44%,
-          #3bbff7 46%,
-          #49a9f5 48%,
-          #5f90f4 50%,
-          #736ff2 52%,
-          #8055ef 54%,
-          #8b3fee 56%,
-          #9632ea 58%,
-          #a12de2 60%,
-          #ab31d6 62%,
-          #b33ac7 64%,
-          #b946b8 66%,
-          #bd54a7 68%,
-          #bf6396 70%,
-          #bf7486 72%,
-          #bc846f 74%,
-          #b7935a 76%,
-          #b1a148 78%,
-          #a8ad3c 80%,
-          #9fb736 82%,
-          #95bf37 84%,
-          #88c53e 86%,
-          #7acc4c 88%,
-          #6bd05f 90%,
-          #62c563 91.5%,
-          #5bb965 93%,
-          #56ad65 94.5%,
-          #529f63 96%,
-          #5c8f5b 97%,
-          #757d4e 98%,
-          #9a673d 99%,
-          #9c4219 100%);
-      background-size: 800% 100%;
-      animation: gradientShift 20s infinite linear;
-      box-shadow: 0 6px 20px rgba(156, 66, 25, .4);
-
-    }
-
-    #searchSection .search-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(156, 66, 25, .6);
-      animation-duration: 3s;
-    }
-
-    @keyframes gradientShift {
-      0% {
-        background-position: 0% 50%
-      }
-
-      100% {
-        background-position: 200% 50%
-      }
-    }
-
-
-    /* ===== Data Table ===== */
-    #dataTable {
-      width: 100%;
-      margin: 0 auto;
-      border-collapse: separate;
-      border-spacing: 0;
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 8px 24px rgba(16, 24, 40, .06);
-      table-layout: fixed;
-    }
-
-    #dataTable thead th {
-      position: sticky;
-      top: 0;
-      z-index: 2;
-      /* Refined gold ribbon using same colors */
-      background: linear-gradient(180deg,
-          #d1a66e 0%,
-          #b1874f 20%,
-          #b3803d 45%,
-          #a06e2c 60%,
-          #b3803d 75%,
-          #b1874f 88%,
-          #d1a66e 100%);
-      color: #f3f4f7;
-      text-transform: uppercase;
-      letter-spacing: .10em;
-      font-weight: 800;
-      font-size: 1.45rem;
-      padding: 14px 16px;
-      text-align: center;
-      border-bottom: 1px solid rgba(0, 0, 0, .08);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, .25),
-        inset 0 -1px 0 rgba(0, 0, 0, .08);
-    }
-
-    /* Subtle column separators & rounded top corners */
-    #dataTable thead th+th {
-      box-shadow:
-        inset 1px 0 0 rgba(255, 255, 255, .18),
-        inset 0 -1px 0 rgba(0, 0, 0, .08);
-    }
-
-    #dataTable thead th:first-child {
-      border-top-left-radius: 14px;
-    }
-
-    #dataTable thead th:last-child {
-      border-top-right-radius: 14px;
-    }
-
-    #dataTable tbody td,
-    #dataTable tbody th {
-      padding: 12px 14px;
-      border-top: 1px solid #eef2f7;
-      vertical-align: middle;
-      color: #0f172a;
-      font-size: 20px;
-      line-height: 1.35;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      text-align: center;
-    }
-
-
-
-
-    #dataTable tbody tr:nth-child(odd) {
-      background: #fcfcff;
-    }
-
-    #dataTable tbody tr:hover {
-      background: #f5f8ff;
-    }
-
-    #dataTable tr.selected {
-      background: #e8f0ff !important;
-      box-shadow: inset 0 0 0 2px rgba(59, 130, 246, .35);
-    }
-
-    /* Status pill + Go button */
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-weight: 800;
-      font-size: 1.35rem;
-    }
-
-    .badge.active {
-      border: 1px solid #113f18;
-      background: #66b684;
-      color: #1e1ca3;
-      cursor: default;
-    }
-
-    .badge.inactive {
-      background: #fdecec;
-      color: #991b1b;
-      border: 1px solid #fecaca;
-      cursor: default
-    }
-
-    .go-btn {
-      padding: 8px 12px;
-      border-radius: 10px;
-      border: 1px solid #113f18;
-      background: #66b684;
-      color: #1e1ca3;
-      cursor: pointer;
-      font-weight: 1000;
-    }
-
-    .go-btn:hover {
-      background: #fa5656;
-    }
-
-    #customerPage .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      margin-bottom: 12px;
-    }
-
-
-    #customerPage .title {
-      font-size: 2.15rem;
-      font-weight: 900;
-      letter-spacing: .3px;
-      background: linear-gradient(90deg, #7c5b2e, #c79d4b 60%, #7c5b2e);
+        #003366,#0066CC,#3399FF,#ff3333,#ffa733,#9a9c21,#54cc25,#1a8371,#229ea7,#33b4ff,#339cff);
+      background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 1px 0 rgba(0, 0, 0, .04);
-    }
-
-
-    /* Tabs row */
-    .tabs {
-      display: flex;
-      gap: 12px;
-      margin: 12px 0 16px;
-      flex-wrap: wrap;
-    }
-
-
-    /* Modern pill tabs */
-
-    .tab {
-      appearance: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-
-      /* bigger + consistent size */
-      padding: 12px 20px;
-      min-height: 44px;
-      width: 140px;
-      /* <- all 8 will match this width */
-      border-radius: 999px;
-
-      border: 1px solid #8a673c;
-      background: linear-gradient(180deg,
-          #d1a66e 0%,
-          #b1874f 35%,
-          #9c6a33 70%,
-          #7c5b2e 100%);
-      color: #ffffff;
-      font-weight: 800;
-      font-size: 1.20rem;
-      line-height: 1;
-
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 8px 14px rgba(16, 24, 40, .10);
-      transition:
-        background .2s ease,
-        transform .12s ease,
-        box-shadow .2s ease,
-        color .2s ease,
-        border-color .2s ease;
-    }
-
-
-
-    /* Hover / Press / Focus */
-    .tab:hover {
-      transform: translateY(-1px);
-      background: linear-gradient(180deg,
-          #e0be8a 0%,
-          #c39a62 38%,
-          #a5743c 70%,
-          #835829 100%);
-      box-shadow: 0 12px 22px rgba(16, 24, 40, .16);
-    }
-
-
-    .tab:active {
-      transform: none;
-      box-shadow: inset 0 4px 10px rgba(0, 0, 0, .18);
-      background: linear-gradient(180deg, #8a5f2d 0%, #70461b 100%);
-    }
-
-
-    .tab:focus-visible {
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(197, 155, 106, .35);
-    }
-
-    /* Selected tab (brand gradient) */
-    .tab[aria-selected="true"] {
-      background: linear-gradient(180deg, #b14a4a 0%, #7d2a2a 50%, #522222 100%);
-      color: #ffffff;
-      border-color: #5a3b1a;
-      box-shadow: 0 8px 18px rgba(123, 88, 46, .45);
-    }
-
-
-
-
-    .tabpanel {
-      display: none;
-    }
-
-    .tabpanel.active {
-      display: block;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-      /* NEW: make this whole block look like a distinct panel */
-      padding: 16px;
-      margin-bottom: 14px;
-      border: 1px solid #e7d4bd;
-      border-radius: 16px;
-      background: radial-gradient(140% 140% at 0% 0%, #ffffff 0%, #f9f4ea 100%);
-      box-shadow: 0 10px 30px rgba(16, 24, 40, .06);
-    }
-
-
-
-    @media(max-width:1100px) {
-      .grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    .card {
-      background: linear-gradient(180deg, #ffffff 0%, #fbf7f0 100%);
-      border: 1px solid #eadcc6;
-      border-radius: 14px;
-      padding: 12px 14px;
-      box-shadow: 0 3px 10px rgba(16, 24, 40, .05);
-    }
-
-
-    .label {
-      font-size: 1.5rem;
-      color: #6f5a3e;
-      margin-bottom: 4px;
-      text-transform: uppercase;
-      letter-spacing: .06em;
-    }
-
-
-
-    .value {
-      font-weight: 600;
-      font-size: 1.20rem;
-      color: #3b2f22;
-      /* ties to --ink feel */
-      letter-spacing: .01em;
-      line-height: 1.25;
-      word-break: break-word;
-    }
-
-
-
-
-    /* Forms */
-    .form {
-      display: grid;
-      grid-template-columns: repeat(12, minmax(0, 1fr));
-      gap: 12px 14px;
-    }
-
-    .form .fg {
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-    }
-
-    #custInfoForm .fg label,
-    #policyEditor .fg label {
-      font-size: 1.5rem;
-      color: #6f5a3e;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      font-weight: 700;
-      margin: 0 0 4px;
-      /* match the top cards */
-    }
-
-
-    .form .fg input,
-    .form .fg textarea {
-      width: 100%;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px 14px;
-      /* a touch more for the bigger font */
-      background: #fff;
-      box-shadow: 0 1px 0 rgba(16, 24, 40, .02) inset;
-      transition: border-color .15s, box-shadow .15s;
-      font-size: 1.20rem;
-      /* match .value size in the cards */
-      line-height: 1.25;
-    }
-
-
-    .form .fg input:focus,
-    .form .fg textarea:focus {
-      border-color: var(--brand1);
-      box-shadow: 0 0 0 3px rgba(197, 155, 106, .18);
-      outline: none;
-    }
-
-
-    .row-full {
-      grid-column: 1/-1;
-    }
-
-    .row-6 {
-      grid-column: span 6;
-    }
-
-    .row-4 {
-      grid-column: span 4;
-    }
-
-    .row-3 {
-      grid-column: span 3;
-    }
-
-    .row-2 {
-      grid-column: span 2;
-    }
-
-    /* NEW: distinct, clean panel for the editable form */
-    #custInfoForm {
-      background: #ffffff;
-      border: 1px solid #ece5d6;
-      border-radius: 12px;
-      padding: 14px;
-      box-shadow: 0 6px 18px rgba(16, 24, 40, .04);
-    }
-
-
-    .actionbar {
-      display: flex;
-      gap: 10px;
-      margin: 10px 0;
-    }
-
-    .btn {
-      padding: 12px 16px;
-      border-radius: 12px;
-      border: 1px solid #e5e7eb;
-      background: #fff;
-      cursor: pointer;
-      font-weight: 800;
-      box-shadow: 0 4px 12px rgba(16, 24, 40, .06);
-      transition: transform .08s ease, box-shadow .12s ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 8px 20px rgba(16, 24, 40, .10);
-    }
-
-    .btn.primary {
-      background: linear-gradient(90deg, var(--brand1), var(--brand2));
-      color: #fff;
-      border: 0;
-
-      /* match top tab size */
-      width: 140px;
-      min-height: 44px;
-      padding: 12px 20px;
-      border-radius: 999px;
-      font-size: 1.20rem;
-      line-height: 1;
-    }
-
-    /* === Bottom policy pills (identical look) === */
-    .tab.pill-add,
-    .tab.pill-edit {
-      width: 140px;
-      min-height: 44px;
-      padding: 12px 20px;
-      border-radius: 999px;
-
-      /* identical visuals */
-      background: linear-gradient(90deg,
-          #9c4219 0%,
-          #a54a1c 1.5%,
-          #b05220 3%,
-          #bb5a24 4.5%,
-          #c56328 6%,
-          #cf6b2c 7.5%,
-          #d87331 9%,
-          #e17c35 10.5%,
-          #e9853a 12%,
-          #f08e3f 13.5%,
-          #f49747 15%,
-          #f7a151 16.5%,
-          #f9ab5c 18%,
-          #fbb468 19.5%,
-          #fcbf75 21%,
-          #f8c985 22.5%,
-          #f1d394 24%,
-          #e6dc9f 26%,
-          #d9e3a7 28%,
-          #cae8ad 30%,
-          #b9edb3 32%,
-          #a6f0be 34%,
-          #8ff3cb 36%,
-          #76f4d9 38%,
-          #5deee8 40%,
-          #45e2f1 42%,
-          #3bd2f7 44%,
-          #3bbff7 46%,
-          #49a9f5 48%,
-          #5f90f4 50%,
-          #736ff2 52%,
-          #8055ef 54%,
-          #8b3fee 56%,
-          #9632ea 58%,
-          #a12de2 60%,
-          #ab31d6 62%,
-          #b33ac7 64%,
-          #b946b8 66%,
-          #bd54a7 68%,
-          #bf6396 70%,
-          #bf7486 72%,
-          #bc846f 74%,
-          #b7935a 76%,
-          #b1a148 78%,
-          #a8ad3c 80%,
-          #9fb736 82%,
-          #95bf37 84%,
-          #88c53e 86%,
-          #7acc4c 88%,
-          #6bd05f 90%,
-          #62c563 91.5%,
-          #5bb965 93%,
-          #56ad65 94.5%,
-          #529f63 96%,
-          #5c8f5b 97%,
-          #757d4e 98%,
-          #9a673d 99%,
-          #9c4219 100%);
-      background-size: 800% 100%;
-      animation: gradientShift 20s infinite linear;
-      box-shadow: 0 6px 20px rgba(156, 66, 25, .4);
-
-    }
-
-    .tab.pill-add:active,
-    .tab.pill-edit:active {
-      transform: none;
-      box-shadow: inset 0 4px 10px rgba(0, 0, 0, .18);
-      background: linear-gradient(180deg, #15b985 0%, #0a9665 100%) !important;
-    }
-
-
-    /* Tables inside customer page */
-    .themed-table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0;
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 8px 24px rgba(16, 24, 40, .06);
-      table-layout: fixed;
-    }
-
-  
-    .themed-table td,
-    .themed-table th {
-      text-align: center;
-      font-size: 1.35rem;
-
-    }
-
-
-    .themed-table thead th {
-      position: sticky;
-      top: 0;
-      z-index: 2;
-      background: linear-gradient(180deg,
-          #d1a66e 0%,
-          #b1874f 20%,
-          #b3803d 45%,
-          #a06e2c 60%,
-          #b3803d 75%,
-          #b1874f 88%,
-          #d1a66e 100%);
-      color: #fefefe;
-      text-transform: uppercase;
-      letter-spacing: .10em;
-      font-weight: 800;
-      font-size: 1.25rem;
-      padding: 12px 14px;
-      text-align: center;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22),
-        inset 0 -1px 0 rgba(0, 0, 0, .10);
-    }
-
-
-    .themed-table thead th+th {
-      box-shadow: inset 1px 0 0 rgba(255, 255, 255, .18),
-        inset 0 -1px 0 rgba(0, 0, 0, .08);
-    }
-
-    .themed-table thead th:first-child {
-      border-top-left-radius: 14px;
-    }
-
-    .themed-table thead th:last-child {
-      border-top-right-radius: 14px;
-    }
-
-
-    .themed-table td {
-      padding: 9px 12px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      border-top: 1px solid #eef2f7;
-    }
-
-    /* Notes Tab */
-    .notes-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      max-height: 420px;
-      /* adjust height if you want */
-      overflow-y: auto;
-      /* <-- scrolling */
-      padding-right: 8px;
-    }
-
-    .note-card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px;
-      box-shadow: 0 6px 14px rgba(16, 24, 40, .05);
-    }
-
-    .note-meta {
-      font-size: 1.25rem;
-      color: #465a83;
-      margin-bottom: 6px;
-    }
-
-    .note-text {
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-      font-size: 1.55rem;
-      /* increase to 1.25rem, 1.35rem, etc. */
-      line-height: 1.6;
-      /* optional for readability */
-    }
-
-    /* === Modern upload control === */
-    .hid-input {
-      display: none;
-    }
-
-    .attc-upload {
-      margin: 10px 0 16px;
-    }
-
-    .attc-dropzone {
-      display: grid;
-      grid-template-columns: 36px 1fr auto;
-      align-items: center;
-      gap: 12px;
-
-      padding: 14px 16px;
-      border-radius: 16px;
-      border: 2px dashed #d7c3a6;
-      background: linear-gradient(180deg, #ffffff 0%, #fbf7f0 100%);
-
-      color: var(--ink);
-      cursor: pointer;
-      box-shadow: 0 6px 18px rgba(16, 24, 40, .06);
-      transition: border-color .2s, box-shadow .2s, transform .1s, background .2s;
-    }
-
-    .attc-dropzone:hover {
-      transform: translateY(-1px);
-      border-color: var(--brand1);
-      box-shadow: 0 10px 24px rgba(16, 24, 40, .10);
-    }
-
-    .attc-dropzone.dragover {
-      border-color: var(--brand2);
-      background: radial-gradient(120% 140% at 0% 0%, #fff 0%, #fffbed 100%);
-    }
-
-    .attc-dropzone svg {
-      width: 28px;
-      height: 28px;
-      color: var(--brand2);
-    }
-
-    .attc-dropzone .text strong {
-      display: block;
-      font-size: 1.1rem;
-      line-height: 1.1;
-    }
-
-    .attc-dropzone .text span {
-      display: block;
-      font-size: .95rem;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-
-    .attc-dropzone .meta {
-      font-size: .9rem;
-      color: #6b7280;
-      white-space: nowrap;
-    }
-
-    .attc-file {
-      margin-top: 8px;
-      font-size: .95rem;
-      color: #334155;
-    }
-
-    .attc-file .name {
-      font-weight: 700;
-    }
-
-    /* ---- Floating uploader (bottom-right outside the white card) ---- */
-    #tab-files .attc-upload,
-    #tab-accord .attc-upload {
-      position: fixed;
-      /* pull it out of the flow/card */
-      right: 175px;
-      /* sit in the page margin at lower-right */
-      bottom: 465px;
-      width: 300px;
-      /* fits the red box in your screenshot */
-      margin: 0;
-      z-index: 3000;
-      /* above the card / tables */
-      pointer-events: auto;
-    }
-
-    /* Compact the dropzone so it reads well in a 300px panel */
-    #tab-files .attc-dropzone,
-    #tab-accord .attc-dropzone {
-      grid-template-columns: 24px 1fr;
-      /* smaller icon column */
-      gap: 10px;
-      padding: 12px 14px;
-      border-radius: 12px;
-    }
-
-    #tab-files .attc-dropzone svg,
-    #tab-accord .attc-dropzone svg {
-      width: 24px;
-      height: 24px;
-    }
-
-    #tab-files .attc-dropzone .text strong,
-    #tab-accord .attc-dropzone .text strong {
-      font-size: 1rem;
-    }
-
-    #tab-files .attc-dropzone .text span,
-    #tab-accord .attc-dropzone .text span {
-      font-size: .9rem;
-    }
-
-    #tab-files .attc-dropzone .meta,
-    #tab-accord .attc-dropzone .meta {
-      font-size: .8rem;
-    }
-
-    /* The little "Selected: filename" line stays with the floating box */
-    #tab-files .attc-file,
-    #tab-accord .attc-file {
-      margin-top: 8px;
-      font-size: 1.1rem;
-    }
-
-    /* Optional: on very small screens, tuck it tighter */
-    @media (max-width: 1200px) {
-
-      #tab-files .attc-upload,
-      #tab-accord .attc-upload {
-        right: 12px;
-        bottom: 12px;
-        width: 260px;
-      }
-    }
-
-    /* quick spinner for optimistic rows */
-    .attc-spin {
-      display: inline-block;
-      width: 14px;
-      height: 14px;
-      border: 2px solid #d7c3a6;
-      border-top-color: #ab7d4a;
-      border-radius: 50%;
-      animation: attcspin .6s linear infinite;
-      vertical-align: middle;
-      margin-right: 6px;
-    }
-
-    @keyframes attcspin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
- /* Notes input size (fixed, non-resizable) */
-#noteInput {
-  width: 100%;
-  max-width: 1310px;
-
-  height: 80px;
-  min-height: 80px;
-  max-height: 80px;
-
-  resize: none;     /* disable user resizing */
-  overflow: auto;   /* show scrollbar instead */
-  box-sizing: border-box; /* keep 80px including padding/border */
-}
-
-
-    /* ---- Put tabs back in the document flow (not floating) ---- */
-    #customerPage .tabs {
-      position: static !important;
-      top: auto !important;
-      left: auto !important;
-      transform: none !important;
-      z-index: auto !important;
-
-      /* restore original spacing */
-      padding: 0 !important;
-      background: transparent !important;
-    }
-
- body.is-customer #customerPage .wrap { margin-top: 16px !important; }
-
-    @media (max-width: 900px) {
-      #customerPage .tabs {
-        top: auto !important;
-      }
-
-      body.is-customer #customerPage .wrap {
-        margin-top: 12px !important;
-      }
-    }
+      animation: gradientShift 4s linear infinite;
+    }
+    @keyframes gradientShift { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
+    h2::after { content: ''; display: block; width: 43%; height: 4px; background: #0c65be; margin: 8px auto 0; border-radius: 20px; }
+    #loginSection { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 30px; }
+    #loginSection input { padding: 10px; font-size: 1rem; width: 300px; }
+    #loginSection button { padding: 10px 20px; font-size: 1.25rem; margin-left: 20px; background-color: #babbee; }
+    #searchSection { display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
+    #searchSection input[type="text"] { flex: 0 0 50%; max-width: 600px; padding: 10px; font-size: 1rem; }
+    #searchSection button.search-btn { padding: 20px 40px; font-size: 1.25rem; margin-left: 20px; background-color: #92e67d; }
+    .form-section { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px; justify-content: center; }
+    .form-group { display: flex; flex-direction: column; }
+    .form-group label { font-weight: bold; margin-bottom: 5px; }
+    .form-group input { padding: 10px; font-size: 1rem; width: 200px; }
+    .button-row { display: flex; align-items: center; justify-content: space-between; margin: 20px 0; }
+    .button-group { display: flex; gap: 10px; }
+    .button-group button { padding: 20px 40px; font-size: 1.25rem; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    .add-btn { background-color: #003366; }
+    .edit-btn { background-color: #3399FF; }
+    .clear-btn { background-color: #66CC66; }
+    .refresh-btn { background-color: gold; color: black; }
+    .delete-btn { background-color: red; }
+    table { margin: 0 auto; width: auto; border-collapse: collapse; background: white; }
+    table th:nth-child(3), table td:nth-child(3) { max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    table th, table td { border: 1px solid #ccc; padding: 8px; text-align: left; white-space: nowrap; }
+    table th { background-color: #4285F4; color: white; }
+    tr.selected { background-color: rgb(238,217,217); }
   </style>
 </head>
-
 <body>
   <header>
-    <img class="logo"
-      src="https://raw.githubusercontent.com/Domichico20/Best-Turizo-Insurace-Software/11806dd4d5912b98aaba1ae08428968a18b2fa8a/logo.png"
-      alt="Logo" />
+    <img src="1 logo.png" alt="Company Logo" class="logo">
+    <h2>Google Sheets Data Management Platform Developed by Ozzie</h2>
   </header>
 
-  <!-- ===== Login (unchanged) ===== -->
   <div id="loginSection">
-    <input type="text" id="appUser" placeholder="Enter Username" />
-    <input type="password" id="appPassword" placeholder="Enter Password"
-      onkeydown="if(event.key==='Enter'){event.preventDefault();checkPassword();}">
+    <input
+      type="password"
+      id="appPassword"
+      placeholder="Enter Password"
+      onkeydown="if(event.key==='Enter'){event.preventDefault();checkPassword();}"
+    >
     <button onclick="checkPassword()">Unlock</button>
   </div>
 
-  <!-- ===== List Page ===== -->
   <div id="appSection" style="display:none;">
-    <form id="searchForm" onsubmit="event.preventDefault(); searchData();">
-      <div id="searchSection">
-        <input type="text" id="searchQuery" placeholder="Search by Policy #, Insurance, Name, Phone, Email, Notes">
-        <button type="submit" class="search-btn">Search</button>
-      </div>
-    </form>
 
+<form id="searchForm" onsubmit="event.preventDefault(); searchData();">
+  <div id="searchSection">
+    <input
+      type="text"
+      id="searchQuery"
+      placeholder="Search by username, phone, or email"
+    >
+    <button type="submit" class="search-btn">
+      Search
+    </button>
+  </div>
+</form>
+
+    <div class="form-section">
+      <div class="form-group"><label for="username">Username:</label><input type="text" id="username"></div>
+      <div class="form-group"><label for="password">Password:</label><input type="text" id="password"></div>
+      <div class="form-group"><label for="email">Email:</label><input type="text" id="email"></div>
+      <div class="form-group"><label for="phone">Phone #:</label><input type="text" id="phone"></div>
+      <div class="form-group"><label for="server">Server:</label><input type="text" id="server"></div>
+      <div class="form-group"><label for="autoPay">AutoPay:</label><input type="text" id="autoPay"></div>
+      <div class="form-group"><label for="notes">Notes:</label><input type="text" id="notes"></div>
+      <input type="hidden" id="rowIndex" />
+    </div>
+    <div class="button-row">
+      <div class="button-group left"></div>
+      <div class="button-group center">
+        <button class="add-btn" onclick="addRow()">Add</button>
+        <button class="edit-btn" onclick="confirmEdit()">Edit</button>
+        <button class="clear-btn" onclick="clearForm()">Clear</button>
+        <button class="refresh-btn" onclick="loadData()">Refresh</button>
+      </div>
+      <div class="button-group right">
+        <button class="delete-btn" onclick="confirmDelete()">Delete</button>
+      </div>
+    </div>
 
     <table id="dataTable">
       <thead>
         <tr>
-          <th>Policy #</th>
-          <th>Insurer</th>
-          <th>Effective</th>
-          <th>Expiration</th>
-          <th>Status</th>
-          <th>First</th>
-          <th>Last</th>
-          <th>Address</th>
-          <th>Phone</th>
-          <th>Email</th>
-          <th>Go</th>
+          <th>Username</th><th>Password</th><th>Email</th>
+          <th>Phone</th><th>Server</th><th>AutoPay</th><th>Notes</th>
         </tr>
       </thead>
       <tbody></tbody>
     </table>
   </div>
 
-  <!-- ===== Customer Overview Page ===== -->
-  <div id="customerPage" style="display:none;">
-<div class="wrap">
-  <div class="topbar">
-    <div class="title">Customer Overview</div>
-  </div>
-
-  <div class="tabs" role="tablist">
-    <button class="tab" id="tabbtn-main" role="tab" aria-selected="false" onclick="goMainTab()">Main Page</button>
-    <button class="tab" id="tabbtn-info" role="tab" aria-controls="tab-info" aria-selected="true" onclick="switchTab('info')">Customer Info</button>
-    <button class="tab" id="tabbtn-policies" role="tab" aria-controls="tab-policies" aria-selected="false" onclick="switchTab('policies')">Policies</button>
-    <button class="tab" id="tabbtn-files" role="tab" aria-controls="tab-files" aria-selected="false" onclick="switchTab('files')">Files</button>
-    <button class="tab" id="tabbtn-accord" role="tab" aria-controls="tab-accord" aria-selected="false" onclick="switchTab('accord')">Accord</button>
-    <button class="tab" id="tabbtn-notes" role="tab" aria-controls="tab-notes" aria-selected="false" onclick="switchTab('notes')">Notes</button>
-  </div>
-
-  <div class="grid" id="custDetailsGrid"></div>
-
-      <!-- Customer Info panel -->
-      <section id="tab-info" class="tabpanel active" role="tabpanel" aria-labelledby="tabbtn-info">
-        <div class="form" id="custInfoForm">
-          <div class="fg row-3"><label>Policy #</label><input id="ci_policy"></div>
-          <div class="fg row-3"><label>Insurer</label><input id="ci_insurer"></div>
-          <div class="fg row-3"><label>Effective</label><input id="ci_effDate" type="date"></div>
-          <div class="fg row-3"><label>Expiration</label><input id="ci_expDate" type="date"></div>
-
-          <div class="fg row-3"><label>First Name</label><input id="ci_firstName"></div>
-          <div class="fg row-3"><label>Last Name</label><input id="ci_lastName"></div>
-          <div class="fg row-6"><label>Address</label><input id="ci_address"></div>
-
-          <div class="fg row-3"><label>Phone</label><input id="ci_phone"></div>
-          <div class="fg row-3"><label>Email</label><input id="ci_email" type="email"></div>
-
-          <div class="fg row-3"><label>Year</label><input id="ci_year"></div>
-          <div class="fg row-3"><label>Make</label><input id="ci_make"></div>
-          <div class="fg row-3"><label>Model</label><input id="ci_model"></div>
-          <div class="fg row-3"><label>Vin #</label><input id="ci_vin"></div>
-        </div>
-        <div class="actionbar">
-          <button class="btn primary" onclick="saveCustomerInfo()">Save Changes</button>
-        </div>
-      </section>
-
-   
-
-      <!-- Policies panel -->
-      <section id="tab-policies" class="tabpanel" role="tabpanel" aria-labelledby="tabbtn-policies">
-
-        <div class="actionbar">
-          <button class="tab pill-add" onclick="startAddPolicy()">Add Policy</button>
-          <button class="tab pill-edit" onclick="startEditPolicy()">Edit Policy</button>
-        </div>
-
-
-
-        <table class="themed-table" id="policiesTable">
-          <thead>
-            <tr>
-              <th style="width:40px;">Sel</th>
-              <th>Policy #</th>
-              <th>Carrier</th>
-              <th>Effective</th>
-              <th>Expiration</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <div class="attc-emptystate" id="policiesEmpty" style="display:none;">No policies found for this contact.</div>
-
-        <!-- Inline editor -->
-        <div id="policyEditor" style="display:none; margin-top:12px;">
-          <div class="form">
-            <div class="fg row-3"><label>Policy #</label><input id="pe_policy"></div>
-            <div class="fg row-3"><label>Insurer</label><input id="pe_insurer"></div>
-            <div class="fg row-3"><label>Effective</label><input id="pe_effDate" type="date"></div>
-            <div class="fg row-3"><label>Expiration</label><input id="pe_expDate" type="date"></div>
-            <div class="fg row-6"><label>Address</label><input id="pe_address"></div>
-            <div class="fg row-3"><label>Phone</label><input id="pe_phone"></div>
-            <div class="fg row-3"><label>Email</label><input id="pe_email" type="email"></div>
-            <div class="fg row-3"><label>First Name</label><input id="pe_firstName"></div>
-            <div class="fg row-3"><label>Last Name</label><input id="pe_lastName"></div>
-            <div class="fg row-3"><label>Year</label><input id="pe_year"></div>
-            <div class="fg row-3"><label>Make</label><input id="pe_make"></div>
-            <div class="fg row-3"><label>Model</label><input id="pe_model"></div>
-            <div class="fg row-3"><label>Vin #</label><input id="pe_vin"></div>
-          </div>
-          <div class="actionbar">
-            <button class="btn primary" id="pe_save" onclick="savePolicyEditor()">Save Policy</button>
-            <button class="btn" onclick="cancelPolicyEditor()">Cancel</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- Files -->
-      <section id="tab-files" class="tabpanel" role="tabpanel" aria-labelledby="tabbtn-files">
-        <div class="attc-upload">
-          <label for="policyUpload" class="attc-dropzone" id="policyDrop">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M19 15a4 4 0 0 0-3.8-2.99A5 5 0 0 0 6 12a4 4 0 0 0-1 7.87V20h13a3 3 0 0 0 1-5.81zM12 6v8m0 0l-3-3m3 3l3-3"
-                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-            <div class="text">
-              <strong>Upload PDF</strong>
-              <span>Drag & drop your file or click to browse</span>
-            </div>
-            <div class="meta">PDF only • up to 20MB</div>
-          </label>
-          <input id="policyUpload" class="hid-input" type="file" accept="application/pdf">
-          <div class="attc-file" id="policyFileMeta"></div>
-        </div>
-
-        <table class="themed-table" id="policyTable">
-          <thead>
-            <tr>
-              <th>File Name</th>
-              <th>Date Added</th>
-              <th>Added By</th>
-              <th>Policy #</th>
-              <th>View</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <div class="attc-emptystate" id="policyEmpty" style="display:none;">No policy forms uploaded yet.</div>
-      </section>
-
-      <!-- Accord -->
-      <section id="tab-accord" class="tabpanel" role="tabpanel" aria-labelledby="tabbtn-accord">
-        <div class="attc-upload">
-          <label for="accordUpload" class="attc-dropzone" id="accordDrop">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M19 15a4 4 0 0 0-3.8-2.99A5 5 0 0 0 6 12a4 4 0 0 0-1 7.87V20h13a3 3 0 0 0 1-5.81zM12 6v8m0 0l-3-3m3 3l3-3"
-                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-            <div class="text">
-              <strong>Upload PDF</strong>
-              <span>Drag & drop your file or click to browse</span>
-            </div>
-            <div class="meta">PDF only • up to 20MB</div>
-          </label>
-          <input id="accordUpload" class="hid-input" type="file" accept="application/pdf">
-          <div class="attc-file" id="accordFileMeta"></div>
-        </div>
-
-        <table class="themed-table" id="accordTable">
-          <thead>
-            <tr>
-              <th>File Name</th>
-              <th>Date Added</th>
-              <th>Added By</th>
-              <th>Policy #</th>
-              <th>View</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <div class="attc-emptystate" id="accordEmpty" style="display:none;">No accord forms uploaded yet.</div>
-      </section>
-
-      <!-- Notes -->
-      <section id="tab-notes" class="tabpanel" role="tabpanel" aria-labelledby="tabbtn-notes">
-        <div class="form">
-          <div class="fg row-full">
-            <textarea id="noteInput" rows="2" placeholder="Add New Note Here"></textarea>
-          </div>
-        </div>
-        <div class="actionbar">
-          <button class="btn primary" onclick="addNoteFromTab()">Add Note</button>
-        </div>
-        <h3>Notes</h3>
-        <div id="notesList" class="notes-list"></div>
-        <!-- pager removed; notes list scrolls -->
-
-      </section>
-    </div>
-  </div>
-
   <script>
-    /* ===== Config / Constants ===== */
     const ROW_LIMIT = 25;
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbyxC9XhJ-ygxv9V2PqaB26_wvNSgsPBUiZQ4e4CLafx3IT2Kn6tpKyMN0e7oHMn9IvT/exec';
-    const sheetId = '1q94KS8Dc2usWKc0h6iQvHP1sDfsPbgcybzXs4zpZANc';
-    const apiKey = 'AIzaSyAhaKX_GIaCIXBsq43J3aMvqtGtFngdzrQ';
-    const range = 'policies!A1:ZZZ'; // pull all columns, incl. Policy/Accord Forms
+    let sessionPassword = "";
+    let selectedRowIndex = null;
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzB8lRPMU0nZRSoU6CoRL_fcYstdq9pWPeZKdwuSp6O0QSsa95Oh49UnfV6uB9wt9w/exec';
+    const sheetId   = '1IR2TT4isrhET-3krSHV1BC8mE6xAhy0MEnR0h5-xBzs';
+    const apiKey    = 'AIzaSyC5rmJA1nl0LRhbGe-TsZwOSBfP97SzsHk';
+    const range     = 'data!A1:G3000';
+    let existingUsernames = [];
+    let allDataRows       = [];
+    let totalRows         = 0;
 
-    const USERS = { Edwin: 'Insurance2025', Islendy: 'Insurance2026', Penelope: 'Insurance2027' };
-
-    const PDF_ICON_SVG = `
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="PDF"><rect x="3" y="2" width="18" height="20" rx="2" fill="#e53935"/><polygon points="16,2 21,2 21,7" fill="#ffffff" opacity="0.9"/><text x="12" y="16" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="8" font-weight="700" fill="#ffffff">PDF</text></svg>`;
-    // Cache header names and per-row objects so we don't refetch on "GO"
-    let headers = [];
-    const rowCache = new Map(); // key: sheet row number, value: object keyed by header
-
-    function rowToObj(arr) {
-      const o = {};
-      headers.forEach((h, i) => (o[h] = arr[i] ?? ''));
-      return o;
-    }
-
- 
-
-    // session state
-    let sessionPassword = "", sessionUser = "", selectedRowIndex = null; // sheet row number (1-based)
-    let allDataRows = []; // [{r:[], sheetRow:n}]
-
-    // Notes pagination state
-    let notesArray = []; 
-
-    /* ===== Utilities ===== */
-    function setZoomLevel() { document.body.style.zoom = '80%'; }
-    document.addEventListener('DOMContentLoaded', setZoomLevel);
-
-    async function postToScript(params, timeoutMs = 60000) {
-      const ctrl = new AbortController();
-      const t = setTimeout(() => ctrl.abort('timeout'), timeoutMs);
-      try {
-        const res = await fetch(scriptURL, {
-          method: 'POST',
-          body: new URLSearchParams(params),
-          signal: ctrl.signal,
-        });
-        const text = await res.text();
-        if (!res.ok) throw new Error(`HTTP ${res.status}: ${text}`);
-        return text;
-      } finally {
-        clearTimeout(t);
-      }
-    }
-
-
-    window.checkPassword = function () {
-      const userEl = document.getElementById('appUser');
-      const passEl = document.getElementById('appPassword');
-      const loginEl = document.getElementById('loginSection');
-      const appEl = document.getElementById('appSection');
-
-      const u = (userEl?.value || '').trim();
-      const p = (passEl?.value || '').trim();
-
-      if (USERS[u] === p) {
-        sessionUser = u;
-        sessionPassword = p;
-        loginEl.style.display = 'none';
-        appEl.style.display = 'block';
+    function checkPassword() {
+      const pass = document.getElementById('appPassword').value;
+      if (pass === 'Google#2020') {
+        sessionPassword = pass;
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('appSection').style.display  = 'block';
         loadData();
-        setTimeout(setZoomLevel, 100);
-        return true;
+      } else {
+        alert('Incorrect password');
       }
-      alert('Incorrect username or password');
-      return false;
-    };
-
-    // Dates / status helpers
-    function parseExpDate(v) { if (!v) return null; const d = new Date(String(v).trim()); return isNaN(d.getTime()) ? null : d; }
-    function compareByExpiration(a, b) { const da = parseExpDate(a.r[3]); const db = parseExpDate(b.r[3]); if (da && db) return da - db; if (da && !db) return -1; if (!da && db) return 1; return 0; }
-    function computeStatus(exp) { const d = parseExpDate(exp); if (!d) return 'Inactive'; const today = new Date(); today.setHours(0, 0, 0, 0); return (d >= today) ? 'Active' : 'Inactive'; }
-    function statusBadge(status) { const cls = status === 'Active' ? 'active' : 'inactive'; return `<span class="badge ${cls}">${status}</span>`; }
-    // Normalize any sheet date string to "YYYY-MM-DD" for <input type="date">
-    function toYMD(v) {
-      if (!v) return '';
-      const d1 = new Date(String(v));
-      if (!isNaN(d1.getTime())) {
-        const y = d1.getFullYear();
-        const m = String(d1.getMonth() + 1).padStart(2, '0');
-        const d = String(d1.getDate()).padStart(2, '0');
-        return `${y}-${m}-${d}`;
-      }
-      const m = String(v).match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
-      if (m) {
-        const y = m[3].length === 2 ? (Number(m[3]) + 2000) : Number(m[3]);
-        return `${y}-${String(m[1]).padStart(2, '0')}-${String(m[2]).padStart(2, '0')}`;
-      }
-      return '';
     }
 
-    // helper to read a sheet cell by case/space-insensitive aliases
-    function getCell(row, ...aliases) {
-      const norm = s => String(s).toLowerCase().replace(/\s+/g, '');
-      const keys = Object.keys(row || {});
-      for (const k of keys) {
-        if (aliases.some(a => norm(k) === norm(a))) return row[k];
-      }
-      return '';
+    function formatNotes(cell) {
+      const stripped = cell.replace(/#\d+:\s*/g, '').trim();
+      const parts = stripped.split(
+        /(?=(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s\d{1,2},\s\d{4},?\s\d{2}:\d{2}\s(?:AM|PM):)/
+      );
+      return parts.map(p => p.trim()).filter(p => p).join('<br>');
     }
-
-
 
     function loadData() {
       fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`)
         .then(res => res.json())
         .then(data => {
           const rows = data.values || [];
-          headers = rows[0] || [];
-          const body = rows.slice(1).map((r, idx) => {
-            const rowNum = idx + 2;                // 1-based in sheet
-            rowCache.set(rowNum, rowToObj(r));     // cache as object for instant use later
-            return { r, sheetRow: rowNum };
-          });
-
-          body.sort(compareByExpiration);
-          allDataRows = body;
-
+          totalRows = rows.length;
+          allDataRows = rows.slice(1).reverse();
+          existingUsernames = rows.slice(1).map(r => (r[0]||'').toLowerCase());
           document.getElementById('searchQuery').value = '';
-          renderTable(body.slice(0, ROW_LIMIT));
+          const tbody = document.querySelector('#dataTable tbody');
+          tbody.innerHTML = '';
+          allDataRows.slice(0, ROW_LIMIT).forEach((row, i) => {
+            const tr = tbody.insertRow();
+            row.forEach((cell, ci) => {
+              const td = tr.insertCell();
+              td.innerHTML = ci === 6 ? formatNotes(cell) : cell;
+            });
+            tr.onclick = () => {
+              selectedRowIndex = totalRows - i;
+              document.querySelectorAll('#dataTable tr.selected')
+                .forEach(r => r.classList.remove('selected'));
+              tr.classList.add('selected');
+              ['username','password','email','phone','server','autoPay']
+                .forEach((id, idx) => document.getElementById(id).value = row[idx] || '');
+              document.getElementById('notes').value = '';
+              document.getElementById('rowIndex').value = selectedRowIndex;
+            };
+          });
         })
-        .catch(err => {
-          console.error(err);
-          alert('Could not load data. Check API key, sheetId, and sharing.');
-        });
-    }
-    // One listener for selection and "Go" actions
-    document.addEventListener('click', (e) => {
-      const go = e.target.closest('button.go-btn');
-      if (go) {
-        const rn = parseInt(go.dataset.row, 10);
-        openCustomerPage('info', false, rn);
-        return;
-      }
-      const row = e.target.closest('#dataTable tbody tr');
-      if (row) {
-        selectedRowIndex = parseInt(row.dataset.row, 10);
-        const tbody = document.querySelector('#dataTable tbody');
-        tbody.querySelectorAll('tr.selected').forEach(el => el.classList.remove('selected'));
-        row.classList.add('selected');
-      }
-    });
-
-
-    function renderTable(rows) {
-      const tbody = document.querySelector('#dataTable tbody');
-      let html = '';
-      for (const o of rows) {
-        const r = o.r;
-        const status = computeStatus(r[3]);
-        html += `
-      <tr data-row="${o.sheetRow}">
-        <td>${r[0] ?? ''}</td>
-        <td>${r[1] ?? ''}</td>
-        <td>${r[2] ?? ''}</td>
-        <td>${r[3] ?? ''}</td>
-        <td>${statusBadge(status)}</td>
-        <td>${r[4] ?? ''}</td>
-        <td>${r[5] ?? ''}</td>
-        <td>${r[6] ?? ''}</td>
-        <td>${r[7] ?? ''}</td>
-        <td>${r[8] ?? ''}</td>
-        <td><button class="go-btn" data-row="${o.sheetRow}">Go</button></td>
-      </tr>`;
-      }
-      tbody.innerHTML = html;
+        .catch(console.error);
     }
 
+    function normalizePhone(s) {
+      const d = s.replace(/\D/g,'');
+      if (d.length === 10) return d.replace(/(\d{3})(\d{3})(\d{4})/,'($1) $2-$3');
+      if (d.length === 11 && d.startsWith('1'))
+        return d.replace(/^1(\d{3})(\d{3})(\d{4})/,'1 ($1) $2-$3');
+      return s;
+    }
 
     function searchData() {
       const q = document.getElementById('searchQuery').value.toLowerCase().trim();
-      if (!q) { renderTable(allDataRows.slice(0, ROW_LIMIT)); return; }
-
-      const filtered = allDataRows.filter(o => (o.r.join(' ') || '').toLowerCase().includes(q));
-      filtered.sort(compareByExpiration);
-      renderTable(filtered);
-    }
-
-    /* ===== Customer Overview: state ===== */
-    let custRowNum = null, custRowObj = null; // current row in overview
-    let peMode = 'add', peEditRow = null;     // policies editor state
-
-    function openCustomerPage(openTab = 'info', addMode = false, explicitRow = null) {
-      const rowNum = explicitRow ?? selectedRowIndex;
-      if (!rowNum) { alert('Select a row first.'); return; }
-      custRowNum = rowNum;
-
-      // Use cached data immediately (no network)
-      custRowObj = rowCache.get(rowNum) || {};
-      renderCustomerHeader(custRowObj);
-      fillCustomerInfo(custRowObj);
-
-      // Related policies can be computed from the already loaded table
-      renderPoliciesOfContact();
-
-      // Show the page right away
-      showPage('customer');
-      switchTab(addMode ? 'policies' : openTab);
-      if (addMode) startAddPolicy(true);
-
-      // Show notes immediately; defer only the heavy attachments
-      rebuildNotes(custRowObj['Notes'] || custRowObj['Note'] || custRowObj['Notes Log'] || '');
-
-      // If attachments are present in the cached row, render now.
-      if (custRowObj['Policy Forms'] || custRowObj['Accord Forms']) {
-        renderAttachmentTable('policy', custRowObj['Policy Forms'] || '[]');
-        renderAttachmentTable('accord', custRowObj['Accord Forms'] || '[]');
-      } else {
-        // Otherwise fetch the full row (includes attachment cells) and render.
-        postToScript({ action: 'getRow', password: sessionPassword, row: custRowNum })
-          .then(txt => {
-            const p = JSON.parse(txt);
-            if (p && p.ok) {
-              custRowObj = p.row; // keep the richer row around
-            }
-          })
-          .finally(() => {
-            renderAttachmentTable('policy', custRowObj['Policy Forms'] || '[]');
-            renderAttachmentTable('accord', custRowObj['Accord Forms'] || '[]');
-          });
-      }
-    }
-
-
-
-    function closeCustomerPage() { showPage('app'); setTimeout(setZoomLevel, 50); }
-    function goMainTab() { closeCustomerPage(); }   // used by the "Main Page" tab
-
-    function showPage(which) {
-      document.getElementById('appSection').style.display = (which === 'app') ? 'block' : 'none';
-      document.getElementById('customerPage').style.display = (which === 'customer') ? 'block' : 'none';
-
-      // Show the logo only on Login + Main (list) pages
-      document.body.classList.toggle('is-customer', which === 'customer');
-    }
-
-    function switchTab(name) {
-      ['info', 'policies', 'files', 'accord', 'notes'].forEach(n => {
-        const el = document.getElementById(`tab-${n}`);
-        const btn = document.getElementById(`tabbtn-${n}`);
-        if (el) el.classList.toggle('active', n === name);
-        if (btn) btn.setAttribute('aria-selected', n === name ? 'true' : 'false');
-      });
-    }
-
-
-
-    // header summary grid
-    function renderCustomerHeader(row) {
-      const grid = document.getElementById('custDetailsGrid');
-
-  
-      const fields = [
-        ['Policy #', () => getCell(row, 'Policy #')],
-        ['Insurer', () => getCell(row, 'Insurer')],
-        ['Effective', () => getCell(row, 'Effective Date', 'Effective')],
-        ['Expiration', () => getCell(row, 'Expiration Date', 'Expiration')],
-        ['First', () => getCell(row, 'First Name', 'First')],
-        ['Last', () => getCell(row, 'Last Name', 'Last')],
-        ['Address', () => getCell(row, 'Address')],
-        ['Phone', () => getCell(row, 'Phone')],
-        ['Email', () => getCell(row, 'Email')]
-      ];
-
-
-      grid.innerHTML = '';
-      fields.forEach(([label, getter]) => {
-        const card = document.createElement('div');
-        card.className = 'card';
-
-        const lab = document.createElement('div');
-        lab.className = 'label';
-        lab.textContent = label;
-
-        const val = document.createElement('div');
-        val.className = 'value';
-        val.textContent = getter();
-
-        card.append(lab, val);
-        grid.append(card);
-      });
-    }
-
-    /* ===== Customer Info ===== */
-    function fillCustomerInfo(row) {
-      const g = id => document.getElementById(id);
-      g('ci_policy').value = row['Policy #'] || '';
-      g('ci_insurer').value = row['Insurer'] || '';
-      g('ci_effDate').value = toYMD(getCell(row, 'Effective Date', 'Effective'));
-      g('ci_expDate').value = toYMD(getCell(row, 'Expiration Date', 'Expiration'));
-      g('ci_firstName').value = row['First Name'] || row['First'] || '';
-      g('ci_lastName').value = row['Last Name'] || row['Last'] || '';
-      g('ci_address').value = row['Address'] || '';
-      g('ci_phone').value = row['Phone'] || '';
-      g('ci_email').value = row['Email'] || '';
-      g('ci_year').value = row['Year'] || '';
-      g('ci_make').value = row['Make'] || '';
-      g('ci_model').value = row['Model'] || '';
-      g('ci_vin').value = row['Vin #'] || '';
-    }
-
-    function saveCustomerInfo() {
-      if (!custRowNum) { alert('No row selected'); return; }
-      const g = id => document.getElementById(id).value.trim();
-      postToScript({
-        action: 'edit', password: sessionPassword, row: custRowNum,
-        policy: g('ci_policy'), insurer: g('ci_insurer'),
-        effDate: g('ci_effDate'), expDate: g('ci_expDate'),
-        firstName: g('ci_firstName'), lastName: g('ci_lastName'),
-        address: g('ci_address'), phone: g('ci_phone'), email: g('ci_email'),
-        year: g('ci_year'), make: g('ci_make'), model: g('ci_model'), vin: g('ci_vin'),
-        notes: custRowObj ? (custRowObj['Notes'] || '') : ''
-      }).then(() => {
-        alert('Saved');
-        loadData();
-        openCustomerPage('info', false, custRowNum);
-      }).catch(err => alert(err.message));
-    }
-
-    /* ===== Policies for the same contact ===== */
-    function renderPoliciesOfContact() {
-      const tbody = document.querySelector('#policiesTable tbody');
-      const empty = document.getElementById('policiesEmpty');
+      const tbody = document.querySelector('#dataTable tbody');
       tbody.innerHTML = '';
-
-      if (!custRowObj) { empty.style.display = 'block'; return; }
-
-      const first = (custRowObj['First Name'] || custRowObj['First'] || '').toLowerCase();
-      const last = (custRowObj['Last Name'] || custRowObj['Last'] || '').toLowerCase();
-
-      const phone = (custRowObj['Phone'] || '').replace(/\D/g, '');
-
-      const matches = allDataRows.filter(o => {
-        const r = o.r;
-        const f = (r[4] || '').toLowerCase();
-        const l = (r[5] || '').toLowerCase();
-        const p = (r[7] || '').replace(/\D/g, '');
-        return (f === first && l === last) || (p && phone && p === phone);
-      });
-
-      if (!matches.length) { empty.style.display = 'block'; return; }
-      empty.style.display = 'none';
-
-      matches.forEach(o => {
-        const tr = document.createElement('tr');
-        const selTd = document.createElement('td');
-        selTd.innerHTML = `<input type="radio" name="polsel" value="${o.sheetRow}">`;
-        tr.appendChild(selTd);
-
-        const st = computeStatus(o.r[3]);
-        [o.r[0] || '', o.r[1] || '', o.r[2] || '', o.r[3] || '', statusBadge(st)].forEach(v => {
-          const td = document.createElement('td'); td.innerHTML = v; tr.appendChild(td);
-        });
-        tbody.appendChild(tr);
-      });
-    }
-
-    function startAddPolicy(fromTop = false) {
-      peMode = 'add'; peEditRow = null;
-      document.getElementById('policyEditor').style.display = 'block';
-      const r = custRowObj || {}; const g = id => document.getElementById(id);
-      g('pe_policy').value = ''; g('pe_insurer').value = r['Insurer'] || '';
-      g('pe_effDate').value = ''; g('pe_expDate').value = '';
-      g('pe_address').value = r['Address'] || '';
-      g('pe_phone').value = r['Phone'] || ''; g('pe_email').value = r['Email'] || '';
-      g('pe_firstName').value = r['First Name'] || r['First'] || ''; g('pe_lastName').value = r['Last Name'] || r['Last'] || '';
-      g('pe_year').value = r['Year'] || ''; g('pe_make').value = r['Make'] || '';
-      g('pe_model').value = r['Model'] || ''; g('pe_vin').value = r['Vin #'] || '';
-      if (!fromTop) switchTab('policies');
-    }
-
-    function startEditPolicy() {
-      const sel = document.querySelector('input[name="polsel"]:checked');
-      if (!sel) { alert('Select a policy in the list'); return; }
-      peMode = 'edit'; peEditRow = parseInt(sel.value, 10);
-      document.getElementById('policyEditor').style.display = 'block';
-      postToScript({ action: 'getRow', password: sessionPassword, row: peEditRow })
-        .then(txt => {
-          const p = JSON.parse(txt); if (!p.ok) throw new Error('Row not found');
-          const r = p.row; const g = id => document.getElementById(id);
-          g('pe_policy').value = r['Policy #'] || ''; g('pe_insurer').value = r['Insurer'] || '';
-          g('pe_effDate').value = toYMD(getCell(r, 'Effective Date', 'Effective'));
-          g('pe_expDate').value = toYMD(getCell(r, 'Expiration Date', 'Expiration'));
-
-          g('pe_address').value = r['Address'] || ''; g('pe_phone').value = r['Phone'] || '';
-          g('pe_email').value = r['Email'] || '';
-          g('pe_firstName').value = r['First Name'] || r['First'] || '';
-          g('pe_lastName').value = r['Last Name'] || r['Last'] || '';
-          g('pe_year').value = r['Year'] || '';
-          g('pe_make').value = r['Make'] || '';
-          g('pe_model').value = r['Model'] || '';
-          g('pe_vin').value = r['Vin #'] || '';
-        })
-        .catch(err => alert(err.message));
-    }
-
-    function cancelPolicyEditor() { document.getElementById('policyEditor').style.display = 'none'; }
-
-    function savePolicyEditor() {
-      const g = id => document.getElementById(id).value.trim();
-      if (peMode === 'add') {
-        if (!g('pe_policy')) { alert('Policy # is required'); return; }
-        postToScript({
-          action: 'add', password: sessionPassword,
-          policy: g('pe_policy'), insurer: g('pe_insurer'),
-          effDate: g('pe_effDate'), expDate: g('pe_expDate'),
-          firstName: g('pe_firstName'), lastName: g('pe_lastName'),
-          address: g('pe_address'), phone: g('pe_phone'), email: g('pe_email'),
-          year: g('pe_year'), make: g('pe_make'), model: g('pe_model'), vin: g('pe_vin'),
-          notes: ''
-        }).then(() => {
-          alert('Policy added');
-          document.getElementById('policyEditor').style.display = 'none';
-          loadData(); renderPoliciesOfContact();
-        }).catch(err => alert(err.message));
-      } else {
-        postToScript({
-          action: 'edit', password: sessionPassword, row: peEditRow,
-          policy: g('pe_policy'), insurer: g('pe_insurer'),
-          effDate: g('pe_effDate'), expDate: g('pe_expDate'),
-          firstName: g('pe_firstName'), lastName: g('pe_lastName'),
-          address: g('pe_address'), phone: g('pe_phone'), email: g('pe_email'),
-          year: g('pe_year'), make: g('pe_make'), model: g('pe_model'), vin: g('pe_vin'),
-          notes: ''
-        }).then(() => {
-          alert('Policy updated');
-          document.getElementById('policyEditor').style.display = 'none';
-          loadData(); renderPoliciesOfContact();
-        }).catch(err => alert(err.message));
-      }
-    }
-
-    /* ===== Files / Accord ===== */
-    function renderAttachmentTable(kind, jsonCell) {
-      const isPolicy = (kind === 'policy');
-      const tbody = document.getElementById(isPolicy ? 'policyTable' : 'accordTable').querySelector('tbody');
-      const empty = document.getElementById(isPolicy ? 'policyEmpty' : 'accordEmpty');
-      let items = []; try { items = jsonCell ? JSON.parse(jsonCell) : []; } catch (e) { items = []; }
-      tbody.innerHTML = ''; if (!items.length) { empty.style.display = 'block'; return; }
-      empty.style.display = 'none';
-      items.forEach(meta => {
-        const tr = document.createElement('tr');
-        ['name', 'addedAt', 'addedBy', 'policyNumber'].forEach(key => {
-          const td = document.createElement('td'); td.textContent = meta[key] || ''; tr.appendChild(td);
-        });
-        const viewTd = document.createElement('td');
-        const url = typeof meta.url === 'string' ? meta.url : '';
-        if (url) {
-          const a = document.createElement('a');
-          a.href = url; a.target = '_blank'; a.rel = 'noopener'; a.className = 'attc-icon'; a.innerHTML = PDF_ICON_SVG;
-          viewTd.appendChild(a);
+      if (!q) { loadData(); return; }
+      allDataRows.forEach((row, i) => {
+        if (row.join(' ').toLowerCase().includes(q)) {
+          const tr = tbody.insertRow();
+          row.forEach((cell, ci) => {
+            const td = tr.insertCell();
+            td.innerHTML = ci === 6 ? formatNotes(cell) : cell;
+          });
+          tr.onclick = () => {
+            selectedRowIndex = totalRows - i;
+            document.querySelectorAll('#dataTable tr.selected')
+              .forEach(r => r.classList.remove('selected'));
+            tr.classList.add('selected');
+            ['username','password','email','phone','server','autoPay']
+              .forEach((id, idx) => document.getElementById(id).value = row[idx] || '');
+            document.getElementById('notes').value = '';
+            document.getElementById('rowIndex').value = selectedRowIndex;
+          };
         }
-        tr.appendChild(viewTd);
-        tbody.appendChild(tr);
       });
     }
 
-    function fileToBase64(file) {
-      return new Promise((resolve, reject) => {
-        const fr = new FileReader();
-        fr.onload = () => {
-          const s = String(fr.result || '');
-          const i = s.indexOf(',');
-          resolve(i >= 0 ? s.slice(i + 1) : s);
-        };
-        fr.onerror = () => reject(fr.error || new Error('File read failed'));
-        fr.readAsDataURL(file);
-      });
+    function confirmDelete() {
+      if (selectedRowIndex === null) { alert('Select a row first.'); return; }
+      if (!confirm('Delete selected row?')) return;
+      deleteRow();
+    }
+    function deleteRow() {
+      fetch(scriptURL, {
+        method: 'POST',
+        body: new URLSearchParams({ action:'delete', password:sessionPassword, row:selectedRowIndex })
+      })
+      .then(res => res.text())
+      .then(msg => { alert(msg); selectedRowIndex = null; loadData(); })
+      .catch(err => alert('Delete failed: ' + err));
     }
 
-
-    // Insert an optimistic "uploading..." row and return a handle we can replace
-    function addOptimisticRow(kind, meta) {
-      const isPolicy = (kind === 'policy');
-      const table = document.getElementById(isPolicy ? 'policyTable' : 'accordTable');
-      const tbody = table.querySelector('tbody');
-      document.getElementById(isPolicy ? 'policyEmpty' : 'accordEmpty').style.display = 'none';
-
-      const tr = document.createElement('tr');
-      tr.dataset.optimistic = '1';
-      const cells = [
-        `${meta.name} (pending)`,
-        meta.addedAt,
-        meta.addedBy,
-        meta.policyNumber,
-        `<span class="attc-spin"></span>Uploading…`
-      ];
-      cells.forEach(html => {
-        const td = document.createElement('td');
-        td.innerHTML = html;
-        tr.appendChild(td);
-      });
-      // Put new item on top for snappy feedback
-      tbody.insertBefore(tr, tbody.firstChild || null);
-      return tr;
+    function confirmEdit() {
+      if (selectedRowIndex === null) { alert('Select a row first!'); return; }
+      if (!confirm('Save changes to this row?')) return;
+      editRow();
     }
 
-    function replaceOptimisticWithReal(kind, optimisticTr, items) {
-      const isPolicy = (kind === 'policy');
-      // Only re-render the target table (faster than drawing both)
-      renderAttachmentTable(kind, JSON.stringify(items || []));
-      if (optimisticTr && optimisticTr.parentNode) {
-        optimisticTr.remove(); // already re-rendered list includes the real row
+    function editRow() {
+      function gi(id){ return document.getElementById(id).value.trim(); }
+      const rawNew = gi('notes');     // now optional
+      const tr = document.querySelector('#dataTable tr.selected');
+      if (!tr) { alert('Please select a row first.'); return; }
+
+      // grab existing notes
+      const existing = tr.cells[6].textContent
+        .replace(/#\d+:\s*/g,'')
+        .split('\n').map(l=>l.trim()).filter(l=>l).join('\n');
+
+      // build combined notes only if user entered one
+      let combined = existing;
+      if (rawNew) {
+        const ts = new Date().toLocaleString('en-US',{
+          timeZone:'America/New_York',
+          month:'short',day:'numeric',year:'numeric',
+          hour:'2-digit',minute:'2-digit'
+        });
+        combined = `${ts}: ${rawNew}` + (existing ? `\n${existing}` : '');
       }
+
+      const params = new URLSearchParams({
+        action:'edit',
+        password:sessionPassword,
+        row:selectedRowIndex,
+        username:gi('username'),
+        passwordField:gi('password'),
+        email:gi('email'),
+        phone:normalizePhone(gi('phone')),
+        server:gi('server'),
+        autoPay:gi('autoPay'),
+        notes:combined
+      });
+
+      fetch(scriptURL, { method:'POST', body:params })
+        .then(r => r.text())
+        .then(msg => { alert(msg); loadData(); })
+        .catch(err => alert('Edit failed: ' + err));
     }
 
-    // NEW: much faster handler with optimistic UI + chunked encoding
-    async function handleAttachmentUpload(kind) {
-      if (!custRowNum) { alert('Open a customer first'); return; }
-      const input = document.getElementById(kind === 'policy' ? 'policyUpload' : 'accordUpload');
-      const metaBox = document.getElementById(kind === 'policy' ? 'policyFileMeta' : 'accordFileMeta');
-      const file = input.files && input.files[0];
-      if (!file) return;
-      if (file.type !== 'application/pdf') { alert('Please choose a PDF.'); input.value = ''; return; }
-
-      // Show immediate feedback in the table
-      const quickMeta = {
-        name: file.name,
-        addedAt: new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }),
-        addedBy: sessionUser || '',
-        policyNumber: (custRowObj && custRowObj['Policy #']) || ''
+    function addRow() {
+      function gi(id){ return document.getElementById(id).value.trim(); }
+      const username = gi('username');
+      if (existingUsernames.includes(username.toLowerCase())) { alert('Username already exists'); return; }
+      const ts = new Date().toLocaleString('en-US',{
+        timeZone:'America/New_York',
+        month:'short',day:'numeric',year:'numeric',
+        hour:'2-digit',minute:'2-digit'
+      });
+      const notesInput = gi('notes');
+      const formattedNotes = notesInput ? `${ts}: ${notesInput}` : '';
+      const data = {
+        action:'add',
+        password:sessionPassword,
+        username:username,
+        passwordField:gi('password'),
+        email:gi('email'),
+        phone:normalizePhone(gi('phone')),
+        server:gi('server'),
+        autoPay:gi('autoPay'),
+        notes:formattedNotes
       };
-      const optimisticTr = addOptimisticRow(kind, quickMeta);
-      metaBox.textContent = `Uploading ${file.name}…`;
-
-      try {
-        const b64 = await fileToBase64(file);
-
-
-        // POST only once and only re-render the target table
-        const text = await postToScript({
-          action: 'uploadAttachment',
-          password: sessionPassword,
-          row: custRowNum,
-          policyNumber: quickMeta.policyNumber,
-          kind,
-          fileName: file.name,
-          fileB64: b64,
-          addedBy: sessionUser
-        });
-
-        const resp = JSON.parse(text);
-        if (!resp || !resp.ok) throw new Error(resp && resp.error ? resp.error : 'Upload failed');
-
-        // Update our local cache so we don't need an extra fetch later
-        if (!custRowObj) custRowObj = {};
-        if (kind === 'policy') {
-          custRowObj['Policy Forms'] = JSON.stringify(resp.policyForms || []);
-          replaceOptimisticWithReal('policy', optimisticTr, resp.policyForms);
-        } else {
-          custRowObj['Accord Forms'] = JSON.stringify(resp.accordForms || []);
-          replaceOptimisticWithReal('accord', optimisticTr, resp.accordForms);
-        }
-
-        metaBox.textContent = `Uploaded ${file.name}`;
-      } catch (err) {
-        console.error(err);
-        metaBox.textContent = '';
-        alert(err.message || 'Upload failed');
-        // Clean up the optimistic row on error
-        if (optimisticTr && optimisticTr.parentNode) optimisticTr.remove();
-      } finally {
-        input.value = '';
-      }
+      fetch(scriptURL, { method:'POST', body:new URLSearchParams(data) })
+        .then(r => r.text())
+        .then(msg => { alert(msg); clearForm(); loadData(); })
+        .catch(err => { console.error(err); alert('Error saving row.'); });
     }
 
-    /* ===== Notes Tab (latest 3 + pagination) ===== */
-    function parseNotesToArray(cell = '') {
-      const stripped = String(cell).replace(/#\d+:\s*/g, '').trim();
-      if (!stripped) return [];
-      return stripped.split(/(?=User:\s)/g).map(s => s.trim()).filter(Boolean);
+    function clearForm() {
+      ['username','password','email','phone','server','autoPay','notes','searchQuery']
+        .forEach(id => { const e = document.getElementById(id); if (e) e.value = ''; });
+      document.querySelectorAll('#dataTable tr.selected').forEach(r => r.classList.remove('selected'));
+      selectedRowIndex = null;
     }
-    function rebuildNotes(cell) { notesArray = parseNotesToArray(cell); notesPage = 1; renderNotesPage(); }
-
-    function renderNotesPage() {
-      const list = document.getElementById('notesList');
-      list.innerHTML = '';
-      if (!notesArray.length) {
-        list.innerHTML = '<div class="note-card">No notes yet.</div>';
-        return;
-      }
-      // newest first (your notes are stored newest-first already)
-      notesArray.forEach(raw => {
-        const card = document.createElement('div');
-        card.className = 'note-card';
-        const m = raw.match(/^User:\s([^—]+)\s—\s([^—]+)\s—\s([\s\S]*)$/);
-        if (m) {
-          const meta = document.createElement('div');
-          meta.className = 'note-meta';
-          meta.textContent = `${m[1].trim()} • ${m[2].trim()}`;
-          const text = document.createElement('div');
-          text.className = 'note-text';
-          text.textContent = m[3].trim();
-          card.append(meta, text);
-        } else {
-          card.textContent = raw;
-        }
-        list.appendChild(card);
-      });
-      // ensure we’re at the top each time we rebuild
-      list.scrollTop = 0;
-    }
-
-
-    function addNoteFromTab() {
-      if (!custRowNum) { alert('Open a customer first'); return; }
-      const raw = (document.getElementById('noteInput').value || '').trim();
-      if (!raw) { alert('Type a note first'); return; }
-
-      const existing = ((custRowObj && (custRowObj['Notes'] || custRowObj['Note'] || custRowObj['Notes Log'] || '')) || '')
-        .replace(/#\d+:\s*/g, '').trim();
-      const ts = new Date().toLocaleString('en-US', {
-        timeZone: 'America/New_York', month: 'short', day: 'numeric', year: 'numeric',
-        hour: '2-digit', minute: '2-digit'
-      });
-      const combined = `User: ${sessionUser} — ${ts} — ${raw}` + (existing ? `\n${existing}` : '');
-
-      // Instant UI update
-      custRowObj = custRowObj || {};
-      custRowObj['Notes'] = combined;
-      document.getElementById('noteInput').value = '';
-      rebuildNotes(combined);
-
-      // Persist with a single call
-      postToScript({
-        action: 'edit', password: sessionPassword, row: custRowNum,
-        policy: custRowObj['Policy #'] || '', insurer: custRowObj['Insurer'] || '',
-        effDate: custRowObj['Effective Date'] || custRowObj['Effective'] || '',
-        expDate: custRowObj['Expiration Date'] || custRowObj['Expiration'] || '',
-        firstName: custRowObj['First Name'] || custRowObj['First'] || '',
-        lastName: custRowObj['Last Name'] || custRowObj['Last'] || '',
-        address: custRowObj['Address'] || '', phone: custRowObj['Phone'] || '',
-        email: custRowObj['Email'] || '', year: custRowObj['Year'] || '',
-        make: custRowObj['Make'] || '', model: custRowObj['Model'] || '',
-        vin: custRowObj['Vin #'] || '', notes: combined
-      }).catch(err => alert(err.message));
-    }
-    // ---- Drop-zone wiring: click + drag&drop -> handleAttachmentUpload(kind)
-    function initDropZone(kind) {
-      const dz = document.getElementById(kind + 'Drop');
-      const input = document.getElementById(kind + 'Upload');
-      const meta = document.getElementById(kind + 'FileMeta');
-
-      if (!dz || !input) return;
-
-      // When user picks a file via the dialog
-      input.addEventListener('change', () => {
-        const f = input.files && input.files[0];
-        meta.innerHTML = f ? `Selected: <span class="name">${f.name}</span>` : '';
-        if (f) handleAttachmentUpload(kind);
-      });
-
-      // Drag & drop visuals
-      ['dragenter', 'dragover'].forEach(ev => {
-        dz.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); dz.classList.add('dragover'); });
-      });
-      ['dragleave', 'drop'].forEach(ev => {
-        dz.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); dz.classList.remove('dragover'); });
-      });
-
-      // Handle a dropped file
-      dz.addEventListener('drop', e => {
-        const file = e.dataTransfer?.files?.[0];
-        if (!file) return;
-        if (file.type !== 'application/pdf') { alert('Please choose a PDF.'); return; }
-
-        // Put dropped file into the hidden input so your existing uploader runs
-        const dt = new DataTransfer();
-        dt.items.add(file);
-        input.files = dt.files;
-
-        meta.innerHTML = `Selected: <span class="name">${file.name}</span>`;
-        handleAttachmentUpload(kind);
-      });
-    }
-
-    // Initialize both uploaders when the page is ready
-    document.addEventListener('DOMContentLoaded', () => {
-      initDropZone('policy');
-      initDropZone('accord');
-    });
-
   </script>
 </body>
-
 </html>
+
+
+
+
+
+
+
