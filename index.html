@@ -194,75 +194,40 @@
     }
 
     .search-btn {
-      font-size: 1.6rem;
-      padding: 20px 34px;
-      border-radius: 14px;
-      color: #fff;
-      border: 0;
-      cursor: pointer;
-      background: linear-gradient(90deg,
-          #9c4219 0%,
-          #a54a1c 1.5%,
-          #b05220 3%,
-          #bb5a24 4.5%,
-          #c56328 6%,
-          #cf6b2c 7.5%,
-          #d87331 9%,
-          #e17c35 10.5%,
-          #e9853a 12%,
-          #f08e3f 13.5%,
-          #f49747 15%,
-          #f7a151 16.5%,
-          #f9ab5c 18%,
-          #fbb468 19.5%,
-          #fcbf75 21%,
-          #f8c985 22.5%,
-          #f1d394 24%,
-          #e6dc9f 26%,
-          #cfdb8f 28%,
-          #b4dd8d 30%,
-          #9be792 32%,
-          #8debab 34%,
-          #71f5c0 36%,
-          #76f4d9 38%,
-          #5deee8 40%,
-          #45e2f1 42%,
-          #3bd2f7 44%,
-          #3bbff7 46%,
-          #49a9f5 48%,
-          #5f90f4 50%,
-          #736ff2 52%,
-          #8055ef 54%,
-          #8b3fee 56%,
-          #9632ea 58%,
-          #a12de2 60%,
-          #ab31d6 62%,
-          #b33ac7 64%,
-          #b946b8 66%,
-          #bd54a7 68%,
-          #bf6396 70%,
-          #bf7486 72%,
-          #bc846f 74%,
-          #b7935a 76%,
-          #b1a148 78%,
-          #a8ad3c 80%,
-          #9fb736 82%,
-          #95bf37 84%,
-          #88c53e 86%,
-          #7acc4c 88%,
-          #6bd05f 90%,
-          #62c563 91.5%,
-          #5bb965 93%,
-          #56ad65 94.5%,
-          #529f63 96%,
-          #5c8f5b 97%,
-          #757d4e 98%,
-          #9a673d 99%,
-          #9c4219 100%);
-      background-size: 800% 100%;
-      animation: gradientShift 20s infinite linear;
-      box-shadow: 0 6px 20px rgba(156, 66, 25, .4);
-    }
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 25px 40px;
+            border-radius: 18px;
+            color: #fff;
+            border: 0;
+            cursor: pointer;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: linear-gradient(90deg, 
+                #FF0000, #FF2400, #FF4900, #FF6D00, #FF9200,
+                #FFB600, #FFDB00, #FFFF00, #E6FF00, #CCFF00,
+                #B3FF00, #99FF00, #80FF00, #66FF00, #4DFF00,
+                #33FF00, #1AFF00, #00FF00, #00FF1A, #00FF33,
+                #00FF4D, #00FF66, #00FF80, #00FF99, #00FFB3,
+                #00FFCC, #00FFE6, #00FFFF, #00E6FF, #00CCFF,
+                #00B3FF, #0099FF, #0080FF, #0066FF, #004DFF,
+                #0033FF, #001AFF, #0000FF, #1A00FF, #3300FF,
+                #4D00FF, #6600FF, #8000FF, #9900FF, #B300FF,
+                #CC00FF, #E600FF, #FF00FF, #FF00E6, #FF00CC,
+                #FF00B3, #FF0099, #FF0080, #FF0066, #FF004D,
+                #FF0033, #FF001A, #FF0000);
+            background-size: 1200% 100%;
+            animation: gradientShift 16s infinite linear, pulseGlow 4s infinite alternate;
+            box-shadow: 
+                0 0 20px rgba(255, 100, 255, 0.7),
+                0 0 40px rgba(100, 200, 255, 0.5),
+                0 0 60px rgba(255, 255, 100, 0.3),
+                0 10px 30px rgba(0, 0, 0, 0.4);
+        }
 
 
     .search-btn:hover {
@@ -353,6 +318,23 @@
     }
 
 
+/* Hide specific inputs in the Customer Info form */
+#tab-info #custInfoForm .fg:has(#ci_policy),
+#tab-info #custInfoForm .fg:has(#ci_insurer),
+#tab-info #custInfoForm .fg:has(#ci_effDate),
+#tab-info #custInfoForm .fg:has(#ci_expDate),
+#tab-info #custInfoForm .fg:has(#ci_year),
+#tab-info #custInfoForm .fg:has(#ci_make),
+#tab-info #custInfoForm .fg:has(#ci_model),
+#tab-info #custInfoForm .fg:has(#ci_vin) {
+  display: none;
+}
+
+/* Hide the first 4 summary cards ONLY on the Customer Info tab */
+#customerPage.info-active #custDetailsGrid .card:nth-child(-n+4) {
+  display: none;
+}
+
 
 
     #dataTable tbody tr:nth-child(odd) {
@@ -367,6 +349,13 @@
       background: #e8f0ff !important;
       box-shadow: inset 0 0 0 2px rgba(59, 130, 246, .35);
     }
+
+    /* Selected/highlighted row in Policies table */
+    .themed-table tr.selected {
+      background: #e8f0ff !important;
+      box-shadow: inset 0 0 0 2px rgba(59, 130, 246, .35);
+    }
+
 
     /* Status pill + Go button */
     .badge {
@@ -687,32 +676,36 @@
 
 
     /* Make date inputs in the policy editor ~2× larger */
-/* Make date inputs in the policy editor ~1× (half of previous) */
-#policyEditor input[type="date"] {
-  font-size: 0.8rem;
-  padding: 8px 7px;
-  height: 29px;
-}
-#policyEditor input[type="date"]::-webkit-calendar-picker-indicator {
-  transform: scale(0.9);
-}
-#policyEditor input::-webkit-datetime-edit {
-  font-size: 0.7rem;
-}
+    /* Make date inputs in the policy editor ~1× (half of previous) */
+    #policyEditor input[type="date"] {
+      font-size: 0.8rem;
+      padding: 8px 7px;
+      height: 29px;
+    }
 
-/* Bigger popup calendar (Flatpickr) */
-.flatpickr-calendar {
-  transform: scale(1.8);
-  transform-origin: top left;
-  z-index: 99999;
-}
-.flatpickr-day {
-  width: 4.1rem;
-  height: 4.1rem;
-  line-height: 2.1rem;
-  font-size: 1.1rem;
-}
-/* Tables inside customer page */
+    #policyEditor input[type="date"]::-webkit-calendar-picker-indicator {
+      transform: scale(0.9);
+    }
+
+    #policyEditor input::-webkit-datetime-edit {
+      font-size: 0.7rem;
+    }
+
+    /* Bigger popup calendar (Flatpickr) */
+    .flatpickr-calendar {
+      transform: scale(1.8);
+      transform-origin: top left;
+      z-index: 99999;
+    }
+
+    .flatpickr-day {
+      width: 4.1rem;
+      height: 4.1rem;
+      line-height: 2.1rem;
+      font-size: 1.1rem;
+    }
+
+    /* Tables inside customer page */
 
 
     /* Tables inside customer page */
@@ -795,27 +788,36 @@
       padding-right: 8px;
     }
 
-/* 🔴 CRITICAL ALERT - Dynamic & Attention-Grabbing */
-.note-entry.critical {
-    background: linear-gradient(145deg, #d93025, #b0251d, #8a1812, #7c120c); /* Subtle gradient for depth */
-    color: #fff;
-    font-size: 1.5em;
-    font-weight: 900; /* Even bolder weight (900 is the strongest) */
-    border-radius: 10px;
-    padding: 10px 16px; /* Slightly more padding for better presence */
-    display: inline-block;
-    border: 2px solid #ff4d4d; /* Bright border to make it "pop" */
-    box-shadow: 0 4px 8px rgba(217, 48, 37, 0.4); /* Soft shadow for depth */
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Improves text readability on background */
-    transition: all 0.3s ease; /* Smooth transition for hover effects */
-}
+    /* 🔴 CRITICAL ALERT - Dynamic & Attention-Grabbing */
+    .note-entry.critical {
+      background: linear-gradient(145deg, #d93025, #b0251d, #8a1812, #7c120c);
+      /* Subtle gradient for depth */
+      color: #fff;
+      font-size: 1.5em;
+      font-weight: 900;
+      /* Even bolder weight (900 is the strongest) */
+      border-radius: 10px;
+      padding: 10px 16px;
+      /* Slightly more padding for better presence */
+      display: inline-block;
+      border: 2px solid #ff4d4d;
+      /* Bright border to make it "pop" */
+      box-shadow: 0 4px 8px rgba(217, 48, 37, 0.4);
+      /* Soft shadow for depth */
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      /* Improves text readability on background */
+      transition: all 0.3s ease;
+      /* Smooth transition for hover effects */
+    }
 
-/* Optional: Add a hover effect to make it interactive */
-.note-entry.critical:hover {
-    transform: translateY(-2px); /* Slight "lift" effect */
-    box-shadow: 0 6px 12px rgba(217, 48, 37, 0.5); /* Enhanced shadow on hover */
-    cursor: pointer;
-}
+    /* Optional: Add a hover effect to make it interactive */
+    .note-entry.critical:hover {
+      transform: translateY(-2px);
+      /* Slight "lift" effect */
+      box-shadow: 0 6px 12px rgba(217, 48, 37, 0.5);
+      /* Enhanced shadow on hover */
+      cursor: pointer;
+    }
 
 
     .note-card {
@@ -1041,7 +1043,16 @@
         margin-top: 12px !important;
       }
     }
-  </style>
+/* Lock the floating "Customer Overview" tab in place */
+#fixedAddClient{ transform:none !important; will-change:auto !important; }
+#fixedAddClient .tab,
+#fixedAddClient .tab:hover,
+#fixedAddClient .tab:active{
+  transform:none !important;
+  transition:none !important;
+}
+</style>
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 
@@ -1061,16 +1072,21 @@
   </div>
 
   <div id="appSection" style="display:none;">
-    <div style="position:fixed; top:8px; right:12px; z-index:3000;">
-      <button type="button" class="tab" onclick="startAddClient()">Customer Overview</button>
+<div id="fixedAddClient" style="position:fixed; top:8px; right:12px; z-index:3000;">
+<button type="button" class="tab" onclick="startAddClient()" style="transform:none; transition:none;">
+  Customer Overview
+</button>
     </div>
+
+
     <form id="searchForm" onsubmit="event.preventDefault(); searchData();">
       <div id="searchSection">
         <input type="text" id="searchQuery" placeholder="Search by Policy #, Insurance, Name, Phone, Email, Notes">
         <button type="submit" class="search-btn">Search</button>
+        <!-- NEW -->
+        <button type="button" class="search-btn" id="refreshBtn" onclick="refreshData()">Refresh</button>
       </div>
     </form>
-
 
 
 
@@ -1121,12 +1137,17 @@
       <div class="grid" id="custDetailsGrid"></div>
 
       <!-- Customer Info panel -->
+      <!-- Customer Info panel -->
       <section id="tab-info" class="tabpanel active" role="tabpanel" aria-labelledby="tabbtn-info">
         <div class="form" id="custInfoForm">
           <div class="fg row-3"><label>Policy #</label><input id="ci_policy"></div>
           <div class="fg row-3"><label>Insurer</label><input id="ci_insurer"></div>
-          <div class="fg row-3"><label>Effective</label><input id="ci_effDate" type="date"></div>
-          <div class="fg row-3"><label>Expiration</label><input id="ci_expDate" type="date"></div>
+
+          <!-- Use type="text" so Flatpickr shows the same calendar as Policies -->
+          <div class="fg row-3"><label>Effective</label><input id="ci_effDate" type="text" placeholder="YYYY-MM-DD">
+          </div>
+          <div class="fg row-3"><label>Expiration</label><input id="ci_expDate" type="text" placeholder="YYYY-MM-DD">
+          </div>
 
           <div class="fg row-3"><label>First Name</label><input id="ci_firstName"></div>
           <div class="fg row-3"><label>Last Name</label><input id="ci_lastName"></div>
@@ -1140,16 +1161,12 @@
           <div class="fg row-3"><label>Model</label><input id="ci_model"></div>
           <div class="fg row-3"><label>Vin #</label><input id="ci_vin"></div>
         </div>
+
         <div class="actionbar">
           <button class="btn primary" onclick="saveCustomerInfo()">Save</button>
           <button class="btn primary" onclick="addCriticalAlert()">Critical Alert</button>
         </div>
-
-
-
-
       </section>
-
 
 
       <!-- Policies panel -->
@@ -1159,7 +1176,6 @@
         <table class="themed-table" id="policiesTable">
           <thead>
             <tr>
-              <th style="width:40px;">Sel</th>
               <th>Line of Business</th>
               <th>Policy #</th>
               <th>Carrier</th>
@@ -1170,6 +1186,7 @@
           </thead>
           <tbody></tbody>
         </table>
+
         <div class="attc-emptystate" id="policiesEmpty" style="display:none;">No policies found for this contact.</div>
 
         <div class="actionbar" style="justify-content:flex-start;">
@@ -1195,8 +1212,10 @@
             </div>
             <div class="fg row-3"><label>Policy #</label><input id="pe_policy"></div>
             <div class="fg row-3"><label>Insurer</label><input id="pe_insurer"></div>
-       <div class="fg row-3"><label>Effective</label><input id="pe_effDate" type="text" placeholder="YYYY-MM-DD"></div>
-<div class="fg row-3"><label>Expiration</label><input id="pe_expDate" type="text" placeholder="YYYY-MM-DD"></div>
+            <div class="fg row-3"><label>Effective</label><input id="pe_effDate" type="text" placeholder="YYYY-MM-DD">
+            </div>
+            <div class="fg row-3"><label>Expiration</label><input id="pe_expDate" type="text" placeholder="YYYY-MM-DD">
+            </div>
 
             <div class="fg row-6"><label>Address</label><input id="pe_address"></div>
             <div class="fg row-3"><label>Phone</label><input id="pe_phone"></div>
@@ -1251,6 +1270,7 @@
       </section>
 
       <!-- Accord -->
+      <!-- Accord -->
       <section id="tab-accord" class="tabpanel" role="tabpanel" aria-labelledby="tabbtn-accord">
         <div class="attc-upload">
           <label for="accordUpload" class="attc-dropzone" id="accordDrop">
@@ -1267,6 +1287,20 @@
           </label>
           <input id="accordUpload" class="hid-input" type="file" accept="application/pdf">
           <div class="attc-file" id="accordFileMeta"></div>
+        </div>
+
+        <!-- Editable viewer + save-as-new -->
+        <div style="margin:12px 0; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; background:#fff;">
+          <div
+            style="display:flex; align-items:center; justify-content:space-between; padding:10px 12px; background:#fbf7f0; border-bottom:1px solid #eadcc6;">
+            <strong>Accord Template (Editable)</strong>
+            <div>
+              <input id="accordEditedFile" class="hid-input" type="file" accept="application/pdf">
+              <label for="accordEditedFile" class="btn" style="margin-right:8px;">Choose Edited PDF</label>
+              <button class="btn primary" type="button" onclick="uploadEditedAccord()">Save Edited Form</button>
+            </div>
+          </div>
+          <div id="accordViewerWrap" style="height:70vh; background:#fff;"></div>
         </div>
 
         <table class="themed-table" id="accordTable">
@@ -1304,6 +1338,28 @@
   </div>
 
   <script>
+
+    function refreshData() {
+      // clear search box
+      const q = document.getElementById('searchQuery');
+      if (q) q.value = '';
+
+      // clear selection highlight on the table
+      const tbody = document.querySelector('#dataTable tbody');
+      if (tbody) tbody.querySelectorAll('tr.selected').forEach(el => el.classList.remove('selected'));
+
+      // forget selected row and reload fresh data (uses your 15-day filter)
+      selectedRowIndex = null;
+
+      // optional quick feedback while reloading
+      if (tbody) {
+        tbody.innerHTML = `<tr><td colspan="11" style="text-align:center; padding:12px;">Refreshing…</td></tr>`;
+      }
+
+      // pull again from Sheets and re-render
+      loadData();
+    }
+
     /* ===== Config / Constants ===== */
     const ROW_LIMIT = 25;
     const scriptURL = 'https://script.google.com/macros/s/AKfycbyxC9XhJ-ygxv9V2PqaB26_wvNSgsPBUiZQ4e4CLafx3IT2Kn6tpKyMN0e7oHMn9IvT/exec';
@@ -1312,6 +1368,9 @@
     const range = 'policies!A1:ZZZ'; // pull all columns, incl. Policy/Accord Forms
 
     const USERS = { Edwin: 'Insurance2025', Islendy: 'Insurance2026', Penelope: 'Insurance2027' };
+
+    // ⬇️ Put your Accord template PDF URL here (kept visible for editing in the Accord tab)
+    const ACCORD_TEMPLATE_URL = ""; // e.g. "https://your-domain.com/forms/ACORD-25.pdf"
 
     const PDF_ICON_SVG = `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="PDF"><rect x="3" y="2" width="18" height="20" rx="2" fill="#e53935"/><polygon points="16,2 21,2 21,7" fill="#ffffff" opacity="0.9"/><text x="12" y="16" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="8" font-weight="700" fill="#ffffff">PDF</text></svg>`;
@@ -1335,8 +1394,18 @@
     let notesArray = [];
 
     /* ===== Utilities ===== */
-    function setZoomLevel() { document.body.style.zoom = '80%'; }
+    function setZoomLevel() { document.body.style.zoom = '100%'; }
     document.addEventListener('DOMContentLoaded', setZoomLevel);
+
+    // WhatsApp helpers (click-to-chat everywhere we display a phone)
+    function digitsOnly(s) { return String(s || "").replace(/\D/g, ""); }
+    function phoneLinkHTML(raw) {
+      const d = digitsOnly(raw);
+      if (!d) return "";
+      const wa = d.length === 10 ? ("1" + d) : (d.length === 11 && d.startsWith("1") ? d : d);
+      const text = raw || d;
+      return `<a href="https://wa.me/${wa}" target="_blank" rel="noopener">${text}</a>`;
+    }
 
     async function postToScript(params, timeoutMs = 60000) {
       const ctrl = new AbortController();
@@ -1354,6 +1423,7 @@
         clearTimeout(t);
       }
     }
+
 
 
     window.checkPassword = function () {
@@ -1402,14 +1472,55 @@
     }
 
     // helper to read a sheet cell by case/space-insensitive aliases
+    // helper to read a sheet cell by case/space-insensitive aliases
+    // helper to read a sheet cell by case/space-insensitive aliases (also strips zero-width spaces)
     function getCell(row, ...aliases) {
-      const norm = s => String(s).toLowerCase().replace(/\s+/g, '');
+      const norm = s => String(s).toLowerCase().replace(/[\s\u200B-\u200D\uFEFF]/g, '');
       const keys = Object.keys(row || {});
       for (const k of keys) {
         if (aliases.some(a => norm(k) === norm(a))) return row[k];
       }
       return '';
     }
+
+
+    // Robust reader for "Line of Business" that tries row object first,
+    // then falls back to the raw array using the header index.
+    // Robust reader for "Line of Business":
+    // 1) read by common header names; 2) fallback by header index; 3) fallback from Notes tag: "LOB: ...".
+    function readLOBForRow(rowObj, rowArray) {
+      // 1) object by aliases
+      const fromObj = getCell(
+        rowObj,
+        'Line of Business',
+        'LineOfBusiness',
+        'Business Line',
+        'BusinessLine',
+        'LOB',
+        'businessLine',
+        'line_of_business',
+        'lineofbusiness',
+        'line-of-business'
+      );
+      if (fromObj) return fromObj;
+
+      // 2) header index fallback
+      try {
+        const norm = s => String(s || '').toLowerCase().replace(/[\s\u200B-\u200D\uFEFF]/g, '');
+        const target = 'lineofbusiness';
+        const idx = headers.findIndex(h => norm(h) === target);
+        if (idx >= 0 && rowArray && rowArray[idx] != null) return rowArray[idx];
+      } catch (_) { }
+
+      // 3) parse Notes tag "LOB: ..."
+      const notes = getCell(rowObj, 'Notes', 'Note', 'Notes Log');
+      const m = String(notes || '').match(/(?:^|\n)\s*(?:LOB|Line\s*of\s*Business)\s*:\s*([^\n]+)/i);
+      if (m) return m[1].trim();
+
+      return '';
+    }
+
+
 
 
 
@@ -1457,6 +1568,7 @@
       for (const o of rows) {
         const r = o.r;
         const status = computeStatus(r[3]);
+        const phoneHTML = phoneLinkHTML(r[7] ?? '');
         html += `
       <tr data-row="${o.sheetRow}">
         <td>${r[0] ?? ''}</td>
@@ -1467,13 +1579,14 @@
         <td>${r[4] ?? ''}</td>
         <td>${r[5] ?? ''}</td>
         <td>${r[6] ?? ''}</td>
-        <td>${r[7] ?? ''}</td>
+        <td>${phoneHTML}</td>
         <td>${r[8] ?? ''}</td>
         <td><button class="go-btn" data-row="${o.sheetRow}">Go</button></td>
       </tr>`;
       }
       tbody.innerHTML = html;
     }
+
 
 
     function searchData() {
@@ -1484,10 +1597,11 @@
       filtered.sort(compareByExpiration);
       renderTable(filtered);
     }
-
     let custRowNum = null, custRowObj = null; // current row in overview
     let peMode = 'add', peEditRow = null;     // policies editor state
     let isAddingClient = false;               // add-client mode
+    let selectedPolicyRow = null;             // highlighted policy row
+
 
 
     function openCustomerPage(openTab = 'info', addMode = false, explicitRow = null) {
@@ -1495,6 +1609,8 @@
       const rowNum = explicitRow ?? selectedRowIndex;
       if (!rowNum) { alert('Select a row first.'); return; }
       custRowNum = rowNum;
+      toggleAddClientFields(false);  // show fields for existing clients
+
 
       // Use cached data immediately (no network)
       custRowObj = rowCache.get(rowNum) || {};
@@ -1546,6 +1662,8 @@
 
       showPage('customer');
       switchTab('info');
+      toggleAddClientFields(true);   // hide 7 inputs while adding a client
+
 
       // Clear the editable form (bottom section)
       document.querySelectorAll('#custInfoForm input').forEach(el => el.value = '');
@@ -1582,14 +1700,19 @@
       document.body.classList.toggle('is-customer', which === 'customer');
     }
 
-    function switchTab(name) {
-      ['info', 'policies', 'files', 'accord', 'notes'].forEach(n => {
-        const el = document.getElementById(`tab-${n}`);
-        const btn = document.getElementById(`tabbtn-${n}`);
-        if (el) el.classList.toggle('active', n === name);
-        if (btn) btn.setAttribute('aria-selected', n === name ? 'true' : 'false');
-      });
-    }
+ function switchTab(name) {
+  ['info', 'policies', 'files', 'accord', 'notes'].forEach(n => {
+    const el = document.getElementById(`tab-${n}`);
+    const btn = document.getElementById(`tabbtn-${n}`);
+    if (el) el.classList.toggle('active', n === name);
+    if (btn) btn.setAttribute('aria-selected', n === name ? 'true' : 'false');
+  });
+
+  // Add a hook so CSS can hide the first 4 summary cards only on Customer Info
+  const cp = document.getElementById('customerPage');
+  if (cp) cp.classList.toggle('info-active', name === 'info');
+}
+
 
 
 
@@ -1597,22 +1720,27 @@
     function renderCustomerHeader(row) {
       const grid = document.getElementById('custDetailsGrid');
 
+const fields = [
+  ['Policy #', () => getCell(row, 'Policy #')],
+  ['Insurer', () => getCell(row, 'Insurer')],
+  ['Effective', () => getCell(row, 'Effective Date', 'Effective')],
+  ['Expiration', () => getCell(row, 'Expiration Date', 'Expiration')],
+  ['First', () => getCell(row, 'First Name', 'First')],
+  ['Last', () => getCell(row, 'Last Name', 'Last')],
+  ['Address', () => getCell(row, 'Address')],
+  ['Phone', () => getCell(row, 'Phone')],
+  ['Email', () => getCell(row, 'Email')]
+];
 
-      const fields = [
-        ['Policy #', () => getCell(row, 'Policy #')],
-        ['Insurer', () => getCell(row, 'Insurer')],
-        ['Effective', () => getCell(row, 'Effective Date', 'Effective')],
-        ['Expiration', () => getCell(row, 'Expiration Date', 'Expiration')],
-        ['First', () => getCell(row, 'First Name', 'First')],
-        ['Last', () => getCell(row, 'Last Name', 'Last')],
-        ['Address', () => getCell(row, 'Address')],
-        ['Phone', () => getCell(row, 'Phone')],
-        ['Email', () => getCell(row, 'Email')]
-      ];
 
+
+      // Hide these 4 cards only when adding a new client
+      const list = isAddingClient
+        ? fields.filter(([label]) => !(['Policy #', 'Insurer', 'Effective', 'Expiration'].includes(label)))
+        : fields;
 
       grid.innerHTML = '';
-      fields.forEach(([label, getter]) => {
+      list.forEach(([label, getter]) => {
         const card = document.createElement('div');
         card.className = 'card';
 
@@ -1622,12 +1750,19 @@
 
         const val = document.createElement('div');
         val.className = 'value';
-        val.textContent = getter();
+        const v = getter() || '';
+
+        if (label === 'Phone' && v) {
+          val.innerHTML = phoneLinkHTML(v);
+        } else {
+          val.textContent = v;
+        }
 
         card.append(lab, val);
         grid.append(card);
       });
     }
+
 
     /* ===== Customer Info ===== */
     function fillCustomerInfo(row) {
@@ -1645,6 +1780,14 @@
       g('ci_make').value = row['Make'] || '';
       g('ci_model').value = row['Model'] || '';
       g('ci_vin').value = row['Vin #'] || '';
+    }
+    function toggleAddClientFields(hide) {
+const ids = ['ci_policy','ci_insurer','ci_effDate','ci_expDate','ci_year','ci_make','ci_model','ci_vin'];
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        const fg = el ? el.closest('.fg') : null;
+        if (fg) fg.style.display = hide ? 'none' : '';
+      });
     }
 
     function saveCustomerInfo() {
@@ -1664,6 +1807,8 @@
           .then(() => {
             alert('Client added');
             isAddingClient = false;
+            toggleAddClientFields(false);  // reveal fields after client is created
+
 
             // Update top cards immediately from what we just saved
             custRowObj = {
@@ -1714,11 +1859,11 @@
     }
 
 
-    /* ===== Policies for the same contact ===== */
     function renderPoliciesOfContact() {
       const tbody = document.querySelector('#policiesTable tbody');
       const empty = document.getElementById('policiesEmpty');
       tbody.innerHTML = '';
+      selectedPolicyRow = null;
 
       if (!custRowObj) { empty.style.display = 'block'; return; }
 
@@ -1740,17 +1885,24 @@
       matches.forEach(o => {
         const r = o.r;
         const rObj = rowCache.get(o.sheetRow) || {};
-        const lob = getCell(rObj, 'Line of Business', 'LOB') || '';
+        const lob = readLOBForRow(rObj, r);
         const st = computeStatus(r[3]);
 
         const tr = document.createElement('tr');
+        tr.dataset.row = o.sheetRow;
 
-        const selTd = document.createElement('td');
-        selTd.innerHTML = `<input type="radio" name="polsel" value="${o.sheetRow}">`;
-        tr.appendChild(selTd);
+        // click to select + highlight this row
+        tr.addEventListener('click', () => {
+          selectedPolicyRow = o.sheetRow;
+          const tb = tr.parentElement;
+          if (tb) tb.querySelectorAll('tr.selected').forEach(el => el.classList.remove('selected'));
+          tr.classList.add('selected');
+        });
 
         [lob, r[0] || '', r[1] || '', r[2] || '', r[3] || '', statusBadge(st)].forEach(v => {
-          const td = document.createElement('td'); td.innerHTML = v; tr.appendChild(td);
+          const td = document.createElement('td');
+          td.innerHTML = v;
+          tr.appendChild(td);
         });
 
         tbody.appendChild(tr);
@@ -1784,16 +1936,19 @@
 
     // ✅ NEW: populate inline editor from the selected policy row
     function startEditPolicy() {
-      const sel = document.querySelector('input[name="polsel"]:checked');
-      if (!sel) { alert('Select a policy first'); return; }
-      const row = parseInt(sel.value, 10);
+      const row = selectedPolicyRow;
+      if (!row) { alert('Click a policy row first'); return; }
+
       const rowObj = rowCache.get(row) || {};
+      const arrMatch = allDataRows.find(o => o.sheetRow === row);
+      const rowArr = arrMatch ? arrMatch.r : [];
+
       peMode = 'edit';
       peEditRow = row;
       document.getElementById('policyEditor').style.display = 'block';
 
       const g = id => document.getElementById(id);
-      g('pe_lob').value = getCell(rowObj, 'Line of Business', 'LOB') || '';
+      g('pe_lob').value = readLOBForRow(rowObj, rowArr) || '';
       g('pe_policy').value = rowObj['Policy #'] || '';
       g('pe_insurer').value = rowObj['Insurer'] || '';
       g('pe_effDate').value = toYMD(getCell(rowObj, 'Effective Date', 'Effective'));
@@ -1811,6 +1966,23 @@
 
     function savePolicyEditor() {
       const g = id => document.getElementById(id).value.trim();
+      const lobVal = g('pe_lob');
+
+      // Build notes that keep any existing notes but ensure a single "LOB: <value>" line at the top.
+      let existingNotes = '';
+      if (peMode === 'edit') {
+        const ro = rowCache.get(peEditRow) || {};
+        existingNotes = ro['Notes'] || ro['Note'] || ro['Notes Log'] || '';
+      } else {
+        existingNotes = (custRowObj && (custRowObj['Notes'] || custRowObj['Note'] || custRowObj['Notes Log'])) || '';
+      }
+      const withoutOldLOB = String(existingNotes)
+        .split('\n')
+        .filter(line => !/^\s*(?:LOB|Line\s*of\s*Business)\s*:/i.test(line))
+        .join('\n')
+        .trim();
+      const notesWithLOB = lobVal ? (`LOB: ${lobVal}` + (withoutOldLOB ? `\n${withoutOldLOB}` : '')) : withoutOldLOB;
+
       const payload = {
         policy: g('pe_policy'),
         insurer: g('pe_insurer'),
@@ -1825,61 +1997,62 @@
         make: g('pe_make'),
         model: g('pe_model'),
         vin: g('pe_vin'),
-        lineOfBusiness: g('pe_lob'),
-        notes: ''
+
+        // Send every common alias for LOB (for whatever your Apps Script expects)
+        lineOfBusiness: lobVal,
+        LineOfBusiness: lobVal,
+        'Line of Business': lobVal,
+        'Business Line': lobVal,
+        lob: lobVal,
+        businessLine: lobVal,
+        line_of_business: lobVal,
+
+        // Persist LOB even if backend doesn't have a LOB column yet
+        notes: notesWithLOB
       };
-if (peMode === 'add') {
-  if (!payload.policy) { alert('Policy # is required'); return; }
 
-  // If this policy number already exists, EDIT it instead of creating a duplicate
-const existing = allDataRows.find(o => {
-  const policyMatch = String(o.r[0] || '').trim().toLowerCase() === payload.policy.trim().toLowerCase();
-  const carrierMatch = String(o.r[1] || '').trim().toLowerCase() === payload.insurer.trim().toLowerCase();
-  return policyMatch && carrierMatch;
-});
+      const refreshAll = () =>
+        loadData().then(() => {
+          if (custRowNum) openCustomerPage('policies', false, custRowNum);
+          else switchTab('policies');
+        });
 
-  const apply = (action, extra = {}) => postToScript({ action, password: sessionPassword, ...extra, ...payload });
+      if (peMode === 'add') {
+        if (!payload.policy) { alert('Policy # is required'); return; }
 
-  (existing ? apply('edit', { row: existing.sheetRow }) : apply('add'))
-    .then(() => {
-      alert(existing ? 'Policy updated' : 'Policy added');
-      document.getElementById('policyEditor').style.display = 'none';
-      // Re-fetch first, then render so the new/updated policy appears immediately
-      return loadData().then(() => {
-        renderPoliciesOfContact();
-        switchTab('policies');
-      });
-    })
-    .catch(err => alert(err.message));
-} else {
+        const existing = allDataRows.find(o => {
+          const policyMatch = String(o.r[0] || '').trim().toLowerCase() === payload.policy.trim().toLowerCase();
+          const carrierMatch = String(o.r[1] || '').trim().toLowerCase() === payload.insurer.trim().toLowerCase();
+          return policyMatch && carrierMatch;
+        });
 
+        const apply = (action, extra = {}) => postToScript({ action, password: sessionPassword, ...extra, ...payload });
+
+        (existing ? apply('edit', { row: existing.sheetRow }) : apply('add'))
+          .then(() => {
+            alert(existing ? 'Policy updated' : 'Policy added');
+            document.getElementById('policyEditor').style.display = 'none';
+            return refreshAll();
+          })
+          .catch(err => alert(err.message));
+      } else {
         postToScript({ action: 'edit', password: sessionPassword, row: peEditRow, ...payload })
           .then(() => {
             alert('Policy updated');
             document.getElementById('policyEditor').style.display = 'none';
-            loadData();
-            renderPoliciesOfContact();
-            switchTab('policies');
+            return refreshAll();
           })
           .catch(err => alert(err.message));
       }
     }
 
-
     function deletePolicy() {
-      const sel = document.querySelector('input[name="polsel"]:checked');
-      if (!sel) { alert('Select a policy to delete'); return; }
-      const row = parseInt(sel.value, 10);
-      if (!row) return;
+      const row = selectedPolicyRow;
+      if (!row) { alert('Click a policy row to delete'); return; }
       if (!confirm('Delete this policy permanently?')) return;
 
-      // Try common delete actions; keep whichever your Apps Script supports.
       postToScript({ action: 'delete', password: sessionPassword, row })
-        .then(() => {
-          alert('Policy deleted');
-          loadData();
-          renderPoliciesOfContact();
-        })
+        .then(() => { alert('Policy deleted'); loadData(); renderPoliciesOfContact(); })
         .catch(async (err) => {
           try {
             await postToScript({ action: 'deleteRow', password: sessionPassword, row });
@@ -1891,6 +2064,7 @@ const existing = allDataRows.find(o => {
           }
         });
     }
+
 
 
 
@@ -1969,6 +2143,7 @@ const existing = allDataRows.find(o => {
     }
 
     // NEW: much faster handler with optimistic UI + chunked encoding
+    // NEW: much faster handler with optimistic UI + chunked encoding
     async function handleAttachmentUpload(kind) {
       if (!custRowNum) { alert('Open a customer first'); return; }
       const input = document.getElementById(kind === 'policy' ? 'policyUpload' : 'accordUpload');
@@ -1989,7 +2164,6 @@ const existing = allDataRows.find(o => {
 
       try {
         const b64 = await fileToBase64(file);
-
 
         // POST only once and only re-render the target table
         const text = await postToScript({
@@ -2026,6 +2200,26 @@ const existing = allDataRows.find(o => {
       } finally {
         input.value = '';
       }
+    }
+
+    // ⬇️ Helper to save the user-edited Accord PDF as a new form (keeps template visible)
+    async function uploadEditedAccord() {
+      if (!custRowNum) { alert('Open a customer first'); return; }
+      const input = document.getElementById('accordEditedFile');
+      const file = input.files && input.files[0];
+      if (!file) { alert('Choose the edited PDF first.'); return; }
+      if (file.type !== 'application/pdf') { alert('Please choose a PDF.'); return; }
+
+      // Reuse the same uploader pathway as normal Accord uploads
+      const dt = new DataTransfer();
+      dt.items.add(file);
+      const proxy = document.getElementById('accordUpload');
+      proxy.files = dt.files;
+
+      // Shows an optimistic row + persists via Apps Script
+      await handleAttachmentUpload('accord');
+
+      // keep viewer as-is (template remains editable)
     }
 
 
@@ -2135,45 +2329,45 @@ const existing = allDataRows.find(o => {
     }
 
     function addCriticalAlert() {
-  const msg = prompt('Enter the CRITICAL ALERT message:');
-  if (msg === null) return;
-  const trimmed = String(msg || '').trim();
-  if (!trimmed) { alert('Alert message cannot be empty.'); return; }
+      const msg = prompt('Enter the CRITICAL ALERT message:');
+      if (msg === null) return;
+      const trimmed = String(msg || '').trim();
+      if (!trimmed) { alert('Alert message cannot be empty.'); return; }
 
-  const existing = (custRowObj && (custRowObj['Notes'] || custRowObj['Note'] || custRowObj['Notes Log'] || '')) || '';
-  const cleaned = existing
-    .split('\n')
-    .filter(line => !line.startsWith('[CRITICAL_ALERT]'))
-    .join('\n')
-    .trim();
-  const combined = ensureCriticalAtTop(`[CRITICAL_ALERT] ${trimmed}` + (cleaned ? `\n${cleaned}` : ''));
+      const existing = (custRowObj && (custRowObj['Notes'] || custRowObj['Note'] || custRowObj['Notes Log'] || '')) || '';
+      const cleaned = existing
+        .split('\n')
+        .filter(line => !line.startsWith('[CRITICAL_ALERT]'))
+        .join('\n')
+        .trim();
+      const combined = ensureCriticalAtTop(`[CRITICAL_ALERT] ${trimmed}` + (cleaned ? `\n${cleaned}` : ''));
 
-  // Update UI immediately
-  custRowObj = custRowObj || {};
-  custRowObj['Notes'] = combined;
-  rebuildNotes(combined);
+      // Update UI immediately
+      custRowObj = custRowObj || {};
+      custRowObj['Notes'] = combined;
+      rebuildNotes(combined);
 
-  // Persist
-  if (!custRowNum) {
-    alert('Critical Note Has Been Added. Click "Save" to persist it.');
-    return;
-  }
+      // Persist
+      if (!custRowNum) {
+        alert('Critical Note Has Been Added. Click "Save" to persist it.');
+        return;
+      }
 
-  postToScript({
-    action: 'edit', password: sessionPassword, row: custRowNum,
-    policy: custRowObj['Policy #'] || '', insurer: custRowObj['Insurer'] || '',
-    effDate: custRowObj['Effective Date'] || custRowObj['Effective'] || '',
-    expDate: custRowObj['Expiration Date'] || custRowObj['Expiration'] || '',
-    firstName: custRowObj['First Name'] || custRowObj['First'] || '',
-    lastName: custRowObj['Last Name'] || custRowObj['Last'] || '',
-    address: custRowObj['Address'] || '', phone: custRowObj['Phone'] || '',
-    email: custRowObj['Email'] || '', year: custRowObj['Year'] || '',
-    make: custRowObj['Make'] || '', model: custRowObj['Model'] || '',
-    vin: custRowObj['Vin #'] || '', notes: combined
-  })
-  .then(() => { alert('Critical Note Has Been Added'); })
-  .catch(err => alert(err.message));
-}
+      postToScript({
+        action: 'edit', password: sessionPassword, row: custRowNum,
+        policy: custRowObj['Policy #'] || '', insurer: custRowObj['Insurer'] || '',
+        effDate: custRowObj['Effective Date'] || custRowObj['Effective'] || '',
+        expDate: custRowObj['Expiration Date'] || custRowObj['Expiration'] || '',
+        firstName: custRowObj['First Name'] || custRowObj['First'] || '',
+        lastName: custRowObj['Last Name'] || custRowObj['Last'] || '',
+        address: custRowObj['Address'] || '', phone: custRowObj['Phone'] || '',
+        email: custRowObj['Email'] || '', year: custRowObj['Year'] || '',
+        make: custRowObj['Make'] || '', model: custRowObj['Model'] || '',
+        vin: custRowObj['Vin #'] || '', notes: combined
+      })
+        .then(() => { alert('Critical Note Has Been Added'); })
+        .catch(err => alert(err.message));
+    }
 
 
     function addNoteFromTab() {
@@ -2256,7 +2450,6 @@ const existing = allDataRows.find(o => {
       });
     }
 
-    // Initialize both uploaders when the page is ready
     // Initialize both uploaders + row handlers when the page is ready
     document.addEventListener('DOMContentLoaded', () => {
       initDropZone('policy');
@@ -2278,19 +2471,31 @@ const existing = allDataRows.find(o => {
           row.classList.add('selected');
         }
       });
+
+      // Mount Accord template viewer if a URL is provided
+      const wrap = document.getElementById('accordViewerWrap');
+      if (wrap && ACCORD_TEMPLATE_URL) {
+        wrap.innerHTML = `<iframe src="${ACCORD_TEMPLATE_URL}#toolbar=1&navpanes=0"
+        style="width:100%;height:100%;border:0;" title="Accord PDF"></iframe>`;
+      }
     });
-
-
   </script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    if (window.flatpickr) {
-      flatpickr("#pe_effDate", { dateFormat: "Y-m-d", allowInput: true });
-      flatpickr("#pe_expDate", { dateFormat: "Y-m-d", allowInput: true });
-    }
-  });
-</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.flatpickr) {
+        // Policies tab
+        flatpickr("#pe_effDate", { dateFormat: "Y-m-d", allowInput: true });
+        flatpickr("#pe_expDate", { dateFormat: "Y-m-d", allowInput: true });
+
+        // Add Client / Customer Info tab (same exact calendar)
+        flatpickr("#ci_effDate", { dateFormat: "Y-m-d", allowInput: true });
+        flatpickr("#ci_expDate", { dateFormat: "Y-m-d", allowInput: true });
+      }
+    });
+  </script>
+
 </body>
 
 </html>
