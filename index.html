@@ -20,9 +20,6 @@
       display: none;
     }
 
-
-
-
     /* Pause the rainbow animation once we leave the list page */
     body.is-customer .search-btn {
       animation: none !important;
@@ -194,40 +191,68 @@
     }
 
     .search-btn {
-            font-size: 1rem;
-            font-weight: 700;
-            padding: 25px 40px;
-            border-radius: 18px;
-            color: #fff;
-            border: 0;
-            cursor: pointer;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            background: linear-gradient(90deg, 
-                #FF0000, #FF2400, #FF4900, #FF6D00, #FF9200,
-                #FFB600, #FFDB00, #FFFF00, #E6FF00, #CCFF00,
-                #B3FF00, #99FF00, #80FF00, #66FF00, #4DFF00,
-                #33FF00, #1AFF00, #00FF00, #00FF1A, #00FF33,
-                #00FF4D, #00FF66, #00FF80, #00FF99, #00FFB3,
-                #00FFCC, #00FFE6, #00FFFF, #00E6FF, #00CCFF,
-                #00B3FF, #0099FF, #0080FF, #0066FF, #004DFF,
-                #0033FF, #001AFF, #0000FF, #1A00FF, #3300FF,
-                #4D00FF, #6600FF, #8000FF, #9900FF, #B300FF,
-                #CC00FF, #E600FF, #FF00FF, #FF00E6, #FF00CC,
-                #FF00B3, #FF0099, #FF0080, #FF0066, #FF004D,
-                #FF0033, #FF001A, #FF0000);
-            background-size: 1200% 100%;
-            animation: gradientShift 16s infinite linear, pulseGlow 4s infinite alternate;
-            box-shadow: 
-                0 0 20px rgba(255, 100, 255, 0.7),
-                0 0 40px rgba(100, 200, 255, 0.5),
-                0 0 60px rgba(255, 255, 100, 0.3),
-                0 10px 30px rgba(0, 0, 0, 0.4);
-        }
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 25px 40px;
+      border-radius: 18px;
+      color: #fff;
+      border: 0;
+      cursor: pointer;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      background: linear-gradient(90deg,
+          #C31954, #C01A53, #BD1B52, #BA1C51, #B71D50,
+          #B41E4F, #B11F4E, #AE204D, #AB214C, #A8224B,
+          #A5234A, #A22449, #9F2548, #9C2647, #992746,
+          #962845, #932944, #902A43, #8D2B42, #8A2C41,
+          #872D40, #842E3F, #812F3E, #7E303D, #7B313C,
+          #78323B, #75333A, #723439, #6F3538, #6C3637,
+          #693736, #663835, #633934, #603A33, #5D3B32,
+          #5A3C31, #573D30, #543E2F, #513F2E, #4E402D,
+          #4B412C, #48422B, #45432A, #424429, #3F4528,
+          #3C4627, #394726, #364825, #334924, #304A23,
+          #2D4B22, #2A4C21, #274D20, #244E1F, #214F1E,
+          #1E501D, #1B511C, #18521B, #15531A, #125419,
+          #0F5518, #0C5617, #095716, #065815, #035914,
+          #005A13, #005B14, #005C15, #005D16, #005E17,
+          #005F18, #006019, #00611A, #00621B, #00631C,
+          #00641D, #00651E, #00661F, #006720, #006821,
+          #006922, #006A23, #006B24, #006C25, #006D26,
+          #006E27, #006F28, #007029, #00712A, #00722B,
+          #00732C, #00742D, #00752E, #00762F, #007730,
+          #007831, #007932, #007A33, #007B34, #007C35,
+          #007C35, #007B34, #007A33, #007932, #007831,
+          #007730, #00762F, #00752E, #00742D, #00732C,
+          #00722B, #00712A, #007029, #006F28, #006E27,
+          #006D26, #006C25, #006B24, #006A23, #006922,
+          #006821, #006720, #00661F, #00651E, #00641D,
+          #00631C, #00621B, #00611A, #006019, #005F18,
+          #005E17, #005D16, #005C15, #005B14, #005A13,
+          #035914, #065815, #095716, #0C5617, #0F5518,
+          #125419, #15531A, #18521B, #1B511C, #1E501D,
+          #214F1E, #244E1F, #274D20, #2A4C21, #2D4B22,
+          #304A23, #334924, #364825, #394726, #3C4627,
+          #3F4528, #424429, #45432A, #48422B, #4B412C,
+          #4E402D, #513F2E, #543E2F, #573D30, #5A3C31,
+          #5D3B32, #603A33, #633934, #663835, #693736,
+          #6C3637, #6F3538, #723439, #75333A, #78323B,
+          #7B313C, #7E303D, #812F3E, #842E3F, #872D40,
+          #8A2C41, #8D2B42, #902A43, #932944, #962845,
+          #992746, #9C2647, #9F2548, #A22449, #A5234A,
+          #A8224B, #AB214C, #AE204D, #B11F4E, #B41E4F,
+          #B71D50, #BA1C51, #BD1B52, #C01A53, #C31954);
+      background-size: 1200% 100%;
+      animation: gradientShift 16s infinite linear, pulseGlow 4s infinite alternate;
+      box-shadow:
+        0 0 20px rgba(255, 100, 255, 0.7),
+        0 0 40px rgba(100, 200, 255, 0.5),
+        0 0 60px rgba(255, 255, 100, 0.3),
+        0 10px 30px rgba(0, 0, 0, 0.4);
+    }
 
 
     .search-btn:hover {
@@ -318,22 +343,22 @@
     }
 
 
-/* Hide specific inputs in the Customer Info form */
-#tab-info #custInfoForm .fg:has(#ci_policy),
-#tab-info #custInfoForm .fg:has(#ci_insurer),
-#tab-info #custInfoForm .fg:has(#ci_effDate),
-#tab-info #custInfoForm .fg:has(#ci_expDate),
-#tab-info #custInfoForm .fg:has(#ci_year),
-#tab-info #custInfoForm .fg:has(#ci_make),
-#tab-info #custInfoForm .fg:has(#ci_model),
-#tab-info #custInfoForm .fg:has(#ci_vin) {
-  display: none;
-}
+    /* Hide specific inputs in the Customer Info form */
+    #tab-info #custInfoForm .fg:has(#ci_policy),
+    #tab-info #custInfoForm .fg:has(#ci_insurer),
+    #tab-info #custInfoForm .fg:has(#ci_effDate),
+    #tab-info #custInfoForm .fg:has(#ci_expDate),
+    #tab-info #custInfoForm .fg:has(#ci_year),
+    #tab-info #custInfoForm .fg:has(#ci_make),
+    #tab-info #custInfoForm .fg:has(#ci_model),
+    #tab-info #custInfoForm .fg:has(#ci_vin) {
+      display: none;
+    }
 
-/* Hide the first 4 summary cards ONLY on the Customer Info tab */
-#customerPage.info-active #custDetailsGrid .card:nth-child(-n+4) {
-  display: none;
-}
+    /* Hide the first 4 summary cards ONLY on the Customer Info tab */
+    #customerPage.info-active #custDetailsGrid .card:nth-child(-n+4) {
+      display: none;
+    }
 
 
 
@@ -1043,15 +1068,123 @@
         margin-top: 12px !important;
       }
     }
-/* Lock the floating "Customer Overview" tab in place */
-#fixedAddClient{ transform:none !important; will-change:auto !important; }
-#fixedAddClient .tab,
-#fixedAddClient .tab:hover,
-#fixedAddClient .tab:active{
-  transform:none !important;
-  transition:none !important;
-}
-</style>
+
+    /* Lock the floating "Customer Overview" tab in place */
+    #fixedAddClient {
+      transform: none !important;
+      will-change: auto !important;
+    }
+
+    #fixedAddClient .tab,
+    #fixedAddClient .tab:hover,
+    #fixedAddClient .tab:active {
+      transform: none !important;
+      transition: none !important;
+    }
+
+    /* ===== Tasks Widget ===== */
+    .tasks-panel {
+      width: min(1250px, 96vw);
+      margin: 10px auto 18px;
+      padding: 12px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(16, 24, 40, .06);
+    }
+
+    .tasks-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    #tasksPanel select,
+    #tasksPanel input {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 1rem;
+      background: #fff;
+    }
+
+    #taskText {
+      flex: 1 1 auto;
+    }
+
+    .tasks-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .tasks-col {
+      background: #fbf7f0;
+      border: 1px solid #eadcc6;
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    #tasksPanel h4 {
+      margin: 0 0 8px;
+      font-size: 1.2rem;
+    }
+
+    #tasksPanel ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #tasksPanel li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 10px;
+      background: #fff;
+      border: 1px solid #ece5d6;
+      border-radius: 10px;
+      margin-bottom: 8px;
+    }
+
+    #tasksPanel .small {
+      font-size: .9rem;
+      color: #6b7280;
+    }
+
+    #tasksPanel .pill {
+      border: 1px solid #d1a66e;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    #tasksPanel .done {
+      background: #e7f7ec;
+      border-color: #a7e0b8;
+    }
+
+    #tasksPanel .btn-link {
+      background: none;
+      border: 0;
+      color: #7d2a2a;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    @media(max-width:900px) {
+      .tasks-columns {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    #searchForm {
+      margin-top: 70px;
+      /* Adjust this value as needed */
+    }
+  </style>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
@@ -1060,7 +1193,8 @@
   <header>
     <img class="logo"
       src="https://raw.githubusercontent.com/Domichico20/Best-Turizo-Insurace-Software/11806dd4d5912b98aaba1ae08428968a18b2fa8a/logo.png"
-      alt="Logo" />
+      alt="Logo"
+      />
   </header>
 
   <!-- ===== Login (unchanged) ===== -->
@@ -1072,12 +1206,35 @@
   </div>
 
   <div id="appSection" style="display:none;">
-<div id="fixedAddClient" style="position:fixed; top:8px; right:12px; z-index:3000;">
-<button type="button" class="tab" onclick="startAddClient()" style="transform:none; transition:none;">
-  Customer Overview
-</button>
+    <div id="fixedAddClient" style="position:fixed; top:8px; right:12px; z-index:3000;">
+      <button type="button" class="tab" onclick="startAddClient()" style="transform:none; transition:none;">
+        Customer Overview
+      </button>
     </div>
 
+    <!-- ===== Tasks (Sender / Receiver) ===== -->
+    <div id="tasksPanel" class="tasks-panel">
+      <h3 style="margin:0 0 8px;">Tasks</h3>
+
+      <!-- Compose -->
+      <div class="tasks-row">
+        <select id="taskTo" title="Send task to"></select>
+        <input type="text" id="taskText" placeholder="Write a task for another user">
+        <button type="button" class="btn primary" onclick="sendTask()">Send</button>
+      </div>
+
+      <!-- Two lists -->
+      <div class="tasks-columns">
+        <div class="tasks-col">
+          <h4>My Tasks</h4>
+          <ul id="tasksReceived"></ul>
+        </div>
+        <div class="tasks-col">
+          <h4>Tasks I Sent</h4>
+          <ul id="tasksSent"></ul>
+        </div>
+      </div>
+    </div>
 
     <form id="searchForm" onsubmit="event.preventDefault(); searchData();">
       <div id="searchSection">
@@ -1087,6 +1244,9 @@
         <button type="button" class="search-btn" id="refreshBtn" onclick="refreshData()">Refresh</button>
       </div>
     </form>
+
+
+
 
 
 
@@ -1362,12 +1522,136 @@
 
     /* ===== Config / Constants ===== */
     const ROW_LIMIT = 25;
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbyxC9XhJ-ygxv9V2PqaB26_wvNSgsPBUiZQ4e4CLafx3IT2Kn6tpKyMN0e7oHMn9IvT/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwzkcsOABoZbMpKy9JE3c1vX99oNJcOBfXBGipJ1fU--FIbjR2-eoB4N6KYbc7wAsc/exec';
     const sheetId = '1q94KS8Dc2usWKc0h6iQvHP1sDfsPbgcybzXs4zpZANc';
     const apiKey = 'AIzaSyAhaKX_GIaCIXBsq43J3aMvqtGtFngdzrQ';
     const range = 'policies!A1:ZZZ'; // pull all columns, incl. Policy/Accord Forms
 
     const USERS = { Edwin: 'Insurance2025', Islendy: 'Insurance2026', Penelope: 'Insurance2027' };
+
+    /* ===== Tasks (sender/receiver) ===== */
+    let tasksReceived = [];
+    let tasksSent = [];
+
+    function esc(s) { return String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+
+    function initTasksUI() {
+      const sel = document.getElementById('taskTo');
+      if (!sel) return;
+      sel.innerHTML = '';
+      Object.keys(USERS).forEach(name => {
+        if (name === sessionUser) return;         // can't send to yourself
+        const opt = document.createElement('option');
+        opt.value = name; opt.textContent = name;
+        sel.appendChild(opt);
+      });
+    }
+
+     function sendTask() {
+      const to = (document.getElementById('taskTo').value || '').trim();
+      const text = (document.getElementById('taskText').value || '').trim();
+      if (!to) { alert('Choose who to send to'); return; }
+      if (!text) { alert('Type a task'); return; }
+
+      postToScript({ action: 'taskAdd', password: sessionPassword, from: sessionUser, to, text })
+        .then((txt) => {
+          let resp;
+          try { resp = JSON.parse(txt); } catch (e) {
+            alert('Task send failed: server did not return JSON.\n' + String(txt).slice(0, 200));
+            return;
+          }
+          if (!resp || resp.ok !== true) {
+            alert('Task send failed: ' + (resp && resp.error ? resp.error : 'unknown error'));
+            return;
+          }
+
+          // Clear input
+          document.getElementById('taskText').value = '';
+
+          // Optimistically show in "Tasks I Sent" immediately
+          const newTask = { id: resp.id || '', from: sessionUser, to, text, completed: false };
+          tasksSent = [newTask, ...tasksSent];
+          renderTasks();
+
+          // Sync from server
+          return loadTasks();
+        })
+        .catch(err => alert(err && err.message ? err.message : 'Failed to send task'));
+    }
+
+    function loadTasks() {
+      if (!sessionUser) return;
+      return postToScript({ action: 'taskList', password: sessionPassword, user: sessionUser })
+        .then((txt) => {
+          let resp;
+          try { resp = JSON.parse(txt); } catch (e) {
+            alert('Could not load tasks (server did not return JSON). Check your deployment URL/permissions.');
+            console.error('Raw response for taskList:', txt);
+            return;
+          }
+          if (resp && resp.ok === false) {
+            alert(resp.error || 'Could not load tasks.');
+            return;
+          }
+          const list = Array.isArray(resp.tasks) ? resp.tasks : [];
+
+          // Receiver only sees their uncompleted tasks; Sender sees all they sent.
+          tasksReceived = list.filter(t => String(t.to) === String(sessionUser) && !t.completed);
+          tasksSent = list.filter(t => String(t.from) === String(sessionUser));
+
+          renderTasks();
+        })
+        .catch(err => alert(err && err.message ? err.message : 'Failed to load tasks'));
+    }
+
+
+    function renderTasks() {
+      const rUl = document.getElementById('tasksReceived');
+      const sUl = document.getElementById('tasksSent');
+      if (rUl) rUl.innerHTML = tasksReceived.length ? '' : '<li class="small">No tasks.</li>';
+      if (sUl) sUl.innerHTML = tasksSent.length ? '' : '<li class="small">No tasks.</li>';
+
+      tasksReceived.forEach(t => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+      <label style="flex:1;">
+        <input type="checkbox" onclick="completeTask('${t.id}')" />
+        <strong>${esc(t.text || '')}</strong>
+        <span class="small">from ${esc(t.from || '')}</span>
+      </label>`;
+        rUl.appendChild(li);
+      });
+
+      tasksSent.forEach(t => {
+        const li = document.createElement('li');
+        const status = t.completed ? '<span class="pill done">Task Completed</span>' : '<span class="pill">Pending</span>';
+        const delBtn = t.completed ? `<button class="btn-link" onclick="deleteTask('${t.id}')">Delete</button>` : '';
+        li.innerHTML = `
+      <div style="flex:1;">
+        <strong>${esc(t.text || '')}</strong>
+        <span class="small">to ${esc(t.to || '')}</span>
+      </div>
+      ${status} ${delBtn}`;
+        sUl.appendChild(li);
+      });
+    }
+
+    function completeTask(id) {
+      if (!id) return;
+      postToScript({ action: 'taskComplete', password: sessionPassword, id })
+        .then(() => loadTasks())
+        .catch(err => alert(err.message || 'Failed to complete task'));
+    }
+    window.completeTask = completeTask;
+
+    function deleteTask(id) {
+      if (!id) return;
+      if (!confirm('Delete this task from your sent list?')) return;
+      postToScript({ action: 'taskDelete', password: sessionPassword, id })
+        .then(() => loadTasks())
+        .catch(err => alert(err.message || 'Delete failed'));
+    }
+    window.deleteTask = deleteTask;
 
     // ⬇️ Put your Accord template PDF URL here (kept visible for editing in the Accord tab)
     const ACCORD_TEMPLATE_URL = ""; // e.g. "https://your-domain.com/forms/ACORD-25.pdf"
@@ -1441,12 +1725,18 @@
         loginEl.style.display = 'none';
         appEl.style.display = 'block';
         loadData();
+
+        // NEW: prepare the Tasks UI + load only this user's tasks
+        initTasksUI();
+        loadTasks();
+
         setTimeout(setZoomLevel, 100);
         return true;
       }
       alert('Incorrect username or password');
       return false;
     };
+
 
     // Dates / status helpers
     function parseExpDate(v) { if (!v) return null; const d = new Date(String(v).trim()); return isNaN(d.getTime()) ? null : d; }
@@ -1698,20 +1988,21 @@
 
       // Show the logo only on Login + Main (list) pages
       document.body.classList.toggle('is-customer', which === 'customer');
+    
     }
 
- function switchTab(name) {
-  ['info', 'policies', 'files', 'accord', 'notes'].forEach(n => {
-    const el = document.getElementById(`tab-${n}`);
-    const btn = document.getElementById(`tabbtn-${n}`);
-    if (el) el.classList.toggle('active', n === name);
-    if (btn) btn.setAttribute('aria-selected', n === name ? 'true' : 'false');
-  });
+    function switchTab(name) {
+      ['info', 'policies', 'files', 'accord', 'notes'].forEach(n => {
+        const el = document.getElementById(`tab-${n}`);
+        const btn = document.getElementById(`tabbtn-${n}`);
+        if (el) el.classList.toggle('active', n === name);
+        if (btn) btn.setAttribute('aria-selected', n === name ? 'true' : 'false');
+      });
 
-  // Add a hook so CSS can hide the first 4 summary cards only on Customer Info
-  const cp = document.getElementById('customerPage');
-  if (cp) cp.classList.toggle('info-active', name === 'info');
-}
+      // Add a hook so CSS can hide the first 4 summary cards only on Customer Info
+      const cp = document.getElementById('customerPage');
+      if (cp) cp.classList.toggle('info-active', name === 'info');
+    }
 
 
 
@@ -1720,17 +2011,17 @@
     function renderCustomerHeader(row) {
       const grid = document.getElementById('custDetailsGrid');
 
-const fields = [
-  ['Policy #', () => getCell(row, 'Policy #')],
-  ['Insurer', () => getCell(row, 'Insurer')],
-  ['Effective', () => getCell(row, 'Effective Date', 'Effective')],
-  ['Expiration', () => getCell(row, 'Expiration Date', 'Expiration')],
-  ['First', () => getCell(row, 'First Name', 'First')],
-  ['Last', () => getCell(row, 'Last Name', 'Last')],
-  ['Address', () => getCell(row, 'Address')],
-  ['Phone', () => getCell(row, 'Phone')],
-  ['Email', () => getCell(row, 'Email')]
-];
+      const fields = [
+        ['Policy #', () => getCell(row, 'Policy #')],
+        ['Insurer', () => getCell(row, 'Insurer')],
+        ['Effective', () => getCell(row, 'Effective Date', 'Effective')],
+        ['Expiration', () => getCell(row, 'Expiration Date', 'Expiration')],
+        ['First', () => getCell(row, 'First Name', 'First')],
+        ['Last', () => getCell(row, 'Last Name', 'Last')],
+        ['Address', () => getCell(row, 'Address')],
+        ['Phone', () => getCell(row, 'Phone')],
+        ['Email', () => getCell(row, 'Email')]
+      ];
 
 
 
@@ -1782,7 +2073,7 @@ const fields = [
       g('ci_vin').value = row['Vin #'] || '';
     }
     function toggleAddClientFields(hide) {
-const ids = ['ci_policy','ci_insurer','ci_effDate','ci_expDate','ci_year','ci_make','ci_model','ci_vin'];
+      const ids = ['ci_policy', 'ci_insurer', 'ci_effDate', 'ci_expDate', 'ci_year', 'ci_make', 'ci_model', 'ci_vin'];
       ids.forEach(id => {
         const el = document.getElementById(id);
         const fg = el ? el.closest('.fg') : null;
