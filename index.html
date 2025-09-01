@@ -82,16 +82,15 @@
 
 
 
-    header img.logo {
-      display: block;
-      margin: 0 auto -40px;
-      /* <-- pull the next section up; adjust -20..-40 if needed */
-      max-width: 540px;
-      height: auto;
-      filter: drop-shadow(0 8px 18px rgba(0, 0, 0, .08));
-      pointer-events: none;
-      /* <-- allow clicks on the search input below */
-    }
+header img.logo {
+  display: block;
+  margin: 0 auto -70px; /* stronger pull-up to reduce gap above tasks */
+  max-width: 540px;
+  height: auto;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, .08));
+  pointer-events: none;
+}
+
 
 
     /* Ensure nothing re-introduces top spacing under the header */
@@ -286,6 +285,11 @@
       box-shadow: 0 8px 24px rgba(16, 24, 40, .06);
       table-layout: fixed;
     }
+#tab-files,
+#tab-accord {
+  position: relative;
+  padding-right: 240px;   /* leaves room so content doesn’t hide under the box */
+}
 
     #dataTable thead th {
       position: sticky;
@@ -355,10 +359,16 @@
       display: none;
     }
 
-    /* Hide the first 4 summary cards ONLY on the Customer Info tab */
-    #customerPage.info-active #custDetailsGrid .card:nth-child(-n+4) {
-      display: none;
-    }
+  /* Hide the first 4 summary cards ONLY on the Customer Info tab (except while adding a new client) */
+#customerPage.info-active:not(.adding-client) #custDetailsGrid .card:nth-child(-n+4) {
+  display: none;
+}
+
+/* Do not show any summary fields on Files and Accord tabs */
+#customerPage.files-active #custDetailsGrid,
+#customerPage.accord-active #custDetailsGrid {
+  display: none;
+}
 
 
 
@@ -485,6 +495,65 @@
         border-color .2s ease;
     }
 
+/* User label chip (makes the "Logged in as" text compact & polished) */
+.user-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  line-height: 1;
+}
+
+.user-chip .user-label {
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: #6f5a3e;
+  font-weight: 800;
+  opacity: .9;
+}
+
+.user-chip #userName {
+  font-weight: 900;
+  font-size: .95rem;
+  color: var(--ink);
+}
+
+/* Smaller pill using your modern tab gradient, with a left white icon-box */
+#userWidget .logout-btn.tab {
+  display: inline-flex;
+  align-items: stretch;
+  padding: 0;                 /* let inner pieces control spacing */
+  min-height: 40px;           /* smaller than default tab */
+  width: auto;                /* don’t force the 140px width */
+  border-radius: 999px;
+  overflow: hidden;           /* so the white box sits flush on the left */
+}
+
+/* White box all the way to the left */
+#userWidget .logout-btn .icon-box {
+  display: grid;
+  place-items: center;
+  width: 40px;                /* tweak 36–44px as you like */
+  background: #fff;
+  color: #7d2a2a;             /* harmonizes with your tab gradient */
+  border-right: 1px solid rgba(0,0,0,.08);
+}
+
+/* Cleaner text sizing/spacing */
+#userWidget .logout-btn .txt {
+  display: inline-block;
+  padding: 0 14px;
+  font-weight: 900;
+  font-size: .9rem;           /* slightly smaller */
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  line-height: 40px;          /* match min-height for perfect centering */
+}
 
 
     /* Hover / Press / Focus */
@@ -940,52 +1009,49 @@
       font-weight: 700;
     }
 
-    /* ---- Floating uploader (bottom-right outside the white card) ---- */
-    #tab-files .attc-upload,
-    #tab-accord .attc-upload {
-      position: fixed;
-      /* pull it out of the flow/card */
-      right: 175px;
-      /* sit in the page margin at lower-right */
-      bottom: 465px;
-      width: 300px;
-      /* fits the red box in your screenshot */
-      margin: 0;
-      z-index: 3000;
-      /* above the card / tables */
-      pointer-events: auto;
-    }
+#tab-files .attc-upload,
+#tab-accord .attc-upload {
+  position: fixed;
+  right: 12px;    /* was 175px */
+  bottom: 12px;   /* was 465px */
+  width: 220px;
+  margin: 0;
+  z-index: 3000;
+  pointer-events: auto;
+}
 
-    /* Compact the dropzone so it reads well in a 300px panel */
-    #tab-files .attc-dropzone,
-    #tab-accord .attc-dropzone {
-      grid-template-columns: 24px 1fr;
-      /* smaller icon column */
-      gap: 10px;
-      padding: 12px 14px;
-      border-radius: 12px;
-    }
+
+
+#tab-files .attc-dropzone,
+#tab-accord .attc-dropzone {
+  grid-template-columns: 20px 1fr;  /* was 24px 1fr */
+  gap: 8px;                         /* was 10px */
+  padding: 8px 10px;                /* was 12px 14px */
+  border-radius: 10px;              /* was 12px */
+}
+
 
     #tab-files .attc-dropzone svg,
     #tab-accord .attc-dropzone svg {
-      width: 24px;
+      width: 18px;
       height: 24px;
     }
 
     #tab-files .attc-dropzone .text strong,
-    #tab-accord .attc-dropzone .text strong {
-      font-size: 1rem;
-    }
+#tab-accord .attc-dropzone .text strong {
+  font-size: .9rem;   /* was 1rem */
+}
 
-    #tab-files .attc-dropzone .text span,
-    #tab-accord .attc-dropzone .text span {
-      font-size: .9rem;
-    }
+#tab-files .attc-dropzone .text span,
+#tab-accord .attc-dropzone .text span {
+  font-size: .8rem;   /* was .9rem */
+}
 
-    #tab-files .attc-dropzone .meta,
-    #tab-accord .attc-dropzone .meta {
-      font-size: .8rem;
-    }
+#tab-files .attc-dropzone .meta,
+#tab-accord .attc-dropzone .meta {
+  font-size: .75rem;  /* was .8rem */
+}
+
 
     /* The little "Selected: filename" line stays with the floating box */
     #tab-files .attc-file,
@@ -995,15 +1061,16 @@
     }
 
     /* Optional: on very small screens, tuck it tighter */
-    @media (max-width: 1200px) {
+@media (max-width: 900px) {
+  #tab-files, #tab-accord { padding-right: 0; }
+  #tab-files .attc-upload,
+  #tab-accord .attc-upload {
+    position: static;   /* drop back into normal flow */
+    width: 100%;
+    margin: 10px 0 16px;
+  }
+}
 
-      #tab-files .attc-upload,
-      #tab-accord .attc-upload {
-        right: 12px;
-        bottom: 12px;
-        width: 260px;
-      }
-    }
 
     /* quick spinner for optimistic rows */
     .attc-spin {
@@ -1083,6 +1150,9 @@
     }
 
     /* ===== Tasks Widget ===== */
+    #taskTo { min-width: 180px; }
+
+  
     .tasks-panel {
       width: min(1250px, 96vw);
       margin: 10px auto 18px;
@@ -1131,11 +1201,25 @@
       font-size: 1.2rem;
     }
 
-    #tasksPanel ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
+/* Show ~3 tasks; scroll to see the rest */
+#tasksPanel ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 200px;      /* ≈ three items tall */
+  overflow-y: auto;       /* enables scrolling */
+  padding-right: 8px;     /* keeps text clear of scrollbar */
+  scrollbar-gutter: stable;
+}
+
+/* Optional: keep long task text from making rows too tall */
+#tasksPanel li strong {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 
     #tasksPanel li {
       display: flex;
@@ -1180,10 +1264,114 @@
       }
     }
 
-    #searchForm {
-      margin-top: 70px;
-      /* Adjust this value as needed */
-    }
+  #searchForm {
+  margin-top: 18px; /* ~75% reduction of the previous 70px gap */
+}
+
+    /* Top-right user widget */
+/* Top-left user widget (logout) */
+#userWidget {
+  position: fixed;
+  top: 8px;
+  left: 12px;     /* moved to left */
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  z-index: 3500;
+}
+#userWidget .who{
+  font-size: .95rem;
+  color: var(--muted);
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+#userWidget .who strong{ color: var(--ink); }
+
+/* Keep the modern pill style on the logout button */
+#logoutBtn.tab{
+  width: auto;
+  min-width: 140px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Ensure "Customer Overview" stays pinned at very top-right */
+#fixedAddClient{
+  top: 8px !important;
+  right: 12px !important;
+}
+
+/* Accord editor card: same card/look as the Files area */
+#accordEditor{
+  margin:12px 0;
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+  background:#fff;
+  box-shadow: 0 8px 24px rgba(16,24,40,.06);
+}
+
+/* Gradient bar like your table headers */
+#accordEditor .bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 12px;
+  background: linear-gradient(180deg,
+      #d1a66e 0%,
+      #b1874f 20%,
+      #b3803d 45%,
+      #a06e2c 60%,
+      #b3803d 75%,
+      #b1874f 88%,
+      #d1a66e 100%);
+  color:#fff;
+  font-weight:800;
+  letter-spacing:.06em;
+  border-bottom:1px solid rgba(0,0,0,.08);
+}
+
+#accordEditor .viewer{
+  height:70vh;
+  background:#fff;
+}
+/* Modern pill button (auto width) */
+.pill-btn{
+  appearance:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:12px 20px;
+  min-height:44px;
+  border-radius:999px;
+  border:1px solid #8a673c;
+  background: linear-gradient(180deg,#d1a66e 0%,#b1874f 35%,#9c6a33 70%,#7c5b2e 100%);
+  color:#fff;
+  font-weight:800;
+  font-size:1.1rem;
+  line-height:1;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 8px 14px rgba(16,24,40,.10);
+  cursor:pointer;
+  text-decoration:none;
+}
+.pill-btn:hover{
+  transform:translateY(-1px);
+  background: linear-gradient(180deg,#e0be8a 0%,#c39a62 38%,#a5743c 70%,#835829 100%);
+  box-shadow:0 12px 22px rgba(16,24,40,.16);
+}
+.pill-btn:active{
+  transform:none;
+  box-shadow: inset 0 4px 10px rgba(0,0,0,.18);
+  background: linear-gradient(180deg,#8a5f2d 0%,#70461b 100%);
+}
+.pill-btn:focus-visible{
+  outline:none;
+  box-shadow:0 0 0 3px rgba(197,155,106,.35);
+}
+
   </style>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -1196,6 +1384,7 @@
       alt="Logo"
       />
   </header>
+
 
   <!-- ===== Login (unchanged) ===== -->
   <div id="loginSection">
@@ -1212,9 +1401,26 @@
       </button>
     </div>
 
+    <!-- Top-left Logout (only on main page because it's inside #appSection) -->
+    <div id="userWidget">
+      <button id="logoutBtn" class="tab logout-btn" type="button" onclick="logout()">
+        <span class="icon-box" aria-hidden="true">
+          <!-- Power icon -->
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v10"></path>
+            <path d="M5.5 5.5a7.5 7.5 0 1 0 13 0"></path>
+          </svg>
+        </span>
+        <span class="txt">Log out</span>
+      </button>
+    </div>
+
+
     <!-- ===== Tasks (Sender / Receiver) ===== -->
-    <div id="tasksPanel" class="tasks-panel">
-      <h3 style="margin:0 0 8px;">Tasks</h3>
+<div id="tasksPanel" class="tasks-panel">
+  <h3 id="tasksHeader" style="margin:0 0 8px;">Tasks</h3>
+
 
       <!-- Compose -->
       <div class="tasks-row">
@@ -1449,19 +1655,7 @@
           <div class="attc-file" id="accordFileMeta"></div>
         </div>
 
-        <!-- Editable viewer + save-as-new -->
-        <div style="margin:12px 0; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; background:#fff;">
-          <div
-            style="display:flex; align-items:center; justify-content:space-between; padding:10px 12px; background:#fbf7f0; border-bottom:1px solid #eadcc6;">
-            <strong>Accord Template (Editable)</strong>
-            <div>
-              <input id="accordEditedFile" class="hid-input" type="file" accept="application/pdf">
-              <label for="accordEditedFile" class="btn" style="margin-right:8px;">Choose Edited PDF</label>
-              <button class="btn primary" type="button" onclick="uploadEditedAccord()">Save Edited Form</button>
-            </div>
-          </div>
-          <div id="accordViewerWrap" style="height:70vh; background:#fff;"></div>
-        </div>
+     
 
         <table class="themed-table" id="accordTable">
           <thead>
@@ -1498,6 +1692,15 @@
   </div>
 
   <script>
+function doLogout(){
+  // Refresh the browser to reset the app state
+  window.location.reload();
+}
+window.logout = doLogout; // keep the button working
+
+
+
+
 
     function refreshData() {
       // clear search box
@@ -1529,129 +1732,240 @@
 
     const USERS = { Edwin: 'Insurance2025', Islendy: 'Insurance2026', Penelope: 'Insurance2027' };
 
+    function initTasksUI() {
+  const sel = document.getElementById('taskTo');
+  if (!sel) return;
+
+  // clear and add a placeholder
+  sel.innerHTML = '';
+  const ph = document.createElement('option');
+  ph.value = '';
+  ph.textContent = '— Select user —';
+  ph.disabled = true;
+  ph.selected = true;
+  sel.appendChild(ph);
+
+  // add all users except the one who’s logged in
+  Object.keys(USERS).forEach(u => {
+    if (u !== sessionUser) {
+      const opt = document.createElement('option');
+      opt.value = u;
+      opt.textContent = u;
+      sel.appendChild(opt);
+    }
+  });
+
+  // ensure it’s not rendered as a tiny square
+  sel.style.minWidth = '180px';
+}
+
+
     /* ===== Tasks (sender/receiver) ===== */
-    let tasksReceived = [];
-    let tasksSent = [];
+/* ===== Tasks (sender/receiver) ===== */
+let tasksReceived = [];
+let tasksSent = [];
+let isLoadingTasks = false;     // prevent overlapping fetches
+let lastTasksSnapshot = '';     // skip rerender if server data didn't change
 
     function esc(s) { return String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
-
-    function initTasksUI() {
-      const sel = document.getElementById('taskTo');
-      if (!sel) return;
-      sel.innerHTML = '';
-      Object.keys(USERS).forEach(name => {
-        if (name === sessionUser) return;         // can't send to yourself
-        const opt = document.createElement('option');
-        opt.value = name; opt.textContent = name;
-        sel.appendChild(opt);
-      });
+    function fmtTs(ts) {
+      if (!ts) return '';
+      let d = ts;
+      if (typeof ts === 'string' || typeof ts === 'number') {
+        const parsed = new Date(ts);
+        if (!isNaN(parsed)) d = parsed;
+      }
+      try {
+        return d.toLocaleString('en-US', {
+          timeZone: 'America/New_York',
+          month: 'short', day: 'numeric', year: 'numeric',
+          hour: '2-digit', minute: '2-digit'
+        });
+      } catch (_) {
+        return String(ts);
+      }
     }
 
-     function sendTask() {
-      const to = (document.getElementById('taskTo').value || '').trim();
-      const text = (document.getElementById('taskText').value || '').trim();
-      if (!to) { alert('Choose who to send to'); return; }
-      if (!text) { alert('Type a task'); return; }
+function sendTask() {
+  const to = (document.getElementById('taskTo').value || '').trim();
+  const text = (document.getElementById('taskText').value || '').trim();
+  if (!to) { alert('Choose who to send to'); return; }
+  if (!text) { alert('Type a task'); return; }
 
-      postToScript({ action: 'taskAdd', password: sessionPassword, from: sessionUser, to, text })
-        .then((txt) => {
-          let resp;
-          try { resp = JSON.parse(txt); } catch (e) {
-            alert('Task send failed: server did not return JSON.\n' + String(txt).slice(0, 200));
-            return;
-          }
-          if (!resp || resp.ok !== true) {
-            alert('Task send failed: ' + (resp && resp.error ? resp.error : 'unknown error'));
-            return;
-          }
+  postToScript({ action: 'taskAdd', password: sessionPassword, from: sessionUser, to, text })
+    .then((txt) => {
+      let resp;
+      try { resp = JSON.parse(txt); } catch (e) {
+        alert('Task send failed: server did not return JSON.\n' + String(txt).slice(0, 200));
+        return;
+      }
+      if (!resp || resp.ok !== true) {
+        alert('Task send failed: ' + (resp && resp.error ? resp.error : 'unknown error'));
+        return;
+      }
 
-          // Clear input
-          document.getElementById('taskText').value = '';
+      // Clear input
+      document.getElementById('taskText').value = '';
 
-          // Optimistically show in "Tasks I Sent" immediately
-          const newTask = { id: resp.id || '', from: sessionUser, to, text, completed: false };
-          tasksSent = [newTask, ...tasksSent];
-          renderTasks();
+      // Optimistically show in "Tasks I Sent" immediately (with createdAt)
+      const now = new Date();
+      const newTask = { id: resp.id || '', from: sessionUser, to, text, completed: false, createdAt: now, completedAt: '' };
+      tasksSent = [newTask, ...tasksSent];
+      sortTaskArrays();
+      renderTasks();
 
-          // Sync from server
-          return loadTasks();
-        })
-        .catch(err => alert(err && err.message ? err.message : 'Failed to send task'));
+      // Fast path: skip immediate full reload; next explicit action will resync.
+    })
+    .catch(err => alert(err && err.message ? err.message : 'Failed to send task'));
+}
+
+
+
+function taskTime(x){
+  if (!x) return 0;
+  if (typeof x === 'number') return x;
+  const d = new Date(x);
+  return isNaN(d) ? 0 : d.getTime();
+}
+function sortTaskArrays(){
+  tasksReceived.sort((a,b)=> taskTime(b.createdAt) - taskTime(a.createdAt));
+  tasksSent.sort((a,b)=> taskTime(b.createdAt) - taskTime(a.createdAt));
+}
+
+
+function loadTasks() {
+  if (!sessionUser || isLoadingTasks) return Promise.resolve();
+  isLoadingTasks = true;
+
+  return postToScript({ action: 'taskList', password: sessionPassword, user: sessionUser })
+    .then((txt) => {
+      let resp;
+      try { resp = JSON.parse(txt); } catch (e) {
+        alert('Could not load tasks (server did not return JSON). Check your deployment URL/permissions.');
+        console.error('Raw response for taskList:', txt);
+        return;
+      }
+      if (resp && resp.ok === false) {
+        alert(resp.error || 'Could not load tasks.');
+        return;
+      }
+      const list = Array.isArray(resp.tasks) ? resp.tasks : [];
+
+      // Skip rerender if nothing changed
+      const snap = JSON.stringify(list);
+      if (snap === lastTasksSnapshot) return;
+      lastTasksSnapshot = snap;
+
+      tasksReceived = list.filter(t => String(t.to) === String(sessionUser) && !t.completed);
+      tasksSent     = list.filter(t => String(t.from) === String(sessionUser));
+
+      sortTaskArrays();
+      renderTasks();
+    })
+    .catch(err => alert(err && err.message ? err.message : 'Failed to load tasks'))
+    .finally(() => { isLoadingTasks = false; });
+}
+
+
+         
+
+
+      function renderTasks() {
+  const rUl = document.getElementById('tasksReceived');
+  const sUl = document.getElementById('tasksSent');
+
+  if (rUl) {
+    if (!tasksReceived.length) {
+      rUl.innerHTML = '<li class="small">No tasks.</li>';
+    } else {
+      rUl.innerHTML = tasksReceived.map(t => {
+        const created = fmtTs(t.createdAt);
+        return `
+          <li>
+            <label style="flex:1;">
+              <input type="checkbox" onclick="completeTask('${t.id}')" />
+              <strong>${esc(t.text || '')}</strong>
+              <span class="small">from ${esc(t.from || '')}${created ? ' • ' + esc(created) : ''}</span>
+            </label>
+          </li>`;
+      }).join('');
     }
+  }
 
-    function loadTasks() {
-      if (!sessionUser) return;
-      return postToScript({ action: 'taskList', password: sessionPassword, user: sessionUser })
-        .then((txt) => {
-          let resp;
-          try { resp = JSON.parse(txt); } catch (e) {
-            alert('Could not load tasks (server did not return JSON). Check your deployment URL/permissions.');
-            console.error('Raw response for taskList:', txt);
-            return;
-          }
-          if (resp && resp.ok === false) {
-            alert(resp.error || 'Could not load tasks.');
-            return;
-          }
-          const list = Array.isArray(resp.tasks) ? resp.tasks : [];
-
-          // Receiver only sees their uncompleted tasks; Sender sees all they sent.
-          tasksReceived = list.filter(t => String(t.to) === String(sessionUser) && !t.completed);
-          tasksSent = list.filter(t => String(t.from) === String(sessionUser));
-
-          renderTasks();
-        })
-        .catch(err => alert(err && err.message ? err.message : 'Failed to load tasks'));
-    }
-
-
-    function renderTasks() {
-      const rUl = document.getElementById('tasksReceived');
-      const sUl = document.getElementById('tasksSent');
-      if (rUl) rUl.innerHTML = tasksReceived.length ? '' : '<li class="small">No tasks.</li>';
-      if (sUl) sUl.innerHTML = tasksSent.length ? '' : '<li class="small">No tasks.</li>';
-
-      tasksReceived.forEach(t => {
-        const li = document.createElement('li');
-        li.innerHTML = `
-      <label style="flex:1;">
-        <input type="checkbox" onclick="completeTask('${t.id}')" />
-        <strong>${esc(t.text || '')}</strong>
-        <span class="small">from ${esc(t.from || '')}</span>
-      </label>`;
-        rUl.appendChild(li);
-      });
-
-      tasksSent.forEach(t => {
-        const li = document.createElement('li');
+  if (sUl) {
+    if (!tasksSent.length) {
+      sUl.innerHTML = '<li class="small">No tasks.</li>';
+    } else {
+      sUl.innerHTML = tasksSent.map(t => {
+        const created = fmtTs(t.createdAt);
+        const completed = fmtTs(t.completedAt);
         const status = t.completed ? '<span class="pill done">Task Completed</span>' : '<span class="pill">Pending</span>';
         const delBtn = t.completed ? `<button class="btn-link" onclick="deleteTask('${t.id}')">Delete</button>` : '';
-        li.innerHTML = `
-      <div style="flex:1;">
-        <strong>${esc(t.text || '')}</strong>
-        <span class="small">to ${esc(t.to || '')}</span>
-      </div>
-      ${status} ${delBtn}`;
-        sUl.appendChild(li);
-      });
+        return `
+          <li>
+            <div style="flex:1;">
+              <strong>${esc(t.text || '')}</strong>
+              <span class="small">to ${esc(t.to || '')}${created ? ' • ' + esc(created) : ''}${t.completed && completed ? ' • Completed: ' + esc(completed) : ''}</span>
+            </div>
+            ${status} ${delBtn}
+          </li>`;
+      }).join('');
     }
+  }
+}
 
-    function completeTask(id) {
-      if (!id) return;
-      postToScript({ action: 'taskComplete', password: sessionPassword, id })
-        .then(() => loadTasks())
-        .catch(err => alert(err.message || 'Failed to complete task'));
-    }
-    window.completeTask = completeTask;
 
-    function deleteTask(id) {
-      if (!id) return;
-      if (!confirm('Delete this task from your sent list?')) return;
-      postToScript({ action: 'taskDelete', password: sessionPassword, id })
-        .then(() => loadTasks())
-        .catch(err => alert(err.message || 'Delete failed'));
-    }
-    window.deleteTask = deleteTask;
+function completeTask(id) {
+  if (!id) return;
+
+  // Optimistic: remove from "My Tasks" immediately
+  const idx = tasksReceived.findIndex(t => t.id === id);
+  let backup = null;
+  if (idx > -1) {
+    backup = tasksReceived[idx];
+    tasksReceived.splice(idx, 1);
+    renderTasks();
+  }
+
+  postToScript({ action: 'taskComplete', password: sessionPassword, id })
+    .then(() => loadTasks())
+    .catch(err => {
+      // Revert on failure
+      if (backup) {
+        tasksReceived.splice(idx, 0, backup);
+        renderTasks();
+      }
+      alert(err && err.message ? err.message : 'Failed to complete task');
+    });
+}
+window.completeTask = completeTask;
+
+function deleteTask(id) {
+  if (!id) return;
+  if (!confirm('Delete this task from your sent list?')) return;
+
+  // Optimistic: remove from "Tasks I Sent" immediately
+  const i = tasksSent.findIndex(t => t.id === id);
+  let back = null;
+  if (i > -1) {
+    back = tasksSent[i];
+    tasksSent.splice(i, 1);
+    renderTasks();
+  }
+
+  postToScript({ action: 'taskDelete', password: sessionPassword, id })
+    .then(() => loadTasks())
+    .catch(err => {
+      // Revert on failure
+      if (back) {
+        tasksSent.splice(i, 0, back);
+        renderTasks();
+      }
+      alert(err && err.message ? err.message : 'Delete failed');
+    });
+}
+window.deleteTask = deleteTask;
+
 
     // ⬇️ Put your Accord template PDF URL here (kept visible for editing in the Accord tab)
     const ACCORD_TEMPLATE_URL = ""; // e.g. "https://your-domain.com/forms/ACORD-25.pdf"
@@ -1691,6 +2005,71 @@
       return `<a href="https://wa.me/${wa}" target="_blank" rel="noopener">${text}</a>`;
     }
 
+// Gmail “compose” link for one or more emails
+function emailLinkHTML(raw) {
+  const s = String(raw || '').trim();
+  if (!s) return '';
+  const parts = s.split(/[\s,;]+/).map(x => x.trim()).filter(Boolean);
+  const emails = parts.filter(x => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(x));
+  if (!emails.length) return esc(s); // show as plain text if it doesn't look like an email
+  const to = encodeURIComponent(emails.join(','));
+  const url = `https://mail.google.com/mail/?view=cm&fs=1&to=${to}`;
+  return `<a href="${url}" target="_blank" rel="noopener">${esc(s)}</a>`;
+}
+// Make a Gmail compose URL from a freeform email string
+function gmailComposeUrl(raw) {
+  const s = String(raw || '').trim();
+  if (!s) return '';
+  const parts = s.split(/[\s,;]+/).map(x => x.trim()).filter(Boolean);
+  const emails = parts.filter(x => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(x));
+  return emails.length ? `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(emails.join(','))}` : '';
+}
+
+// Create/refresh a small "Compose" link next to an <input> by id
+function ensureComposeLinkForInput(inputId) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+
+  // make (or find) the link immediately after the input
+  let a = input.nextElementSibling;
+  const needsNew = !(a && a.classList && a.classList.contains('email-compose-link'));
+  if (needsNew) {
+    a = document.createElement('a');
+    a.className = 'email-compose-link';
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.style.marginLeft = '8px';
+    a.style.fontWeight = '800';
+    a.textContent = 'Compose in Gmail';
+    input.insertAdjacentElement('afterend', a);
+
+    // live-update the link as the user types
+    input.addEventListener('input', () => updateComposeLink(input, a));
+  }
+  updateComposeLink(input, a);
+
+  function updateComposeLink(inp, anchor) {
+    const url = gmailComposeUrl(inp.value);
+    if (url) {
+      anchor.href = url;
+      anchor.style.pointerEvents = 'auto';
+      anchor.style.opacity = '1';
+      anchor.title = 'Open Gmail compose';
+    } else {
+      anchor.removeAttribute('href');
+      anchor.style.pointerEvents = 'none';
+      anchor.style.opacity = '0.6';
+      anchor.title = 'Enter a valid email';
+    }
+  }
+}
+
+// Refresh both places we have email inputs
+function refreshComposeLinks() {
+  ensureComposeLinkForInput('ci_email'); // Customer Info
+  ensureComposeLinkForInput('pe_email'); // Policies editor
+}
+
     async function postToScript(params, timeoutMs = 60000) {
       const ctrl = new AbortController();
       const t = setTimeout(() => ctrl.abort('timeout'), timeoutMs);
@@ -1709,33 +2088,47 @@
     }
 
 
+window.checkPassword = function () {
+  const userEl = document.getElementById('appUser');
+  const passEl = document.getElementById('appPassword');
+  const loginEl = document.getElementById('loginSection');
+  const appEl   = document.getElementById('appSection');
 
-    window.checkPassword = function () {
-      const userEl = document.getElementById('appUser');
-      const passEl = document.getElementById('appPassword');
-      const loginEl = document.getElementById('loginSection');
-      const appEl = document.getElementById('appSection');
+  const u = (userEl?.value || '').trim();
+  const p = (passEl?.value || '').trim();
 
-      const u = (userEl?.value || '').trim();
-      const p = (passEl?.value || '').trim();
+  if (USERS[u] === p) {
+    sessionUser = u;
+    sessionPassword = p;
 
-      if (USERS[u] === p) {
-        sessionUser = u;
-        sessionPassword = p;
-        loginEl.style.display = 'none';
-        appEl.style.display = 'block';
-        loadData();
+    // show app, hide login
+    loginEl.style.display = 'none';
+    appEl.style.display = 'block';
 
-        // NEW: prepare the Tasks UI + load only this user's tasks
-        initTasksUI();
-        loadTasks();
+    // load data and tasks for this user
+    loadData();
+    initTasksUI();
+    loadTasks();
 
-        setTimeout(setZoomLevel, 100);
-        return true;
-      }
-      alert('Incorrect username or password');
-      return false;
-    };
+    // ✅ set "User's Tasks" in the header
+    const th = document.getElementById('tasksHeader');
+    if (th) th.textContent = `${sessionUser}'s Tasks`;
+
+    // ✅ SHOW THE TOP-RIGHT USER WIDGET (unchanged)
+    const uw = document.getElementById('userWidget');
+    const un = document.getElementById('userName');
+    if (un) un.textContent = sessionUser;
+    if (uw) uw.style.display = 'block';
+
+    setTimeout(setZoomLevel, 100);
+    return true;
+  }
+
+  alert('Incorrect username or password');
+  return false;
+};
+
+
 
 
     // Dates / status helpers
@@ -1851,15 +2244,15 @@
 
 
 
-
-    function renderTable(rows) {
-      const tbody = document.querySelector('#dataTable tbody');
-      let html = '';
-      for (const o of rows) {
-        const r = o.r;
-        const status = computeStatus(r[3]);
-        const phoneHTML = phoneLinkHTML(r[7] ?? '');
-        html += `
+function renderTable(rows) {
+  const tbody = document.querySelector('#dataTable tbody');
+  let html = '';
+  for (const o of rows) {
+    const r = o.r;
+    const status = computeStatus(r[3]);
+    const phoneHTML = phoneLinkHTML(r[7] ?? '');
+    const emailHTML = emailLinkHTML(r[8] ?? '');
+    html += `
       <tr data-row="${o.sheetRow}">
         <td>${r[0] ?? ''}</td>
         <td>${r[1] ?? ''}</td>
@@ -1870,13 +2263,12 @@
         <td>${r[5] ?? ''}</td>
         <td>${r[6] ?? ''}</td>
         <td>${phoneHTML}</td>
-        <td>${r[8] ?? ''}</td>
+        <td>${emailHTML}</td>
         <td><button class="go-btn" data-row="${o.sheetRow}">Go</button></td>
       </tr>`;
-      }
-      tbody.innerHTML = html;
-    }
-
+  }
+  tbody.innerHTML = html;
+}
 
 
     function searchData() {
@@ -1894,92 +2286,101 @@
 
 
 
-    function openCustomerPage(openTab = 'info', addMode = false, explicitRow = null) {
-      isAddingClient = false;                   //
-      const rowNum = explicitRow ?? selectedRowIndex;
-      if (!rowNum) { alert('Select a row first.'); return; }
-      custRowNum = rowNum;
-      toggleAddClientFields(false);  // show fields for existing clients
+   function openCustomerPage(openTab = 'info', addMode = false, explicitRow = null) {
+  isAddingClient = false;
 
+  // leaving "add client" mode -> ensure the flag is removed
+  const cp = document.getElementById('customerPage');
+  if (cp) cp.classList.remove('adding-client');
 
-      // Use cached data immediately (no network)
-      custRowObj = rowCache.get(rowNum) || {};
-      renderCustomerHeader(custRowObj);
-      fillCustomerInfo(custRowObj);
+  const rowNum = explicitRow ?? selectedRowIndex;
+  if (!rowNum) { alert('Select a row first.'); return; }
+  custRowNum = rowNum;
+  toggleAddClientFields(false);  // show fields for existing clients
 
-      // Related policies from the already loaded table
-      renderPoliciesOfContact();
+  // Use cached data immediately (no network)
+  custRowObj = rowCache.get(rowNum) || {};
+  renderCustomerHeader(custRowObj);
+  fillCustomerInfo(custRowObj);
 
-      // Show the page right away
-      showPage('customer');
-      switchTab(addMode ? 'policies' : openTab);
-      if (addMode) startAddPolicy(true);
+  // Related policies from the already loaded table
+  renderPoliciesOfContact();
 
-      // Notes immediately; defer heavy attachments
-      rebuildNotes(custRowObj['Notes'] || custRowObj['Note'] || custRowObj['Notes Log'] || '');
+  // Show the page right away
+  showPage('customer');
+  switchTab(addMode ? 'policies' : openTab);
+  if (addMode) startAddPolicy(true);
 
-      if (custRowObj['Policy Forms'] || custRowObj['Accord Forms']) {
+  // Notes immediately; defer heavy attachments
+  rebuildNotes(custRowObj['Notes'] || custRowObj['Note'] || custRowObj['Notes Log'] || '');
+
+  if (custRowObj['Policy Forms'] || custRowObj['Accord Forms']) {
+    renderAttachmentTable('policy', custRowObj['Policy Forms'] || '[]');
+    renderAttachmentTable('accord', custRowObj['Accord Forms'] || '[]');
+  } else {
+    postToScript({ action: 'getRow', password: sessionPassword, row: custRowNum })
+      .then(txt => {
+        const p = JSON.parse(txt);
+        if (p && p.ok) {
+          custRowObj = p.row;
+        }
+      })
+      .finally(() => {
         renderAttachmentTable('policy', custRowObj['Policy Forms'] || '[]');
         renderAttachmentTable('accord', custRowObj['Accord Forms'] || '[]');
-      } else {
-        postToScript({ action: 'getRow', password: sessionPassword, row: custRowNum })
-          .then(txt => {
-            const p = JSON.parse(txt);
-            if (p && p.ok) {
-              custRowObj = p.row;
-            }
-          })
-          .finally(() => {
-            renderAttachmentTable('policy', custRowObj['Policy Forms'] || '[]');
-            renderAttachmentTable('accord', custRowObj['Accord Forms'] || '[]');
-          });
-      }
+      });
+  }
 
-      // 🔴 If there’s a critical alert, prompt with Keep/Delete
-      promptCriticalAlertIfAny(custRowObj);
-    }
+  // 🔴 If there’s a critical alert, prompt with Keep/Delete
+  promptCriticalAlertIfAny(custRowObj);
+}
+
 
 
     function closeCustomerPage() { showPage('app'); setTimeout(setZoomLevel, 50); }
     function goMainTab() { closeCustomerPage(); }   // used by the "Main Page" tab
 
     // Start a brand-new client (clears form; Save will ADD)
-    function startAddClient() {
-      isAddingClient = true;
-      selectedRowIndex = null;
-      custRowNum = null;
-      custRowObj = {};
+  function startAddClient() {
+  isAddingClient = true;
+  selectedRowIndex = null;
+  custRowNum = null;
+  custRowObj = {};
 
-      showPage('customer');
-      switchTab('info');
-      toggleAddClientFields(true);   // hide 7 inputs while adding a client
+  showPage('customer');
+  // mark page as "adding-client" so CSS shows First/Last/Address/Phone/Email on top
+  const cp = document.getElementById('customerPage');
+  if (cp) cp.classList.add('adding-client');
 
+  switchTab('info');
+  toggleAddClientFields(true);  // hide 7 inputs while adding a client
 
-      // Clear the editable form (bottom section)
-      document.querySelectorAll('#custInfoForm input').forEach(el => el.value = '');
+  // Clear the editable form (bottom section)
+  document.querySelectorAll('#custInfoForm input').forEach(el => el.value = '');
 
-      // Clear the summary cards (top section)
-      renderCustomerHeader({});   // draws empty cards
+  // Clear the summary cards (top section)
+  renderCustomerHeader({});   // draws empty cards
 
-      // Hide & clear the policy editor
-      const pe = document.getElementById('policyEditor');
-      if (pe) pe.style.display = 'none';
-      ['pe_lob', 'pe_policy', 'pe_insurer', 'pe_effDate', 'pe_expDate', 'pe_address', 'pe_phone', 'pe_email', 'pe_firstName', 'pe_lastName', 'pe_year', 'pe_make', 'pe_model', 'pe_vin']
-        .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  // Hide & clear the policy editor
+  const pe = document.getElementById('policyEditor');
+  if (pe) pe.style.display = 'none';
+  ['pe_lob', 'pe_policy', 'pe_insurer', 'pe_effDate', 'pe_expDate', 'pe_address', 'pe_phone', 'pe_email', 'pe_firstName', 'pe_lastName', 'pe_year', 'pe_make', 'pe_model', 'pe_vin']
+    .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
 
-      // Clear policies table
-      const ptb = document.querySelector('#policiesTable tbody');
-      if (ptb) ptb.innerHTML = '';
-      const pempty = document.getElementById('policiesEmpty');
-      if (pempty) pempty.style.display = 'block';
+  // Clear policies table
+  const ptb = document.querySelector('#policiesTable tbody');
+  if (ptb) ptb.innerHTML = '';
+  const pempty = document.getElementById('policiesEmpty');
+  if (pempty) pempty.style.display = 'block';
 
-      // Clear files/accord lists
-      renderAttachmentTable('policy', '[]');
-      renderAttachmentTable('accord', '[]');
+  // Clear files/accord lists
+  renderAttachmentTable('policy', '[]');
+  renderAttachmentTable('accord', '[]');
 
-      // Clear notes (incl. any critical banner)
-      rebuildNotes('');
-    }
+  // Clear notes (incl. any critical banner)
+  rebuildNotes('');
+}
+
 
 
     function showPage(which) {
@@ -1990,19 +2391,21 @@
       document.body.classList.toggle('is-customer', which === 'customer');
     
     }
+function switchTab(name) {
+  ['info', 'policies', 'files', 'accord', 'notes'].forEach(n => {
+    const el = document.getElementById(`tab-${n}`);
+    const btn = document.getElementById(`tabbtn-${n}`);
+    if (el) el.classList.toggle('active', n === name);
+    if (btn) btn.setAttribute('aria-selected', n === name ? 'true' : 'false');
+  });
 
-    function switchTab(name) {
-      ['info', 'policies', 'files', 'accord', 'notes'].forEach(n => {
-        const el = document.getElementById(`tab-${n}`);
-        const btn = document.getElementById(`tabbtn-${n}`);
-        if (el) el.classList.toggle('active', n === name);
-        if (btn) btn.setAttribute('aria-selected', n === name ? 'true' : 'false');
-      });
-
-      // Add a hook so CSS can hide the first 4 summary cards only on Customer Info
-      const cp = document.getElementById('customerPage');
-      if (cp) cp.classList.toggle('info-active', name === 'info');
-    }
+  // Mark which tab is active for CSS (info-active, policies-active, files-active, accord-active, notes-active)
+  const cp = document.getElementById('customerPage');
+  if (cp) {
+    cp.classList.remove('info-active','policies-active','files-active','accord-active','notes-active');
+    cp.classList.add(`${name}-active`);
+  }
+}
 
 
 
@@ -2744,6 +3147,7 @@
     // Initialize both uploaders + row handlers when the page is ready
     document.addEventListener('DOMContentLoaded', () => {
       initDropZone('policy');
+      refreshComposeLinks();
       initDropZone('accord');
 
       // Handle "Go" buttons and row selection on the main table
@@ -2787,6 +3191,9 @@
     });
   </script>
 
+
 </body>
+
+
 
 </html>
