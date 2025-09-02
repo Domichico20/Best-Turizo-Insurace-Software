@@ -15,16 +15,15 @@
   <link rel="dns-prefetch" href="https://script.google.com">
 
   <style>
-    /* Show logo only on Login + Main (list) pages */
-    body.is-customer header {
-      display: none;
-    }
+/* Hide logo when logged-in (main + customer pages) */
+body.is-customer header { display: none; }
+body.logged-in header { display: none; }
+
 
     /* Pause the rainbow animation once we leave the list page */
     body.is-customer .search-btn {
       animation: none !important;
     }
-
 
     /* ===== Base / Theme ===== */
     :root {
@@ -82,14 +81,15 @@
 
 
 
-header img.logo {
-  display: block;
-  margin: 0 auto -70px; /* stronger pull-up to reduce gap above tasks */
-  max-width: 540px;
-  height: auto;
-  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, .08));
-  pointer-events: none;
-}
+    header img.logo {
+      display: block;
+      margin: 0 auto -70px;
+      /* stronger pull-up to reduce gap above tasks */
+      max-width: 540px;
+      height: auto;
+      filter: drop-shadow(0 8px 18px rgba(0, 0, 0, .08));
+      pointer-events: none;
+    }
 
 
 
@@ -285,11 +285,13 @@ header img.logo {
       box-shadow: 0 8px 24px rgba(16, 24, 40, .06);
       table-layout: fixed;
     }
-#tab-files,
-#tab-accord {
-  position: relative;
-  padding-right: 240px;   /* leaves room so content doesn’t hide under the box */
-}
+
+    #tab-files,
+    #tab-accord {
+      position: relative;
+      padding-right: 240px;
+      /* leaves room so content doesn’t hide under the box */
+    }
 
     #dataTable thead th {
       position: sticky;
@@ -359,16 +361,16 @@ header img.logo {
       display: none;
     }
 
-  /* Hide the first 4 summary cards ONLY on the Customer Info tab (except while adding a new client) */
-#customerPage.info-active:not(.adding-client) #custDetailsGrid .card:nth-child(-n+4) {
-  display: none;
-}
+    /* Hide the first 4 summary cards ONLY on the Customer Info tab (except while adding a new client) */
+    #customerPage.info-active:not(.adding-client) #custDetailsGrid .card:nth-child(-n+4) {
+      display: none;
+    }
 
-/* Do not show any summary fields on Files and Accord tabs */
-#customerPage.files-active #custDetailsGrid,
-#customerPage.accord-active #custDetailsGrid {
-  display: none;
-}
+    /* Do not show any summary fields on Files and Accord tabs */
+    #customerPage.files-active #custDetailsGrid,
+    #customerPage.accord-active #custDetailsGrid {
+      display: none;
+    }
 
 
 
@@ -495,65 +497,73 @@ header img.logo {
         border-color .2s ease;
     }
 
-/* User label chip (makes the "Logged in as" text compact & polished) */
-.user-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: #fff;
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-  line-height: 1;
-}
+    /* User label chip (makes the "Logged in as" text compact & polished) */
+    .user-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      line-height: 1;
+    }
 
-.user-chip .user-label {
-  font-size: .72rem;
-  text-transform: uppercase;
-  letter-spacing: .06em;
-  color: #6f5a3e;
-  font-weight: 800;
-  opacity: .9;
-}
+    .user-chip .user-label {
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: #6f5a3e;
+      font-weight: 800;
+      opacity: .9;
+    }
 
-.user-chip #userName {
-  font-weight: 900;
-  font-size: .95rem;
-  color: var(--ink);
-}
+    .user-chip #userName {
+      font-weight: 900;
+      font-size: .95rem;
+      color: var(--ink);
+    }
 
-/* Smaller pill using your modern tab gradient, with a left white icon-box */
-#userWidget .logout-btn.tab {
-  display: inline-flex;
-  align-items: stretch;
-  padding: 0;                 /* let inner pieces control spacing */
-  min-height: 40px;           /* smaller than default tab */
-  width: auto;                /* don’t force the 140px width */
-  border-radius: 999px;
-  overflow: hidden;           /* so the white box sits flush on the left */
-}
+    /* Smaller pill using your modern tab gradient, with a left white icon-box */
+    #userWidget .logout-btn.tab {
+      display: inline-flex;
+      align-items: stretch;
+      padding: 0;
+      /* let inner pieces control spacing */
+      min-height: 40px;
+      /* smaller than default tab */
+      width: auto;
+      /* don’t force the 140px width */
+      border-radius: 999px;
+      overflow: hidden;
+      /* so the white box sits flush on the left */
+    }
 
-/* White box all the way to the left */
-#userWidget .logout-btn .icon-box {
-  display: grid;
-  place-items: center;
-  width: 40px;                /* tweak 36–44px as you like */
-  background: #fff;
-  color: #7d2a2a;             /* harmonizes with your tab gradient */
-  border-right: 1px solid rgba(0,0,0,.08);
-}
+    /* White box all the way to the left */
+    #userWidget .logout-btn .icon-box {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      /* tweak 36–44px as you like */
+      background: #fff;
+      color: #7d2a2a;
+      /* harmonizes with your tab gradient */
+      border-right: 1px solid rgba(0, 0, 0, .08);
+    }
 
-/* Cleaner text sizing/spacing */
-#userWidget .logout-btn .txt {
-  display: inline-block;
-  padding: 0 14px;
-  font-weight: 900;
-  font-size: .9rem;           /* slightly smaller */
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  line-height: 40px;          /* match min-height for perfect centering */
-}
+    /* Cleaner text sizing/spacing */
+    #userWidget .logout-btn .txt {
+      display: inline-block;
+      padding: 0 14px;
+      font-weight: 900;
+      font-size: .9rem;
+      /* slightly smaller */
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      line-height: 40px;
+      /* match min-height for perfect centering */
+    }
 
 
     /* Hover / Press / Focus */
@@ -787,7 +797,7 @@ header img.logo {
 
     /* Bigger popup calendar (Flatpickr) */
     .flatpickr-calendar {
-      transform: scale(1.8);
+      transform: scale(1);
       transform-origin: top left;
       z-index: 99999;
     }
@@ -1009,26 +1019,32 @@ header img.logo {
       font-weight: 700;
     }
 
-#tab-files .attc-upload,
-#tab-accord .attc-upload {
-  position: fixed;
-  right: 12px;    /* was 175px */
-  bottom: 12px;   /* was 465px */
-  width: 220px;
-  margin: 0;
-  z-index: 3000;
-  pointer-events: auto;
-}
+    #tab-files .attc-upload,
+    #tab-accord .attc-upload {
+      position: fixed;
+      right: 12px;
+      /* was 175px */
+      bottom: 12px;
+      /* was 465px */
+      width: 220px;
+      margin: 0;
+      z-index: 3000;
+      pointer-events: auto;
+    }
 
 
 
-#tab-files .attc-dropzone,
-#tab-accord .attc-dropzone {
-  grid-template-columns: 20px 1fr;  /* was 24px 1fr */
-  gap: 8px;                         /* was 10px */
-  padding: 8px 10px;                /* was 12px 14px */
-  border-radius: 10px;              /* was 12px */
-}
+    #tab-files .attc-dropzone,
+    #tab-accord .attc-dropzone {
+      grid-template-columns: 20px 1fr;
+      /* was 24px 1fr */
+      gap: 8px;
+      /* was 10px */
+      padding: 8px 10px;
+      /* was 12px 14px */
+      border-radius: 10px;
+      /* was 12px */
+    }
 
 
     #tab-files .attc-dropzone svg,
@@ -1038,19 +1054,22 @@ header img.logo {
     }
 
     #tab-files .attc-dropzone .text strong,
-#tab-accord .attc-dropzone .text strong {
-  font-size: .9rem;   /* was 1rem */
-}
+    #tab-accord .attc-dropzone .text strong {
+      font-size: .9rem;
+      /* was 1rem */
+    }
 
-#tab-files .attc-dropzone .text span,
-#tab-accord .attc-dropzone .text span {
-  font-size: .8rem;   /* was .9rem */
-}
+    #tab-files .attc-dropzone .text span,
+    #tab-accord .attc-dropzone .text span {
+      font-size: .8rem;
+      /* was .9rem */
+    }
 
-#tab-files .attc-dropzone .meta,
-#tab-accord .attc-dropzone .meta {
-  font-size: .75rem;  /* was .8rem */
-}
+    #tab-files .attc-dropzone .meta,
+    #tab-accord .attc-dropzone .meta {
+      font-size: .75rem;
+      /* was .8rem */
+    }
 
 
     /* The little "Selected: filename" line stays with the floating box */
@@ -1061,15 +1080,21 @@ header img.logo {
     }
 
     /* Optional: on very small screens, tuck it tighter */
-@media (max-width: 900px) {
-  #tab-files, #tab-accord { padding-right: 0; }
-  #tab-files .attc-upload,
-  #tab-accord .attc-upload {
-    position: static;   /* drop back into normal flow */
-    width: 100%;
-    margin: 10px 0 16px;
-  }
-}
+    @media (max-width: 900px) {
+
+      #tab-files,
+      #tab-accord {
+        padding-right: 0;
+      }
+
+      #tab-files .attc-upload,
+      #tab-accord .attc-upload {
+        position: static;
+        /* drop back into normal flow */
+        width: 100%;
+        margin: 10px 0 16px;
+      }
+    }
 
 
     /* quick spinner for optimistic rows */
@@ -1150,9 +1175,11 @@ header img.logo {
     }
 
     /* ===== Tasks Widget ===== */
-    #taskTo { min-width: 180px; }
+    #taskTo {
+      min-width: 180px;
+    }
 
-  
+
     .tasks-panel {
       width: min(1250px, 96vw);
       margin: 10px auto 18px;
@@ -1201,24 +1228,27 @@ header img.logo {
       font-size: 1.2rem;
     }
 
-/* Show ~3 tasks; scroll to see the rest */
-#tasksPanel ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  max-height: 200px;      /* ≈ three items tall */
-  overflow-y: auto;       /* enables scrolling */
-  padding-right: 8px;     /* keeps text clear of scrollbar */
-  scrollbar-gutter: stable;
-}
+    /* Show ~3 tasks; scroll to see the rest */
+    #tasksPanel ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-height: 200px;
+      /* ≈ three items tall */
+      overflow-y: auto;
+      /* enables scrolling */
+      padding-right: 8px;
+      /* keeps text clear of scrollbar */
+      scrollbar-gutter: stable;
+    }
 
-/* Optional: keep long task text from making rows too tall */
-#tasksPanel li strong {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
+    /* Optional: keep long task text from making rows too tall */
+    #tasksPanel li strong {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
 
 
     #tasksPanel li {
@@ -1264,125 +1294,314 @@ header img.logo {
       }
     }
 
-  #searchForm {
-  margin-top: 18px; /* ~75% reduction of the previous 70px gap */
+   /* ===== Right-side Reminder Card (pinned to very top) ===== */
+.reminder-card {
+  position: static;
+  right: 12px;
+  top: 64px;
+  /* clears the top-right Customer Overview button */
+  width: 350px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 14px;
+  z-index: 2800;
+  /* below Customer Overview (z=3000), above table */
 }
+
+
+    .reminder-card h4 {
+      margin: 0 0 6px;
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+
+    .reminder-card .desc {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    .reminder-card .row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .reminder-card input[type="text"],
+    .reminder-card input[type="datetime-local"] {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 1rem;
+      background: #fff;
+    }
+
+    .reminder-card input[type="text"] {
+      flex: 1 1 auto;
+    }
+
+    .reminder-card .hint {
+      display: block;
+      margin-top: 8px;
+      font-size: .85rem;
+      color: var(--muted);
+    }
+
+ 
+/* Mobile: keep it in document flow too */
+@media (max-width: 900px) {
+  .reminder-card {
+    position: static;
+    left: 12px;
+    right: 12px;
+    top: 64px;
+    width: auto;
+    margin: 0;
+  }
+}
+
+
+
+
+    #searchForm {
+      margin-top: 18px;
+      /* ~75% reduction of the previous 70px gap */
+    }
 
     /* Top-right user widget */
-/* Top-left user widget (logout) */
+    /* Top-left user widget (logout) */
+    /* Top-left user widget (logout) – layout handled by the grid at the bottom */
 #userWidget {
-  position: fixed;
-  top: 8px;
-  left: 12px;     /* moved to left */
   display: flex;
   gap: 8px;
-  align-items: center;
-  z-index: 3500;
-}
-#userWidget .who{
-  font-size: .95rem;
-  color: var(--muted);
-  margin-bottom: 8px;
-  font-weight: 700;
-}
-#userWidget .who strong{ color: var(--ink); }
-
-/* Keep the modern pill style on the logout button */
-#logoutBtn.tab{
+  align-items: center;            /* keep centered vertically */
+  justify-content: flex-start;    /* push the button to the left */
   width: auto;
-  min-width: 140px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  margin: 0;
+  position: fixed !important;
+  top: 8px !important;
+  left: 12px !important;
+  right: auto !important;
+  z-index: 5000 !important;
 }
 
-/* Ensure "Customer Overview" stays pinned at very top-right */
-#fixedAddClient{
+
+
+
+    #userWidget .who {
+      font-size: .95rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    #userWidget .who strong {
+      color: var(--ink);
+    }
+
+    /* Keep the modern pill style on the logout button */
+    #logoutBtn.tab {
+      width: auto;
+      min-width: 140px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+
+    /* Accord editor card: same card/look as the Files area */
+    #accordEditor {
+      margin: 12px 0;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(16, 24, 40, .06);
+    }
+
+    /* Gradient bar like your table headers */
+    #accordEditor .bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      background: linear-gradient(180deg,
+          #d1a66e 0%,
+          #b1874f 20%,
+          #b3803d 45%,
+          #a06e2c 60%,
+          #b3803d 75%,
+          #b1874f 88%,
+          #d1a66e 100%);
+      color: #fff;
+      font-weight: 800;
+      letter-spacing: .06em;
+      border-bottom: 1px solid rgba(0, 0, 0, .08);
+    }
+
+    #accordEditor .viewer {
+      height: 70vh;
+      background: #fff;
+    }
+
+    /* Modern pill button (auto width) */
+    .pill-btn {
+      appearance: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      min-height: 44px;
+      border-radius: 999px;
+      border: 1px solid #8a673c;
+      background: linear-gradient(180deg, #d1a66e 0%, #b1874f 35%, #9c6a33 70%, #7c5b2e 100%);
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.1rem;
+      line-height: 1;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 8px 14px rgba(16, 24, 40, .10);
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .pill-btn:hover {
+      transform: translateY(-1px);
+      background: linear-gradient(180deg, #e0be8a 0%, #c39a62 38%, #a5743c 70%, #835829 100%);
+      box-shadow: 0 12px 22px rgba(16, 24, 40, .16);
+    }
+
+    .pill-btn:active {
+      transform: none;
+      box-shadow: inset 0 4px 10px rgba(0, 0, 0, .18);
+      background: linear-gradient(180deg, #8a5f2d 0%, #70461b 100%);
+    }
+
+    .pill-btn:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(197, 155, 106, .35);
+    }
+
+    /* Ensure no ancestor creates a containing block for fixed elements */
+    #appSection,
+    #customerPage {
+      transform: none !important;
+      filter: none !important;
+    }
+
+    /* Hidden until the user logs in */
+    #userWidget,
+    #fixedAddClient,
+    .reminder-card {
+      display: none;
+    }
+
+
+
+#fixedAddClient {
+  position: fixed !important;
   top: 8px !important;
   right: 12px !important;
+  z-index: 5000 !important;
 }
 
-/* Accord editor card: same card/look as the Files area */
-#accordEditor{
-  margin:12px 0;
-  border:1px solid var(--border);
-  border-radius:12px;
-  overflow:hidden;
-  background:#fff;
-  box-shadow: 0 8px 24px rgba(16,24,40,.06);
+
+
+ .reminder-card {
+  position: static !important;
+  right: 12px !important;
+  top: 64px !important;
+  width: 350px;
+  z-index: 4800 !important;
 }
 
-/* Gradient bar like your table headers */
-#accordEditor .bar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:10px 12px;
-  background: linear-gradient(180deg,
-      #d1a66e 0%,
-      #b1874f 20%,
-      #b3803d 45%,
-      #a06e2c 60%,
-      #b3803d 75%,
-      #b1874f 88%,
-      #d1a66e 100%);
-  color:#fff;
-  font-weight:800;
-  letter-spacing:.06em;
-  border-bottom:1px solid rgba(0,0,0,.08);
+
+    /* Mobile: stay fixed at the top, full width */
+@media (max-width: 900px) {
+    #userWidget     { 
+    top: 8px !important; 
+    left: 12px !important; 
+    right: auto !important;
+    z-index: 5000 !important; 
+  }
+
+  #fixedAddClient {
+    position: fixed !important;
+    top: 64px !important;         /* leaves room under the logout button */
+    right: 12px !important;
+    z-index: 5000 !important;
+  }
+
+  /* Put this AFTER any other #fixedAddClient rules */
+#fixedAddClient {
+  position: fixed !important;
+  top: 64px !important;
+  right: 12px !important;
+  z-index: 5000 !important;
 }
 
-#accordEditor .viewer{
-  height:70vh;
-  background:#fff;
-}
-/* Modern pill button (auto width) */
-.pill-btn{
-  appearance:none;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  padding:12px 20px;
-  min-height:44px;
-  border-radius:999px;
-  border:1px solid #8a673c;
-  background: linear-gradient(180deg,#d1a66e 0%,#b1874f 35%,#9c6a33 70%,#7c5b2e 100%);
-  color:#fff;
-  font-weight:800;
-  font-size:1.1rem;
-  line-height:1;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 8px 14px rgba(16,24,40,.10);
-  cursor:pointer;
-  text-decoration:none;
-}
-.pill-btn:hover{
-  transform:translateY(-1px);
-  background: linear-gradient(180deg,#e0be8a 0%,#c39a62 38%,#a5743c 70%,#835829 100%);
-  box-shadow:0 12px 22px rgba(16,24,40,.16);
-}
-.pill-btn:active{
-  transform:none;
-  box-shadow: inset 0 4px 10px rgba(0,0,0,.18);
-  background: linear-gradient(180deg,#8a5f2d 0%,#70461b 100%);
-}
-.pill-btn:focus-visible{
-  outline:none;
-  box-shadow:0 0 0 3px rgba(197,155,106,.35);
+
+/* Optional: nudge it down a bit on small screens */
+@media (max-width: 900px) {
+  #fixedAddClient { top: 64px !important; }
 }
 
-  </style>
 
+.reminder-card  { top: 120px !important; width: auto !important; }
+
+      /* Only the little box completes the task */
+#tasksPanel li label { pointer-events: none; }
+#tasksPanel li input[type="checkbox"] { pointer-events: auto; }
+    }
+
+    /* Extra breathing room between Customer Overview button and the reminder widget */
+.reminder-card { 
+  top: 76px !important;  /* was 64px */
+}
+
+@media (max-width: 900px) {
+  .reminder-card { 
+    top: 132px !important; /* was 120px */
+  }
+}
+
+/* Center the Remind me card above Tasks and drop both ~2 inches from the top */
+#reminderCard {
+  position: static !important;
+  top: auto !important;
+  right: auto !important;
+  left: auto !important;
+  margin: 60px auto 12px !important; /* 2in ≈ 192px */
+  width: 350px;
+}
+
+#tasksPanel {
+  margin-top: 0 !important; /* sits directly under the reminder card */
+}
+
+/* Mobile: centered, a bit less offset, full width */
+@media (max-width: 900px) {
+  #reminderCard {
+    margin: 160px auto 12px !important;
+    width: auto !important;
+  }
+}
+
+</style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
 </head>
 
 <body>
   <header>
     <img class="logo"
       src="https://raw.githubusercontent.com/Domichico20/Best-Turizo-Insurace-Software/11806dd4d5912b98aaba1ae08428968a18b2fa8a/logo.png"
-      alt="Logo"
-      />
+      alt="Logo" />
+
+
   </header>
 
 
@@ -1395,19 +1614,19 @@ header img.logo {
   </div>
 
   <div id="appSection" style="display:none;">
-    <div id="fixedAddClient" style="position:fixed; top:8px; right:12px; z-index:3000;">
+    <div id="fixedAddClient">
       <button type="button" class="tab" onclick="startAddClient()" style="transform:none; transition:none;">
         Customer Overview
       </button>
     </div>
 
-    <!-- Top-left Logout (only on main page because it's inside #appSection) -->
+ 
     <div id="userWidget">
       <button id="logoutBtn" class="tab logout-btn" type="button" onclick="logout()">
         <span class="icon-box" aria-hidden="true">
           <!-- Power icon -->
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
-               stroke-linecap="round" stroke-linejoin="round">
+            stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 2v10"></path>
             <path d="M5.5 5.5a7.5 7.5 0 1 0 13 0"></path>
           </svg>
@@ -1417,30 +1636,47 @@ header img.logo {
     </div>
 
 
-    <!-- ===== Tasks (Sender / Receiver) ===== -->
+    <!-- NEW: Right-side reminder card -->
+<aside id="reminderCard" class="reminder-card" aria-label="Reminders">
+  <h4>Remind me</h4>
+  <p class="desc">Create a personal reminder. It will show up in <strong>My Tasks</strong>.</p>
+
+  <div class="row" style="margin-bottom:10px;">
+    <input type="text" id="remText" placeholder="Remind me to…">
+  </div>
+
+  <div class="row">
+    <input type="datetime-local" id="remWhen" title="When" onchange="this.blur()">
+    <button type="button" class="btn primary" onclick="sendReminder()">Remind me</button>
+  </div>
+
+  <small class="hint">All times Eastern (ET)</small>
+</aside>
+
+<!-- ===== Tasks (Sender / Receiver) ===== -->
 <div id="tasksPanel" class="tasks-panel">
   <h3 id="tasksHeader" style="margin:0 0 8px;">Tasks</h3>
 
+  <!-- Compose to another user -->
+  <div class="tasks-row">
+    <select id="taskTo" title="Send task to"></select>
+    <input type="text" id="taskText" placeholder="Write a task for another user">
+    <button type="button" class="btn primary" onclick="sendTask()">Send</button>
+  </div>
 
-      <!-- Compose -->
-      <div class="tasks-row">
-        <select id="taskTo" title="Send task to"></select>
-        <input type="text" id="taskText" placeholder="Write a task for another user">
-        <button type="button" class="btn primary" onclick="sendTask()">Send</button>
-      </div>
-
-      <!-- Two lists -->
-      <div class="tasks-columns">
-        <div class="tasks-col">
-          <h4>My Tasks</h4>
-          <ul id="tasksReceived"></ul>
-        </div>
-        <div class="tasks-col">
-          <h4>Tasks I Sent</h4>
-          <ul id="tasksSent"></ul>
-        </div>
-      </div>
+  <!-- Two lists -->
+  <div class="tasks-columns">
+    <div class="tasks-col">
+      <h4>My Tasks</h4>
+      <ul id="tasksReceived"></ul>
     </div>
+    <div class="tasks-col">
+      <h4>Tasks I Sent</h4>
+      <ul id="tasksSent"></ul>
+    </div>
+  </div>
+</div>
+
 
     <form id="searchForm" onsubmit="event.preventDefault(); searchData();">
       <div id="searchSection">
@@ -1497,10 +1733,62 @@ header img.logo {
         <button class="tab" id="tabbtn-notes" role="tab" aria-controls="tab-notes" aria-selected="false"
           onclick="switchTab('notes')">Notes</button>
         <button class="tab" id="tabbtn-addclient" type="button" onclick="startAddClient()">Add Client</button>
+        <!-- NEW: only Edwin sees this (we toggle it after login) -->
+        <button class="tab" id="tabbtn-settings" type="button" onclick="openSettings()"
+          style="display:none;">Settings</button>
       </div>
 
 
+
       <div class="grid" id="custDetailsGrid"></div>
+
+      <!-- NEW: Settings modal (admins only; opened by the Settings tab button) -->
+      <div id="settingsModal"
+        style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.40); z-index:4000; align-items:center; justify-content:center;">
+        <div
+          style="background:#fff; border:1px solid var(--border); border-radius:14px; width:min(720px,96vw); padding:16px; box-shadow:var(--shadow);">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+            <h3 style="margin:0">Settings</h3>
+            <button class="btn" type="button" onclick="closeSettings()">Close</button>
+          </div>
+
+          <div style="margin-top:12px;">
+            <h4>Existing Users</h4>
+            <ul id="userList" style="margin:6px 0 14px; padding-left:18px;"></ul>
+          </div>
+
+          <hr>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr auto; gap:8px; align-items:end; margin-top:12px;">
+            <div>
+              <label style="font-weight:700;display:block;margin-bottom:4px;">Add User (username)</label>
+              <input id="addUserName" placeholder="e.g. Maria" />
+            </div>
+            <div>
+              <label style="font-weight:700;display:block;margin-bottom:4px;">Password</label>
+              <input id="addUserPass" type="password" placeholder="Set password" />
+            </div>
+            <button class="btn primary" type="button" onclick="addUser()">Add</button>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr auto; gap:8px; align-items:end; margin-top:12px;">
+            <div>
+              <label style="font-weight:700;display:block;margin-bottom:4px;">Change Password (user)</label>
+              <select id="cpUser"></select>
+            </div>
+            <div>
+              <label style="font-weight:700;display:block;margin-bottom:4px;">New Password</label>
+              <input id="cpPass" type="password" placeholder="New password" />
+            </div>
+            <button class="btn primary" type="button" onclick="setPassword()">Update</button>
+          </div>
+
+          <p class="small" style="margin-top:10px;">
+            Changes are saved to the server if your Apps Script supports it; otherwise they apply for this session.
+          </p>
+        </div>
+      </div>
+
 
       <!-- Customer Info panel -->
       <!-- Customer Info panel -->
@@ -1655,7 +1943,7 @@ header img.logo {
           <div class="attc-file" id="accordFileMeta"></div>
         </div>
 
-     
+
 
         <table class="themed-table" id="accordTable">
           <thead>
@@ -1692,14 +1980,109 @@ header img.logo {
   </div>
 
   <script>
-function doLogout(){
-  // Refresh the browser to reset the app state
-  window.location.reload();
-}
-window.logout = doLogout; // keep the button working
 
 
+    // === Eastern Time helpers ===
+    function easternOffsetForYMD(y, m, d) {
+      // midday avoids DST boundary weirdness
+      const probe = new Date(Date.UTC(y, m - 1, d, 12, 0, 0));
+      const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/New_York',
+        timeZoneName: 'shortOffset',
+        year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit'
+      }).formatToParts(probe);
+      const tz = (parts.find(p => p.type === 'timeZoneName') || {}).value || 'GMT-05:00';
+      const m2 = tz.match(/GMT([+-]\d{1,2})(?::?(\d{2}))?/);
+      if (!m2) return '-05:00';
+      const sign = m2[1].startsWith('-') ? '-' : '+';
+      const hh = String(Math.abs(parseInt(m2[1], 10))).padStart(2, '0');
+      const mm = m2[2] || '00';
+      return `${sign}${hh}:${mm}`;
+    }
+    // Turn a "YYYY-MM-DDTHH:MM" (from datetime-local) into an ISO string *anchored to Eastern*
+    function toEasternIso(whenRaw) {
+      const [dStr, tStr] = String(whenRaw || '').split('T');
+      if (!dStr || !tStr) return '';
+      const [y, m, d] = dStr.split('-').map(Number);
+      const offset = easternOffsetForYMD(y, m, d);
+      return `${dStr}T${tStr}:00${offset}`; // e.g. 2025-03-10T09:30:00-04:00
+    }
+    // ET "today" at midnight for date comparisons
+    function todayStartET() {
+      const nowET = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
+      nowET.setHours(0, 0, 0, 0);
+      return nowET;
+    }
 
+    function doLogout() {
+      // Refresh the browser to reset the app state
+      window.location.reload();
+    }
+    window.logout = doLogout; // keep the button working
+
+    // Hoist fixed UI so they pin to the viewport even if a parent scrolls/transforms
+    function hoistFixedUI() {
+      // no-op: keep widgets where they are so they scroll with content
+
+    }
+
+
+    /* ===== Settings (Edwin only) ===== */
+    function openSettings() {
+      if (sessionUser !== 'Edwin') { alert('Settings are available to Edwin only.'); return; }
+      const m = document.getElementById('settingsModal');
+      if (m) { m.style.display = 'flex'; loadUsersUI(); }
+    }
+    function closeSettings() {
+      const m = document.getElementById('settingsModal');
+      if (m) { m.style.display = 'none'; }
+    }
+    function loadUsersUI() {
+      // Build UI from current USERS map
+      const ul = document.getElementById('userList');
+      const sel = document.getElementById('cpUser');
+      const names = Object.keys(USERS);
+      if (ul) {
+        ul.innerHTML = names.length ? names.map(n => `<li>${esc(n)}</li>`).join('') : '<li>None</li>';
+      }
+      if (sel) {
+        sel.innerHTML = names.map(n => `<option value="${esc(n)}">${esc(n)}</option>`).join('');
+      }
+    }
+    function addUser() {
+      if (sessionUser !== 'Edwin') { alert('Edwin only'); return; }
+      const name = (document.getElementById('addUserName').value || '').trim();
+      const pass = (document.getElementById('addUserPass').value || '').trim();
+      if (!name || !pass) { alert('Enter username and password'); return; }
+      if (USERS[name]) { alert('User already exists'); return; }
+
+      // Local (immediate) update
+      USERS[name] = pass;
+      loadUsersUI();
+      initTasksUI(); // refresh recipients
+
+      // Try to persist on server (no-op if your Apps Script doesn’t handle it)
+      postToScript({ action: 'userAdd', password: sessionPassword, requester: sessionUser, newUser: name, newPassword: pass })
+        .catch(() => { /* ignore if not implemented */ });
+
+      document.getElementById('addUserName').value = '';
+      document.getElementById('addUserPass').value = '';
+    }
+    function setPassword() {
+      if (sessionUser !== 'Edwin') { alert('Edwin only'); return; }
+      const who = (document.getElementById('cpUser').value || '').trim();
+      const pass = (document.getElementById('cpPass').value || '').trim();
+      if (!who || !pass) { alert('Pick a user and enter a new password'); return; }
+
+      // Local (immediate) update
+      USERS[who] = pass;
+      document.getElementById('cpPass').value = '';
+      alert('Password updated');
+
+      // Try to persist on server
+      postToScript({ action: 'userSetPassword', password: sessionPassword, requester: sessionUser, user: who, newPassword: pass })
+        .catch(() => { /* ignore if not implemented */ });
+    }
 
 
     function refreshData() {
@@ -1725,7 +2108,7 @@ window.logout = doLogout; // keep the button working
 
     /* ===== Config / Constants ===== */
     const ROW_LIMIT = 25;
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbwzkcsOABoZbMpKy9JE3c1vX99oNJcOBfXBGipJ1fU--FIbjR2-eoB4N6KYbc7wAsc/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxyahQHU8BNJK6cZyYebKWMuSqSPRLTHI9OaJ-kABn5gxkToGaoaXxkv12syN45MvhF/exec';
     const sheetId = '1q94KS8Dc2usWKc0h6iQvHP1sDfsPbgcybzXs4zpZANc';
     const apiKey = 'AIzaSyAhaKX_GIaCIXBsq43J3aMvqtGtFngdzrQ';
     const range = 'policies!A1:ZZZ'; // pull all columns, incl. Policy/Accord Forms
@@ -1733,39 +2116,39 @@ window.logout = doLogout; // keep the button working
     const USERS = { Edwin: 'Insurance2025', Islendy: 'Insurance2026', Penelope: 'Insurance2027' };
 
     function initTasksUI() {
-  const sel = document.getElementById('taskTo');
-  if (!sel) return;
+      const sel = document.getElementById('taskTo');
+      if (!sel) return;
 
-  // clear and add a placeholder
-  sel.innerHTML = '';
-  const ph = document.createElement('option');
-  ph.value = '';
-  ph.textContent = '— Select user —';
-  ph.disabled = true;
-  ph.selected = true;
-  sel.appendChild(ph);
+      // clear and add a placeholder
+      sel.innerHTML = '';
+      const ph = document.createElement('option');
+      ph.value = '';
+      ph.textContent = '— Select user —';
+      ph.disabled = true;
+      ph.selected = true;
+      sel.appendChild(ph);
 
-  // add all users except the one who’s logged in
-  Object.keys(USERS).forEach(u => {
-    if (u !== sessionUser) {
-      const opt = document.createElement('option');
-      opt.value = u;
-      opt.textContent = u;
-      sel.appendChild(opt);
+      // add all users except the one who’s logged in
+      Object.keys(USERS).forEach(u => {
+        if (u !== sessionUser) {
+          const opt = document.createElement('option');
+          opt.value = u;
+          opt.textContent = u;
+          sel.appendChild(opt);
+        }
+      });
+
+      // ensure it’s not rendered as a tiny square
+      sel.style.minWidth = '180px';
     }
-  });
-
-  // ensure it’s not rendered as a tiny square
-  sel.style.minWidth = '180px';
-}
 
 
     /* ===== Tasks (sender/receiver) ===== */
-/* ===== Tasks (sender/receiver) ===== */
-let tasksReceived = [];
-let tasksSent = [];
-let isLoadingTasks = false;     // prevent overlapping fetches
-let lastTasksSnapshot = '';     // skip rerender if server data didn't change
+    /* ===== Tasks (sender/receiver) ===== */
+    let tasksReceived = [];
+    let tasksSent = [];
+    let isLoadingTasks = false;     // prevent overlapping fetches
+    let lastTasksSnapshot = '';     // skip rerender if server data didn't change
 
     function esc(s) { return String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
     function fmtTs(ts) {
@@ -1786,185 +2169,574 @@ let lastTasksSnapshot = '';     // skip rerender if server data didn't change
       }
     }
 
-function sendTask() {
-  const to = (document.getElementById('taskTo').value || '').trim();
-  const text = (document.getElementById('taskText').value || '').trim();
-  if (!to) { alert('Choose who to send to'); return; }
-  if (!text) { alert('Type a task'); return; }
+    function sendTask() {
+      const sel = document.getElementById('taskTo');
+      const to = sel ? (sel.value || '').trim() : '';
+      const text = (document.getElementById('taskText').value || '').trim();
+      if (!to) { alert('Pick who to send it to'); return; }
+      if (!text) { alert('Type the task'); return; }
 
-  postToScript({ action: 'taskAdd', password: sessionPassword, from: sessionUser, to, text })
-    .then((txt) => {
-      let resp;
-      try { resp = JSON.parse(txt); } catch (e) {
-        alert('Task send failed: server did not return JSON.\n' + String(txt).slice(0, 200));
-        return;
+      postToScript({
+        action: 'taskAdd',
+        password: sessionPassword,
+        from: sessionUser,
+        to,
+        text,
+        reminder: 'false'
+      }).then((txt) => {
+        const resp = JSON.parse(txt || '{}');
+        if (!resp.ok) throw new Error(resp.error || 'Send failed');
+
+        document.getElementById('taskText').value = '';
+
+        const now = new Date();
+        const newTask = {
+          id: resp.id || '',
+          from: sessionUser,
+          to,
+          text,
+          completed: false,
+          createdAt: now,
+          completedAt: '',
+          dueAt: ''
+        };
+        tasksSent = [newTask, ...tasksSent];
+        sortTaskArrays();
+        renderTasks();
+      }).catch(err => alert(err.message || 'Failed to send task'));
+    }
+    
+function sendReminder() {
+  const text = (document.getElementById('remText').value || '').trim();
+  const whenRaw = (document.getElementById('remWhen').value || '').trim(); // "YYYY-MM-DDTHH:MM"
+  if (!text) { alert('Type what to remind you about'); return; }
+  if (!whenRaw) { alert('Pick a date & time'); return; }
+
+  const btn = document.querySelector('#reminderCard .btn.primary');
+  if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
+
+  // Anchor to Eastern Time (your existing helper)
+  const dueAt = toEasternIso(whenRaw);
+
+  // 1) Optimistic local insert + schedule now
+  const tempId = 'temp_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2);
+  const tempReminder = {
+    id: tempId,
+    from: sessionUser,
+    to: sessionUser,
+    text,
+    completed: false,
+    createdAt: new Date(),
+    completedAt: '',
+    dueAt,
+    reminder: true
+  };
+  tasksReceived = [tempReminder, ...tasksReceived];
+  sortTaskArrays();
+  renderTasks();
+  scheduleOneReminder(tempReminder);
+
+  // clear inputs instantly
+  document.getElementById('remText').value = '';
+  document.getElementById('remWhen').value = '';
+
+  // 2) Send to server (shorter timeout for responsiveness)
+  postToScript({
+    action: 'taskAdd',
+    password: sessionPassword,
+    from: sessionUser,
+    to: sessionUser,
+    text,
+    dueAt,
+    reminder: 'true'
+  }, 10000 /* 10s timeout */)
+  .then((txt) => {
+    const resp = JSON.parse(txt || '{}');
+    if (!resp.ok) throw new Error(resp.error || 'Failed to add reminder');
+
+    // swap temp id with real id so future actions work
+    const idx = tasksReceived.findIndex(x => x.id === tempId);
+    if (idx >= 0) tasksReceived[idx].id = resp.id || tempId;
+
+    // re-key any scheduled timer we already created
+    const oldKey = tempId + ' @ ' + String(dueAt || '');
+    const newKey = (tasksReceived[idx].id) + ' @ ' + String(dueAt || '');
+    if (scheduledTimers[oldKey]) {
+      scheduledTimers[newKey] = scheduledTimers[oldKey];
+      delete scheduledTimers[oldKey];
+    }
+  })
+  .catch((err) => {
+    // keep the optimistic reminder; show a gentle notice
+    console.error(err);
+    alert('Saved locally. Server was slow/unreachable — it will sync on your next refresh.');
+  })
+  .finally(() => {
+    if (btn) { btn.disabled = false; btn.textContent = 'Remind me'; }
+  });
+}
+
+
+    function taskTime(x) {
+      if (!x) return 0;
+      if (typeof x === 'number') return x;
+      const d = new Date(x);
+      return isNaN(d) ? 0 : d.getTime();
+    }
+    function sortTaskArrays() {
+      tasksReceived.sort((a, b) => taskTime(b.createdAt) - taskTime(a.createdAt));
+      tasksSent.sort((a, b) => taskTime(b.createdAt) - taskTime(a.createdAt));
+    }
+
+    function loadTasks() {
+      if (!sessionUser || isLoadingTasks) return Promise.resolve();
+      isLoadingTasks = true;
+
+      return postToScript({ action: 'taskList', password: sessionPassword, user: sessionUser })
+        .then((txt) => {
+          let resp;
+          try { resp = JSON.parse(txt); } catch (e) {
+            alert('Could not load tasks (server did not return JSON). Check your deployment URL/permissions.');
+            console.error('Raw response for taskList:', txt);
+            return;
+          }
+          if (resp && resp.ok === false) {
+            alert(resp.error || 'Could not load tasks.');
+            return;
+          }
+          const list = Array.isArray(resp.tasks) ? resp.tasks : [];
+
+          // Skip rerender if nothing changed
+          const snap = JSON.stringify(list);
+          if (snap === lastTasksSnapshot) return;
+          lastTasksSnapshot = snap;
+
+          tasksReceived = list.filter(t => String(t.to) === String(sessionUser) && !t.completed);
+          tasksSent = list.filter(t => String(t.from) === String(sessionUser) && !t.reminder);
+
+          sortTaskArrays();
+          renderTasks();
+
+          // NEW: schedule popups for any reminders in "My Tasks"
+          scheduleRemindersFrom(tasksReceived);
+        })
+        .catch(err => alert(err && err.message ? err.message : 'Failed to load tasks'))
+        .finally(() => { isLoadingTasks = false; });
+    }
+
+    /* === Reminder Popup & Scheduler (NEW) — with Snooze & Completed ====== */
+    const REM_LS_KEY = 'firedReminders_v1';
+ let firedReminders = {};
+let scheduledTimers = Object.create(null); // id@dueAt -> timeoutId
+let activeReminderTask = null; // currently shown reminder in the popup
+
+
+    (function loadFiredReminders() {
+      try { firedReminders = JSON.parse(localStorage.getItem(REM_LS_KEY) || '{}'); }
+      catch (_) { firedReminders = {}; }
+    })();
+    function markFired(id, dueAt) {
+      if (!id) return;
+      firedReminders[id + ' @ ' + String(dueAt || '')] = Date.now();
+      try { localStorage.setItem(REM_LS_KEY, JSON.stringify(firedReminders)); } catch (_) { }
+    }
+    function hasFired(id, dueAt) {
+      return !!firedReminders[id + ' @ ' + String(dueAt || '')];
+    }
+    function ensureReminderStyles() {
+      if (document.getElementById('reminderPopupStyles')) return;
+      const css = `
+#reminderOverlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.45);z-index:7000;}
+#reminderOverlay .rem-card{width:min(520px,92vw);background:#fff;border:1px solid var(--border);border-radius:16px;box-shadow:0 20px 60px rgba(16,24,40,.25);padding:18px;text-align:center;}
+#reminderOverlay .rem-card h3{margin:0 0 8px;font-size:1.3rem;}
+#reminderOverlay .rem-card p{margin:6px 0 16px;font-size:1.15rem;}
+#reminderOverlay .rem-card .actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
+#reminderOverlay .rem-card .actions .btn{min-width:150px;}
+`;
+      const s = document.createElement('style');
+      s.id = 'reminderPopupStyles';
+      s.textContent = css;
+      document.head.appendChild(s);
+    }
+function snoozeReminder(mins){
+  const t = activeReminderTask;
+  if (!t || !mins) { hideReminderPopup(); return; }
+
+  // Compute new due time in ET and make a temp reminder
+  const newDate = new Date(Date.now() + mins*60000);
+  const dueAt = toEasternIsoFromDate(newDate);
+  const tempId = 'temp_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2);
+  const tempReminder = {
+    id: tempId, from: sessionUser, to: sessionUser,
+    text: t.text, completed: false, createdAt: new Date(),
+    completedAt: '', dueAt, reminder: true
+  };
+
+  // Instant UI: swap reminders + schedule new timer
+  tasksReceived = [tempReminder, ...tasksReceived.filter(x => x.id !== t.id)];
+  sortTaskArrays(); renderTasks();
+  scheduleOneReminder(tempReminder);
+  cancelTimerFor(t);
+  hideReminderPopup();
+
+  // Background: create snoozed reminder
+  postToScript({
+    action:'taskAdd',
+    password: sessionPassword,
+    from: sessionUser, to: sessionUser,
+    text: t.text, dueAt, reminder:'true'
+  }, 10000).then(txt => {
+    const resp = JSON.parse(txt || '{}');
+    if (!resp.ok) throw new Error(resp.error || 'add failed');
+
+    // swap temp id for real one and rekey any timer/fired maps
+    const i = tasksReceived.findIndex(x => x.id === tempId);
+    if (i >= 0) tasksReceived[i].id = resp.id || tempId;
+
+    const oldKey = tempId + ' @ ' + String(dueAt || '');
+    const newKey = (resp.id || tempId) + ' @ ' + String(dueAt || '');
+    if (scheduledTimers[oldKey]) { scheduledTimers[newKey] = scheduledTimers[oldKey]; delete scheduledTimers[oldKey]; }
+    if (firedReminders[oldKey]) {
+      firedReminders[newKey] = firedReminders[oldKey];
+      delete firedReminders[oldKey];
+      try { localStorage.setItem(REM_LS_KEY, JSON.stringify(firedReminders)); } catch(_){}
+    }
+  }).catch(err => console.error('snooze add failed:', err));
+
+  // Background: complete the original reminder
+  if (t.id) {
+    postToScript({ action:'taskComplete', password: sessionPassword, id: t.id }, 10000)
+      .catch(err => console.error('complete old failed:', err));
+  }
+}
+
+
+    function showReminderPopup(task) {
+      ensureReminderStyles(); ensureReminderModal();
+      activeReminderTask = task || null;
+
+      const ov = document.getElementById('reminderOverlay');
+      const p = document.getElementById('remMsg');
+      const msg = task && task.text ? String(task.text) : 'Reminder';
+      if (p) p.textContent = msg;
+      if (ov) ov.style.display = 'flex';
+      try {
+        new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=').play().catch(() => { });
+      } catch (_) { }
+    }
+    function hideReminderPopup() {
+      const ov = document.getElementById('reminderOverlay');
+      if (ov) ov.style.display = 'none';
+      activeReminderTask = null;
+    }
+    // Build an ET-anchored ISO string from a JS Date
+    function toEasternIsoFromDate(date) {
+      try {
+        const parts = new Intl.DateTimeFormat('en-CA', {
+          timeZone: 'America/New_York',
+          year: 'numeric', month: '2-digit', day: '2-digit',
+          hour: '2-digit', minute: '2-digit', second: '2-digit',
+          hour12: false
+        }).formatToParts(date);
+        const map = Object.fromEntries(parts.map(p => [p.type, p.value]));
+        const y = map.year, m = map.month, d = map.day, h = map.hour, mm = map.minute, ss = map.second || '00';
+        const offset = easternOffsetForYMD(Number(y), Number(m), Number(d));
+        return `${y}-${m}-${d}T${h}:${mm}:${ss}${offset}`;
+      } catch (_) {
+        return new Date(date).toISOString();
       }
-      if (!resp || resp.ok !== true) {
-        alert('Task send failed: ' + (resp && resp.error ? resp.error : 'unknown error'));
-        return;
-      }
+    }
+   function isReminderTask(t){
+  // Server may omit the 'reminder' flag; if there's a valid dueAt, it's a reminder.
+  return !!(t && t.dueAt && !isNaN(new Date(t.dueAt).getTime()));
+}
 
-      // Clear input
-      document.getElementById('taskText').value = '';
+ function scheduleOneReminder(t){
+  if (!isReminderTask(t)) return;
+  const key = (t.id || (String(t.text || '') + '|' + String(t.dueAt || ''))) + ' @ ' + String(t.dueAt || '');
+  const due = new Date(t.dueAt);
+  if (isNaN(due)) return;
+  if (hasFired(t.id || '', t.dueAt)) return;
+  if (scheduledTimers[key]) return; // already scheduled
 
-      // Optimistically show in "Tasks I Sent" immediately (with createdAt)
-      const now = new Date();
-      const newTask = { id: resp.id || '', from: sessionUser, to, text, completed: false, createdAt: now, completedAt: '' };
-      tasksSent = [newTask, ...tasksSent];
-      sortTaskArrays();
-      renderTasks();
+  const ms = due.getTime() - Date.now();
+  if (ms <= 0){
+    markFired(t.id || '', t.dueAt);
+    showReminderPopup(t);
+    return;
+  }
+  scheduledTimers[key] = setTimeout(() => {
+    delete scheduledTimers[key];
+    if (!hasFired(t.id || '', t.dueAt)) {
+      markFired(t.id || '', t.dueAt);
+      showReminderPopup(t);
+    }
+  }, Math.min(ms, 2147483647));
+}
 
-      // Fast path: skip immediate full reload; next explicit action will resync.
-    })
-    .catch(err => alert(err && err.message ? err.message : 'Failed to send task'));
+
+    function scheduleRemindersFrom(list) {
+      (list || []).forEach(scheduleOneReminder);
+    }
+ // No polling needed; schedule when tasks load or are created.
+let remCheckTimer = null;
+function initReminderScheduler(){
+  ensureReminderStyles(); ensureReminderModal();
+  if (remCheckTimer) return;
+  remCheckTimer = true; // mark initialized (no interval)
+  scheduleRemindersFrom(tasksReceived); // schedule once on init
+}
+// Cancel any pending timer for a given task (used by snooze/complete)
+function cancelTimerFor(t){
+  const key = (t.id || (String(t.text || '') + '|' + String(t.dueAt || ''))) + ' @ ' + String(t.dueAt || '');
+  const h = scheduledTimers[key];
+  if (h){ clearTimeout(h); delete scheduledTimers[key]; }
+}
+
+
+    // === Snooze & Complete handlers =======================================
+function snoozeReminder(mins){
+  const t = activeReminderTask;
+  if (!t || !mins) { hideReminderPopup(); return; }
+
+  // Compute new due time in ET and make a temp reminder
+  const newDate = new Date(Date.now() + mins*60000);
+  const dueAt = toEasternIsoFromDate(newDate);
+  const tempId = 'temp_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2);
+  const tempReminder = {
+    id: tempId, from: sessionUser, to: sessionUser,
+    text: t.text, completed: false, createdAt: new Date(),
+    completedAt: '', dueAt, reminder: true
+  };
+
+  // Instant UI: swap reminders + schedule new timer
+  tasksReceived = [tempReminder, ...tasksReceived.filter(x => x.id !== t.id)];
+  sortTaskArrays(); renderTasks();
+  scheduleOneReminder(tempReminder);
+  cancelTimerFor(t);
+  hideReminderPopup();
+
+  // Background: create snoozed reminder
+  postToScript({
+    action:'taskAdd',
+    password: sessionPassword,
+    from: sessionUser, to: sessionUser,
+    text: t.text, dueAt, reminder:'true'
+  }, 10000).then(txt => {
+    const resp = JSON.parse(txt || '{}');
+    if (!resp.ok) throw new Error(resp.error || 'add failed');
+
+    // swap temp id for real one and rekey any timer/fired maps
+    const i = tasksReceived.findIndex(x => x.id === tempId);
+    if (i >= 0) tasksReceived[i].id = resp.id || tempId;
+
+    const oldKey = tempId + ' @ ' + String(dueAt || '');
+    const newKey = (resp.id || tempId) + ' @ ' + String(dueAt || '');
+    if (scheduledTimers[oldKey]) { scheduledTimers[newKey] = scheduledTimers[oldKey]; delete scheduledTimers[oldKey]; }
+    if (firedReminders[oldKey]) {
+      firedReminders[newKey] = firedReminders[oldKey];
+      delete firedReminders[oldKey];
+      try { localStorage.setItem(REM_LS_KEY, JSON.stringify(firedReminders)); } catch(_){}
+    }
+  }).catch(err => console.error('snooze add failed:', err));
+
+  // Background: complete the original reminder
+  if (t.id) {
+    postToScript({ action:'taskComplete', password: sessionPassword, id: t.id }, 10000)
+      .catch(err => console.error('complete old failed:', err));
+  }
+}
+
+
+function completeReminderNow(){
+  const t = activeReminderTask;
+  if (!t) { hideReminderPopup(); return; }
+
+  // Instant UI
+  cancelTimerFor(t);
+  const idx = tasksReceived.findIndex(x => x.id === t.id);
+  if (idx >= 0) { tasksReceived.splice(idx,1); renderTasks(); }
+  hideReminderPopup();
+
+  // Background: persist completion
+  if (t.id) {
+    postToScript({ action:'taskComplete', password: sessionPassword, id: t.id }, 10000)
+      .catch(err => console.error('taskComplete failed:', err));
+  }
 }
 
 
 
-function taskTime(x){
-  if (!x) return 0;
-  if (typeof x === 'number') return x;
-  const d = new Date(x);
-  return isNaN(d) ? 0 : d.getTime();
-}
-function sortTaskArrays(){
-  tasksReceived.sort((a,b)=> taskTime(b.createdAt) - taskTime(a.createdAt));
-  tasksSent.sort((a,b)=> taskTime(b.createdAt) - taskTime(a.createdAt));
-}
+    /* ===================================================================== */
 
+function renderTasks() {
+  var rUl = document.getElementById('tasksReceived');
+  var sUl = document.getElementById('tasksSent');
 
-function loadTasks() {
-  if (!sessionUser || isLoadingTasks) return Promise.resolve();
-  isLoadingTasks = true;
-
-  return postToScript({ action: 'taskList', password: sessionPassword, user: sessionUser })
-    .then((txt) => {
-      let resp;
-      try { resp = JSON.parse(txt); } catch (e) {
-        alert('Could not load tasks (server did not return JSON). Check your deployment URL/permissions.');
-        console.error('Raw response for taskList:', txt);
-        return;
-      }
-      if (resp && resp.ok === false) {
-        alert(resp.error || 'Could not load tasks.');
-        return;
-      }
-      const list = Array.isArray(resp.tasks) ? resp.tasks : [];
-
-      // Skip rerender if nothing changed
-      const snap = JSON.stringify(list);
-      if (snap === lastTasksSnapshot) return;
-      lastTasksSnapshot = snap;
-
-      tasksReceived = list.filter(t => String(t.to) === String(sessionUser) && !t.completed);
-      tasksSent     = list.filter(t => String(t.from) === String(sessionUser));
-
-      sortTaskArrays();
-      renderTasks();
-    })
-    .catch(err => alert(err && err.message ? err.message : 'Failed to load tasks'))
-    .finally(() => { isLoadingTasks = false; });
-}
-
-
-         
-
-
-      function renderTasks() {
-  const rUl = document.getElementById('tasksReceived');
-  const sUl = document.getElementById('tasksSent');
-
+  // ----- My Tasks -----
   if (rUl) {
-    if (!tasksReceived.length) {
+    if (!tasksReceived || !tasksReceived.length) {
       rUl.innerHTML = '<li class="small">No tasks.</li>';
     } else {
-      rUl.innerHTML = tasksReceived.map(t => {
-        const created = fmtTs(t.createdAt);
-        return `
-          <li>
-            <label style="flex:1;">
-              <input type="checkbox" onclick="completeTask('${t.id}')" />
-              <strong>${esc(t.text || '')}</strong>
-              <span class="small">from ${esc(t.from || '')}${created ? ' • ' + esc(created) : ''}</span>
-            </label>
-          </li>`;
-      }).join('');
+      var rHtml = '';
+      for (var i = 0; i < tasksReceived.length; i++) {
+        var t = tasksReceived[i];
+        var created = fmtTs(t && t.createdAt);
+        var due = fmtTs(t && t.dueAt);
+ var isFutureReminder =
+  t && t.dueAt &&
+  !isNaN(new Date(t.dueAt)) &&
+  (new Date(t.dueAt).getTime() > Date.now());
+
+
+        var cdSpan = '';
+        if (isFutureReminder) {
+          cdSpan = ' • <span class="cd" data-id="' + esc(t.id || '') + '" data-due="' + esc(t.dueAt || '') + '"></span>';
+        }
+
+        var item = '';
+        item += '<li>';
+       item +=   '<div style="flex:1;">';
+        item +=     '<input type="checkbox" onclick="completeTask(\'' + (t.id || '') + '\')" />';
+        item +=     '<strong>' + esc(t.text || '') + '</strong>';
+        item +=     '<span class="small">';
+        item +=       'from ' + esc(t.from || '');
+        item +=       (created ? ' • ' + esc(created) : '');
+        item +=       (due ? ' • Due: ' + esc(due) : '');
+        item +=       cdSpan;
+        item +=     '</span>';
+item +=   '</div>';
+        item += '</li>';
+        rHtml += item;
+      }
+      rUl.innerHTML = rHtml;
     }
   }
 
+  // ----- Tasks I Sent -----
   if (sUl) {
-    if (!tasksSent.length) {
+    if (!tasksSent || !tasksSent.length) {
       sUl.innerHTML = '<li class="small">No tasks.</li>';
     } else {
-      sUl.innerHTML = tasksSent.map(t => {
-        const created = fmtTs(t.createdAt);
-        const completed = fmtTs(t.completedAt);
-        const status = t.completed ? '<span class="pill done">Task Completed</span>' : '<span class="pill">Pending</span>';
-        const delBtn = t.completed ? `<button class="btn-link" onclick="deleteTask('${t.id}')">Delete</button>` : '';
-        return `
-          <li>
-            <div style="flex:1;">
-              <strong>${esc(t.text || '')}</strong>
-              <span class="small">to ${esc(t.to || '')}${created ? ' • ' + esc(created) : ''}${t.completed && completed ? ' • Completed: ' + esc(completed) : ''}</span>
-            </div>
-            ${status} ${delBtn}
-          </li>`;
-      }).join('');
+      var sHtml = '';
+      for (var j = 0; j < tasksSent.length; j++) {
+        var t2 = tasksSent[j];
+        var created2 = fmtTs(t2 && t2.createdAt);
+        var completed2 = fmtTs(t2 && t2.completedAt);
+        var due2 = fmtTs(t2 && t2.dueAt);
+        var status = t2 && t2.completed ? '<span class="pill done">Task Completed</span>' : '<span class="pill">Pending</span>';
+        var delBtn = t2 && t2.completed ? '<button class="btn-link" onclick="deleteTask(\'' + (t2.id || '') + '\')">Delete</button>' : '';
+
+        var sItem = '';
+        sItem += '<li>';
+        sItem +=   '<div style="flex:1;">';
+        sItem +=     '<strong>' + esc(t2.text || '') + '</strong>';
+        sItem +=     '<span class="small">';
+        sItem +=       'to ' + esc(t2.to || '');
+        sItem +=       (created2 ? ' • ' + esc(created2) : '');
+        sItem +=       (due2 ? ' • Due: ' + esc(due2) : '');
+        sItem +=       ((t2 && t2.completed && completed2) ? ' • Completed: ' + esc(completed2) : '');
+        sItem +=     '</span>';
+        sItem +=   '</div>';
+        sItem +=   status + ' ' + delBtn;
+        sItem += '</li>';
+        sHtml += sItem;
+      }
+      sUl.innerHTML = sHtml;
     }
   }
+
+  // ===== Countdown (wrapped in try/catch so errors never block login) =====
+  try {
+    var els = document.querySelectorAll('#tasksReceived .cd');
+
+  function fmt(ms){
+  if (ms <= 0) return 'now';
+  var totalSec = Math.floor(ms/1000);
+  var totalMin = Math.floor(totalSec/60);
+  var h = Math.floor(totalMin/60);
+  var m = totalMin % 60;
+  return 'in ' + h + 'h ' + String(m).padStart(2,'0') + 'm';
 }
 
 
-function completeTask(id) {
-  if (!id) return;
+    function tick() {
+      var now = Date.now();
+      var active = 0;
+      for (var k = 0; k < els.length; k++) {
+        var el = els[k];
+        var dueStr = el.getAttribute('data-due') || '';
+        var dueMs = Date.parse(dueStr);
+        if (!isNaN(dueMs)) {
+          active++;
+          el.textContent = fmt(dueMs - now);
+        } else {
+          el.textContent = '';
+        }
+      }
+      if (active === 0 && window.__remCdTick) {
+        clearInterval(window.__remCdTick);
+        window.__remCdTick = null;
+      }
+    }
 
-  // Optimistic: remove from "My Tasks" immediately
-  const idx = tasksReceived.findIndex(t => t.id === id);
-  let backup = null;
-  if (idx > -1) {
-    backup = tasksReceived[idx];
-    tasksReceived.splice(idx, 1);
-    renderTasks();
-  }
+    if (!window.__remCdTick && els.length) {
+      window.__remCdTick = setInterval(tick, 1000);
+    }
+    if (els.length) tick();
+  } catch (e) { /* swallow to avoid blocking login */ }
+}
 
-  postToScript({ action: 'taskComplete', password: sessionPassword, id })
-    .then(() => loadTasks())
-    .catch(err => {
-      // Revert on failure
-      if (backup) {
-        tasksReceived.splice(idx, 0, backup);
+    function completeTask(id) {
+      if (!id) return;
+
+      // Optimistic: remove from "My Tasks" immediately
+      const idx = tasksReceived.findIndex(t => t.id === id);
+      let backup = null;
+      if (idx > -1) {
+        backup = tasksReceived[idx];
+        tasksReceived.splice(idx, 1);
         renderTasks();
       }
-      alert(err && err.message ? err.message : 'Failed to complete task');
-    });
-}
-window.completeTask = completeTask;
 
-function deleteTask(id) {
-  if (!id) return;
-  if (!confirm('Delete this task from your sent list?')) return;
+      postToScript({ action: 'taskComplete', password: sessionPassword, id })
+        .then(() => loadTasks())
+        .catch(err => {
+          // Revert on failure
+          if (backup) {
+            tasksReceived.splice(idx, 0, backup);
+            renderTasks();
+          }
+          alert(err && err.message ? err.message : 'Failed to complete task');
+        });
+    }
+    window.completeTask = completeTask;
 
-  // Optimistic: remove from "Tasks I Sent" immediately
-  const i = tasksSent.findIndex(t => t.id === id);
-  let back = null;
-  if (i > -1) {
-    back = tasksSent[i];
-    tasksSent.splice(i, 1);
-    renderTasks();
-  }
+    function deleteTask(id) {
+      if (!id) return;
+      if (!confirm('Delete this task from your sent list?')) return;
 
-  postToScript({ action: 'taskDelete', password: sessionPassword, id })
-    .then(() => loadTasks())
-    .catch(err => {
-      // Revert on failure
-      if (back) {
-        tasksSent.splice(i, 0, back);
+      // Optimistic: remove from "Tasks I Sent" immediately
+      const i = tasksSent.findIndex(t => t.id === id);
+      let back = null;
+      if (i > -1) {
+        back = tasksSent[i];
+        tasksSent.splice(i, 1);
         renderTasks();
       }
-      alert(err && err.message ? err.message : 'Delete failed');
-    });
-}
-window.deleteTask = deleteTask;
+
+      postToScript({ action: 'taskDelete', password: sessionPassword, id })
+        .then(() => loadTasks())
+        .catch(err => {
+          // Revert on failure
+          if (back) {
+            tasksSent.splice(i, 0, back);
+            renderTasks();
+          }
+          alert(err && err.message ? err.message : 'Delete failed');
+        });
+    }
+    window.deleteTask = deleteTask;
 
 
     // ⬇️ Put your Accord template PDF URL here (kept visible for editing in the Accord tab)
@@ -2005,70 +2777,91 @@ window.deleteTask = deleteTask;
       return `<a href="https://wa.me/${wa}" target="_blank" rel="noopener">${text}</a>`;
     }
 
-// Gmail “compose” link for one or more emails
-function emailLinkHTML(raw) {
-  const s = String(raw || '').trim();
-  if (!s) return '';
-  const parts = s.split(/[\s,;]+/).map(x => x.trim()).filter(Boolean);
-  const emails = parts.filter(x => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(x));
-  if (!emails.length) return esc(s); // show as plain text if it doesn't look like an email
-  const to = encodeURIComponent(emails.join(','));
-  const url = `https://mail.google.com/mail/?view=cm&fs=1&to=${to}`;
-  return `<a href="${url}" target="_blank" rel="noopener">${esc(s)}</a>`;
-}
-// Make a Gmail compose URL from a freeform email string
-function gmailComposeUrl(raw) {
-  const s = String(raw || '').trim();
-  if (!s) return '';
-  const parts = s.split(/[\s,;]+/).map(x => x.trim()).filter(Boolean);
-  const emails = parts.filter(x => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(x));
-  return emails.length ? `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(emails.join(','))}` : '';
-}
-
-// Create/refresh a small "Compose" link next to an <input> by id
-function ensureComposeLinkForInput(inputId) {
-  const input = document.getElementById(inputId);
-  if (!input) return;
-
-  // make (or find) the link immediately after the input
-  let a = input.nextElementSibling;
-  const needsNew = !(a && a.classList && a.classList.contains('email-compose-link'));
-  if (needsNew) {
-    a = document.createElement('a');
-    a.className = 'email-compose-link';
-    a.target = '_blank';
-    a.rel = 'noopener';
-    a.style.marginLeft = '8px';
-    a.style.fontWeight = '800';
-    a.textContent = 'Compose in Gmail';
-    input.insertAdjacentElement('afterend', a);
-
-    // live-update the link as the user types
-    input.addEventListener('input', () => updateComposeLink(input, a));
-  }
-  updateComposeLink(input, a);
-
-  function updateComposeLink(inp, anchor) {
-    const url = gmailComposeUrl(inp.value);
-    if (url) {
-      anchor.href = url;
-      anchor.style.pointerEvents = 'auto';
-      anchor.style.opacity = '1';
-      anchor.title = 'Open Gmail compose';
-    } else {
-      anchor.removeAttribute('href');
-      anchor.style.pointerEvents = 'none';
-      anchor.style.opacity = '0.6';
-      anchor.title = 'Enter a valid email';
+    // Gmail “compose” link for one or more emails
+    function emailLinkHTML(raw) {
+      const s = String(raw || '').trim();
+      if (!s) return '';
+      const parts = s.split(/[\s,;]+/).map(x => x.trim()).filter(Boolean);
+      const emails = parts.filter(x => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(x));
+      if (!emails.length) return esc(s); // show as plain text if it doesn't look like an email
+      const to = encodeURIComponent(emails.join(','));
+      const url = `https://mail.google.com/mail/?view=cm&fs=1&to=${to}`;
+      return `<a href="${url}" target="_blank" rel="noopener">${esc(s)}</a>`;
     }
-  }
-}
+    // Make a Gmail compose URL from a freeform email string
+    function gmailComposeUrl(raw) {
+      const s = String(raw || '').trim();
+      if (!s) return '';
+      const parts = s.split(/[\s,;]+/).map(x => x.trim()).filter(Boolean);
+      const emails = parts.filter(x => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(x));
+      return emails.length ? `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(emails.join(','))}` : '';
+    }
+// Build the popup markup once
+function ensureReminderModal(){
+  if (document.getElementById('reminderOverlay')) return;
 
-// Refresh both places we have email inputs
-function refreshComposeLinks() {
-  ensureComposeLinkForInput('ci_email'); // Customer Info
-  ensureComposeLinkForInput('pe_email'); // Policies editor
+  const ov = document.createElement('div');
+  ov.id = 'reminderOverlay';
+  ov.innerHTML = `
+    <div class="rem-card" role="dialog" aria-modal="true" aria-labelledby="remTitle">
+      <h3 id="remTitle">Reminder</h3>
+      <p id="remMsg" style="margin-bottom:14px;">Reminder</p>
+      <div class="actions">
+        <button class="btn primary" type="button" onclick="completeReminderNow()">Completed</button>
+        <button class="btn" type="button" onclick="snoozeReminder(5)">Snooze 5m</button>
+        <button class="btn" type="button" onclick="snoozeReminder(10)">Snooze 10m</button>
+        <button class="btn" type="button" onclick="snoozeReminder(60)">Snooze 1h</button>
+      </div>
+    </div>`;
+  document.body.appendChild(ov);
+
+  // click outside to dismiss
+  ov.addEventListener('click', (e) => { if (e.target === ov) hideReminderPopup(); });
 }
+    // Create/refresh a small "Compose" link next to an <input> by id
+    function ensureComposeLinkForInput(inputId) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+
+      // make (or find) the link immediately after the input
+      let a = input.nextElementSibling;
+      const needsNew = !(a && a.classList && a.classList.contains('email-compose-link'));
+      if (needsNew) {
+        a = document.createElement('a');
+        a.className = 'email-compose-link';
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.style.marginLeft = '8px';
+        a.style.fontWeight = '800';
+        a.textContent = 'Compose in Gmail';
+        input.insertAdjacentElement('afterend', a);
+
+        // live-update the link as the user types
+        input.addEventListener('input', () => updateComposeLink(input, a));
+      }
+      updateComposeLink(input, a);
+
+      function updateComposeLink(inp, anchor) {
+        const url = gmailComposeUrl(inp.value);
+        if (url) {
+          anchor.href = url;
+          anchor.style.pointerEvents = 'auto';
+          anchor.style.opacity = '1';
+          anchor.title = 'Open Gmail compose';
+        } else {
+          anchor.removeAttribute('href');
+          anchor.style.pointerEvents = 'none';
+          anchor.style.opacity = '0.6';
+          anchor.title = 'Enter a valid email';
+        }
+      }
+    }
+
+    // Refresh both places we have email inputs
+    function refreshComposeLinks() {
+      ensureComposeLinkForInput('ci_email'); // Customer Info
+      ensureComposeLinkForInput('pe_email'); // Policies editor
+    }
 
     async function postToScript(params, timeoutMs = 60000) {
       const ctrl = new AbortController();
@@ -2088,45 +2881,61 @@ function refreshComposeLinks() {
     }
 
 
-window.checkPassword = function () {
-  const userEl = document.getElementById('appUser');
-  const passEl = document.getElementById('appPassword');
-  const loginEl = document.getElementById('loginSection');
-  const appEl   = document.getElementById('appSection');
+    window.checkPassword = function () {
+      const userEl = document.getElementById('appUser');
+      const passEl = document.getElementById('appPassword');
+      const loginEl = document.getElementById('loginSection');
+      const appEl = document.getElementById('appSection');
 
-  const u = (userEl?.value || '').trim();
-  const p = (passEl?.value || '').trim();
+      const u = (userEl?.value || '').trim();
+      const p = (passEl?.value || '').trim();
 
-  if (USERS[u] === p) {
-    sessionUser = u;
-    sessionPassword = p;
+      if (USERS[u] === p) {
+        sessionUser = u;
+        sessionPassword = p;
 
-    // show app, hide login
-    loginEl.style.display = 'none';
-    appEl.style.display = 'block';
+        // show app, hide login
+        loginEl.style.display = 'none';
+appEl.style.display = 'block';
+document.body.classList.add('logged-in');
 
-    // load data and tasks for this user
-    loadData();
-    initTasksUI();
-    loadTasks();
+        hoistFixedUI();
 
-    // ✅ set "User's Tasks" in the header
-    const th = document.getElementById('tasksHeader');
-    if (th) th.textContent = `${sessionUser}'s Tasks`;
+        // show widgets only after login
+        const userWidget = document.getElementById('userWidget');
+        const addClientBtn = document.getElementById('fixedAddClient');
+        const reminderCard = document.getElementById('reminderCard');
+        if (userWidget) userWidget.style.display = 'block';
+        if (addClientBtn) addClientBtn.style.display = 'block';
+        if (reminderCard) reminderCard.style.display = 'block';
 
-    // ✅ SHOW THE TOP-RIGHT USER WIDGET (unchanged)
-    const uw = document.getElementById('userWidget');
-    const un = document.getElementById('userName');
-    if (un) un.textContent = sessionUser;
-    if (uw) uw.style.display = 'block';
+        // data/tasks
+        loadData();
+        initTasksUI();
+        loadTasks();
 
-    setTimeout(setZoomLevel, 100);
-    return true;
-  }
+        // NEW: start local reminder scheduler
+        initReminderScheduler();
 
-  alert('Incorrect username or password');
-  return false;
-};
+        // Settings for Edwin only
+        const sb = document.getElementById('tabbtn-settings');
+        if (sb) sb.style.display = (sessionUser === 'Edwin') ? 'inline-flex' : 'none';
+
+        // “<user>’s Tasks” header
+        const th = document.getElementById('tasksHeader');
+        if (th) th.textContent = `${sessionUser}'s Tasks`;
+
+        // Optional: show name if you add an element with id="userName"
+        const userNameEl = document.getElementById('userName');
+        if (userNameEl) userNameEl.textContent = sessionUser;
+
+        setTimeout(setZoomLevel, 100);
+        return true;
+      }
+
+      alert('Incorrect username or password');
+      return false;
+    };
 
 
 
@@ -2244,15 +3053,15 @@ window.checkPassword = function () {
 
 
 
-function renderTable(rows) {
-  const tbody = document.querySelector('#dataTable tbody');
-  let html = '';
-  for (const o of rows) {
-    const r = o.r;
-    const status = computeStatus(r[3]);
-    const phoneHTML = phoneLinkHTML(r[7] ?? '');
-    const emailHTML = emailLinkHTML(r[8] ?? '');
-    html += `
+    function renderTable(rows) {
+      const tbody = document.querySelector('#dataTable tbody');
+      let html = '';
+      for (const o of rows) {
+        const r = o.r;
+        const status = computeStatus(r[3]);
+        const phoneHTML = phoneLinkHTML(r[7] ?? '');
+        const emailHTML = emailLinkHTML(r[8] ?? '');
+        html += `
       <tr data-row="${o.sheetRow}">
         <td>${r[0] ?? ''}</td>
         <td>${r[1] ?? ''}</td>
@@ -2266,9 +3075,9 @@ function renderTable(rows) {
         <td>${emailHTML}</td>
         <td><button class="go-btn" data-row="${o.sheetRow}">Go</button></td>
       </tr>`;
-  }
-  tbody.innerHTML = html;
-}
+      }
+      tbody.innerHTML = html;
+    }
 
 
     function searchData() {
@@ -2286,54 +3095,54 @@ function renderTable(rows) {
 
 
 
-   function openCustomerPage(openTab = 'info', addMode = false, explicitRow = null) {
-  isAddingClient = false;
+    function openCustomerPage(openTab = 'info', addMode = false, explicitRow = null) {
+      isAddingClient = false;
 
-  // leaving "add client" mode -> ensure the flag is removed
-  const cp = document.getElementById('customerPage');
-  if (cp) cp.classList.remove('adding-client');
+      // leaving "add client" mode -> ensure the flag is removed
+      const cp = document.getElementById('customerPage');
+      if (cp) cp.classList.remove('adding-client');
 
-  const rowNum = explicitRow ?? selectedRowIndex;
-  if (!rowNum) { alert('Select a row first.'); return; }
-  custRowNum = rowNum;
-  toggleAddClientFields(false);  // show fields for existing clients
+      const rowNum = explicitRow ?? selectedRowIndex;
+      if (!rowNum) { alert('Select a row first.'); return; }
+      custRowNum = rowNum;
+      toggleAddClientFields(false);  // show fields for existing clients
 
-  // Use cached data immediately (no network)
-  custRowObj = rowCache.get(rowNum) || {};
-  renderCustomerHeader(custRowObj);
-  fillCustomerInfo(custRowObj);
+      // Use cached data immediately (no network)
+      custRowObj = rowCache.get(rowNum) || {};
+      renderCustomerHeader(custRowObj);
+      fillCustomerInfo(custRowObj);
 
-  // Related policies from the already loaded table
-  renderPoliciesOfContact();
+      // Related policies from the already loaded table
+      renderPoliciesOfContact();
 
-  // Show the page right away
-  showPage('customer');
-  switchTab(addMode ? 'policies' : openTab);
-  if (addMode) startAddPolicy(true);
+      // Show the page right away
+      showPage('customer');
+      switchTab(addMode ? 'policies' : openTab);
+      if (addMode) startAddPolicy(true);
 
-  // Notes immediately; defer heavy attachments
-  rebuildNotes(custRowObj['Notes'] || custRowObj['Note'] || custRowObj['Notes Log'] || '');
+      // Notes immediately; defer heavy attachments
+      rebuildNotes(custRowObj['Notes'] || custRowObj['Note'] || custRowObj['Notes Log'] || '');
 
-  if (custRowObj['Policy Forms'] || custRowObj['Accord Forms']) {
-    renderAttachmentTable('policy', custRowObj['Policy Forms'] || '[]');
-    renderAttachmentTable('accord', custRowObj['Accord Forms'] || '[]');
-  } else {
-    postToScript({ action: 'getRow', password: sessionPassword, row: custRowNum })
-      .then(txt => {
-        const p = JSON.parse(txt);
-        if (p && p.ok) {
-          custRowObj = p.row;
-        }
-      })
-      .finally(() => {
+      if (custRowObj['Policy Forms'] || custRowObj['Accord Forms']) {
         renderAttachmentTable('policy', custRowObj['Policy Forms'] || '[]');
         renderAttachmentTable('accord', custRowObj['Accord Forms'] || '[]');
-      });
-  }
+      } else {
+        postToScript({ action: 'getRow', password: sessionPassword, row: custRowNum })
+          .then(txt => {
+            const p = JSON.parse(txt);
+            if (p && p.ok) {
+              custRowObj = p.row;
+            }
+          })
+          .finally(() => {
+            renderAttachmentTable('policy', custRowObj['Policy Forms'] || '[]');
+            renderAttachmentTable('accord', custRowObj['Accord Forms'] || '[]');
+          });
+      }
 
-  // 🔴 If there’s a critical alert, prompt with Keep/Delete
-  promptCriticalAlertIfAny(custRowObj);
-}
+      // 🔴 If there’s a critical alert, prompt with Keep/Delete
+      promptCriticalAlertIfAny(custRowObj);
+    }
 
 
 
@@ -2341,45 +3150,45 @@ function renderTable(rows) {
     function goMainTab() { closeCustomerPage(); }   // used by the "Main Page" tab
 
     // Start a brand-new client (clears form; Save will ADD)
-  function startAddClient() {
-  isAddingClient = true;
-  selectedRowIndex = null;
-  custRowNum = null;
-  custRowObj = {};
+    function startAddClient() {
+      isAddingClient = true;
+      selectedRowIndex = null;
+      custRowNum = null;
+      custRowObj = {};
 
-  showPage('customer');
-  // mark page as "adding-client" so CSS shows First/Last/Address/Phone/Email on top
-  const cp = document.getElementById('customerPage');
-  if (cp) cp.classList.add('adding-client');
+      showPage('customer');
+      // mark page as "adding-client" so CSS shows First/Last/Address/Phone/Email on top
+      const cp = document.getElementById('customerPage');
+      if (cp) cp.classList.add('adding-client');
 
-  switchTab('info');
-  toggleAddClientFields(true);  // hide 7 inputs while adding a client
+      switchTab('info');
+      toggleAddClientFields(true);  // hide 7 inputs while adding a client
 
-  // Clear the editable form (bottom section)
-  document.querySelectorAll('#custInfoForm input').forEach(el => el.value = '');
+      // Clear the editable form (bottom section)
+      document.querySelectorAll('#custInfoForm input').forEach(el => el.value = '');
 
-  // Clear the summary cards (top section)
-  renderCustomerHeader({});   // draws empty cards
+      // Clear the summary cards (top section)
+      renderCustomerHeader({});   // draws empty cards
 
-  // Hide & clear the policy editor
-  const pe = document.getElementById('policyEditor');
-  if (pe) pe.style.display = 'none';
-  ['pe_lob', 'pe_policy', 'pe_insurer', 'pe_effDate', 'pe_expDate', 'pe_address', 'pe_phone', 'pe_email', 'pe_firstName', 'pe_lastName', 'pe_year', 'pe_make', 'pe_model', 'pe_vin']
-    .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+      // Hide & clear the policy editor
+      const pe = document.getElementById('policyEditor');
+      if (pe) pe.style.display = 'none';
+      ['pe_lob', 'pe_policy', 'pe_insurer', 'pe_effDate', 'pe_expDate', 'pe_address', 'pe_phone', 'pe_email', 'pe_firstName', 'pe_lastName', 'pe_year', 'pe_make', 'pe_model', 'pe_vin']
+        .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
 
-  // Clear policies table
-  const ptb = document.querySelector('#policiesTable tbody');
-  if (ptb) ptb.innerHTML = '';
-  const pempty = document.getElementById('policiesEmpty');
-  if (pempty) pempty.style.display = 'block';
+      // Clear policies table
+      const ptb = document.querySelector('#policiesTable tbody');
+      if (ptb) ptb.innerHTML = '';
+      const pempty = document.getElementById('policiesEmpty');
+      if (pempty) pempty.style.display = 'block';
 
-  // Clear files/accord lists
-  renderAttachmentTable('policy', '[]');
-  renderAttachmentTable('accord', '[]');
+      // Clear files/accord lists
+      renderAttachmentTable('policy', '[]');
+      renderAttachmentTable('accord', '[]');
 
-  // Clear notes (incl. any critical banner)
-  rebuildNotes('');
-}
+      // Clear notes (incl. any critical banner)
+      rebuildNotes('');
+    }
 
 
 
@@ -2389,28 +3198,28 @@ function renderTable(rows) {
 
       // Show the logo only on Login + Main (list) pages
       document.body.classList.toggle('is-customer', which === 'customer');
-    
+
     }
-function switchTab(name) {
-  ['info', 'policies', 'files', 'accord', 'notes'].forEach(n => {
-    const el = document.getElementById(`tab-${n}`);
-    const btn = document.getElementById(`tabbtn-${n}`);
-    if (el) el.classList.toggle('active', n === name);
-    if (btn) btn.setAttribute('aria-selected', n === name ? 'true' : 'false');
-  });
+    function switchTab(name) {
+      ['info', 'policies', 'files', 'accord', 'notes'].forEach(n => {
+        const el = document.getElementById(`tab-${n}`);
+        const btn = document.getElementById(`tabbtn-${n}`);
+        if (el) el.classList.toggle('active', n === name);
+        if (btn) btn.setAttribute('aria-selected', n === name ? 'true' : 'false');
+      });
 
-  // Mark which tab is active for CSS (info-active, policies-active, files-active, accord-active, notes-active)
-  const cp = document.getElementById('customerPage');
-  if (cp) {
-    cp.classList.remove('info-active','policies-active','files-active','accord-active','notes-active');
-    cp.classList.add(`${name}-active`);
-  }
-}
-
-
+      // Mark which tab is active for CSS (info-active, policies-active, files-active, accord-active, notes-active)
+      const cp = document.getElementById('customerPage');
+      if (cp) {
+        cp.classList.remove('info-active', 'policies-active', 'files-active', 'accord-active', 'notes-active');
+        cp.classList.add(`${name}-active`);
+      }
+    }
 
 
-    // header summary grid
+
+
+    // header summary grid (Email + Phone are clickable)
     function renderCustomerHeader(row) {
       const grid = document.getElementById('custDetailsGrid');
 
@@ -2426,9 +3235,6 @@ function switchTab(name) {
         ['Email', () => getCell(row, 'Email')]
       ];
 
-
-
-      // Hide these 4 cards only when adding a new client
       const list = isAddingClient
         ? fields.filter(([label]) => !(['Policy #', 'Insurer', 'Effective', 'Expiration'].includes(label)))
         : fields;
@@ -2448,6 +3254,8 @@ function switchTab(name) {
 
         if (label === 'Phone' && v) {
           val.innerHTML = phoneLinkHTML(v);
+        } else if (label === 'Email' && v) {
+          val.innerHTML = emailLinkHTML(v);
         } else {
           val.textContent = v;
         }
@@ -2456,6 +3264,7 @@ function switchTab(name) {
         grid.append(card);
       });
     }
+
 
 
     /* ===== Customer Info ===== */
@@ -3144,11 +3953,13 @@ function switchTab(name) {
       });
     }
 
-    // Initialize both uploaders + row handlers when the page is ready
     document.addEventListener('DOMContentLoaded', () => {
+      // hoist AFTER login only
       initDropZone('policy');
       refreshComposeLinks();
       initDropZone('accord');
+
+
 
       // Handle "Go" buttons and row selection on the main table
       document.addEventListener('click', (e) => {
@@ -3177,19 +3988,37 @@ function switchTab(name) {
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      if (window.flatpickr) {
-        // Policies tab
-        flatpickr("#pe_effDate", { dateFormat: "Y-m-d", allowInput: true });
-        flatpickr("#pe_expDate", { dateFormat: "Y-m-d", allowInput: true });
+ 
+ <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!window.flatpickr) return;
 
-        // Add Client / Customer Info tab (same exact calendar)
-        flatpickr("#ci_effDate", { dateFormat: "Y-m-d", allowInput: true });
-        flatpickr("#ci_expDate", { dateFormat: "Y-m-d", allowInput: true });
-      }
-    });
-  </script>
+    // Policies tab
+    flatpickr("#pe_effDate", { dateFormat: "Y-m-d", allowInput: true });
+    flatpickr("#pe_expDate", { dateFormat: "Y-m-d", allowInput: true });
+
+    // Add Client / Customer Info tab
+    flatpickr("#ci_effDate", { dateFormat: "Y-m-d", allowInput: true });
+    flatpickr("#ci_expDate", { dateFormat: "Y-m-d", allowInput: true });
+
+    // Reminder field: enable time and close as soon as a value is chosen
+    flatpickr("#remWhen", 
+      enableTime: true,
+      dateFormat: "Y-m-d\\TH:i",   // literal T
+      time_24hr: false,
+      minuteIncrement: 1,
+      allowInput: true,
+      onChange: function (selDates, _str, instance) {
+        if (selDates && selDates.length) instance._input.blur();
+        });
+  });
+
+</script>
+
+
+
+
+</script>
 
 
 </body>
