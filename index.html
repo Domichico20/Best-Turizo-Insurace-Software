@@ -1590,6 +1590,114 @@ body.logged-in header { display: none; }
   }
 }
 
+/* --- login password eye --- */
+#loginSection .pw-wrap{
+  position: relative;
+}
+#loginSection .pw-wrap input{
+  width: 100%;
+  box-sizing: border-box;
+}
+#loginSection .pw-toggle{
+  position: absolute;
+  right: px;
+  top: 25%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: 0;
+  padding: 6px;
+  cursor: pointer;
+  opacity: 1;
+}
+
+/* ==== Password eye (CSS-only, no paths) ==== */
+:root{
+  --eye-stroke: #7d2a2a;     /* outline + slash */
+  --eye-iris:   #4a7dff;     /* ON color */
+  --eye-iris-off:#cbd5e1;    /* OFF color */
+}
+
+/* Button container (keeps it in the white box on the right) */
+#loginSection .pw-toggle{
+  position:absolute;
+  right:-48px;                     /* sits in the white box */
+  top:50%; transform:translateY(-50%);
+  width:36px; height:36px;         /* good tap target */
+  display:grid; place-items:center;
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:10px;
+  padding:0;
+  cursor:pointer;
+  box-shadow:0 6px 14px rgba(16,24,40,.08);
+}
+
+/* Hide any existing SVG inside the button */
+#loginSection .pw-toggle svg{ display:none; }
+
+/* The eye itself (oval + iris + pupil), drawn with gradients */
+#loginSection .pw-toggle::before{
+  content:"";
+  width:24px; height:16px;               /* oval */
+  border-radius:50% / 60%;
+  border:2px solid var(--eye-stroke);    /* crisp outline */
+  background:
+    radial-gradient(circle at 50% 55%, #0000 0 3px, var(--eye-stroke) 3px 3px, #0000 3.5px), /* pupil rim */
+    radial-gradient(circle at 50% 55%, var(--eye-iris) 0 8px, #0000 8px),                   /* iris (ON) */
+    #fff;                                                                      /* base */
+  filter: drop-shadow(0 1px 0 rgba(0,0,0,.08));
+}
+
+/* OFF (hidden) state: grey iris, no pupil rim */
+#loginSection .pw-toggle:not(.on)::before{
+  background:
+    radial-gradient(circle at 50% 55%, var(--eye-iris-off) 0 8px, #0000 8px),
+    #fff;
+}
+
+/* OFF state: add a neat slash (no path, just a tiny rectangle) */
+#loginSection .pw-toggle:not(.on)::after{
+  content:"";
+  position:absolute;
+  width:2px; height:20px;
+  background: var(--eye-stroke);
+  border-radius:2px;
+  transform: rotate(45deg);
+}
+
+/* polish */
+#loginSection .pw-toggle:hover{ box-shadow:0 10px 20px rgba(16,24,40,.12); }
+#loginSection .pw-toggle:focus-visible{ outline:none; box-shadow:0 0 0 3px rgba(197,155,106,.35); }
+
+/* Small screens: keep it inside */
+@media (max-width:480px){
+  #loginSection .pw-toggle{ right:10px; width:32px; height:32px; }
+  #loginSection .pw-toggle::before{ width:22px; height:14px; }
+}
+
+
+#loginSection .pw-toggle { top: 50%; transform: translateY(-50%); } /* true center */
+
+/* Login: move eye into the white area at right + enlarge */
+#loginSection .pw-toggle{
+  right:10px;          /* push it outside the blue input into the white box */
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0;
+  z-index: 2;
+}
+
+#loginSection .pw-toggle svg{
+  width: 24px;           /* ~1.5× */
+  height: 24px;
+}
+
+/* Optional: keep it inside on very small screens */
+@media (max-width: 480px){
+  #loginSection .pw-toggle{ right: 10px; }
+}
+
+
 </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
@@ -1608,8 +1716,25 @@ body.logged-in header { display: none; }
   <!-- ===== Login (unchanged) ===== -->
   <div id="loginSection">
     <input type="text" id="appUser" placeholder="Enter Username" />
-    <input type="password" id="appPassword" placeholder="Enter Password"
-      onkeydown="if(event.key==='Enter'){event.preventDefault();checkPassword();}">
+    <div class="pw-wrap">
+  <input type="password" id="appPassword" placeholder="Enter Password"
+    onkeydown="if(event.key==='Enter'){event.preventDefault();checkPassword();}">
+  <button type="button" class="pw-toggle" aria-label="Show password"
+    onclick="(function(btn){
+      var i=document.getElementById('appPassword');
+      var show=i.type==='password';
+      i.type=show?'text':'password';
+      btn.setAttribute('aria-label', show?'Hide password':'Show password');
+      btn.classList.toggle('on', show);
+    })(this)">
+    <!-- lil eye icon -->
+    <svg viewBox="0 0 24 24" width="10" height="20" aria-hidden="true">
+      <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" fill="none" stroke="currentColor" stroke-width="2"/>
+      <circle cx="12" cy="12" r="5" />
+    </svg>
+  </button>
+</div>
+
     <button onclick="checkPassword()">Unlock</button>
   </div>
 
