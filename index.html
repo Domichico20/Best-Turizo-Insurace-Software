@@ -1743,51 +1743,83 @@ body.logged-in header { display: none; }
       <div class="grid" id="custDetailsGrid"></div>
 
       <!-- NEW: Settings modal (admins only; opened by the Settings tab button) -->
+      <!-- NEW: Settings modal (admins only; opened by the Settings tab button) -->
       <div id="settingsModal"
-        style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.40); z-index:4000; align-items:center; justify-content:center;">
+        style="display:none; position:fixed; inset:0; z-index:4000; align-items:center; justify-content:center;
+               background:rgba(17,24,39,.55); backdrop-filter:saturate(120%) blur(2px);">
         <div
-          style="background:#fff; border:1px solid var(--border); border-radius:14px; width:min(720px,96vw); padding:16px; box-shadow:var(--shadow);">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
-            <h3 style="margin:0">Settings</h3>
-            <button class="btn" type="button" onclick="closeSettings()">Close</button>
+          style="background:#fff; border:1px solid var(--border); border-radius:18px; width:min(800px,96vw);
+                 box-shadow:0 24px 60px rgba(16,24,40,.20), var(--shadow); overflow:hidden;">
+          
+          <!-- Header -->
+          <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 18px;
+                      background:linear-gradient(180deg,#ffffff 0%,#fbf7f0 100%); border-bottom:1px solid #ece5d6;">
+            <h3 style="margin:0; font-size:1.35rem; letter-spacing:.02em;">Settings</h3>
+            <button class="btn" type="button" onclick="closeSettings()"
+              style="border-radius:999px; padding:10px 14px; font-weight:900;">Close</button>
           </div>
 
-          <div style="margin-top:12px;">
-            <h4>Existing Users</h4>
-            <ul id="userList" style="margin:6px 0 14px; padding-left:18px;"></ul>
+          <!-- Body -->
+          <div style="padding:18px 18px 14px;">
+            <!-- Existing users -->
+            <div style="margin:0 0 14px;">
+              <div style="font-size:.9rem; color:var(--muted); font-weight:800; text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px;">
+                Existing Users
+              </div>
+              <ul id="userList" style="margin:0; padding-left:18px;"></ul>
+            </div>
+
+            <hr style="border:0; height:1px; background:linear-gradient(90deg,#eee, #e2d6c2, #eee); margin:12px 0 16px;">
+
+            <!-- Add user -->
+            <div style="display:grid; grid-template-columns:1fr 1fr auto; gap:12px; align-items:end; margin-top:6px;">
+              <div>
+                <label style="font-weight:700; display:block; margin-bottom:6px; font-size:1rem; color:#6f5a3e; letter-spacing:.06em; text-transform:uppercase;">
+                  Add User (username)
+                </label>
+                <input id="addUserName" placeholder="e.g. Maria"
+                  style="width:100%; border:1px solid var(--border); border-radius:12px; padding:12px 14px; background:#fff;
+                         box-shadow:0 1px 0 rgba(16,24,40,.02) inset; font-size:1.05rem;">
+              </div>
+              <div>
+                <label style="font-weight:700; display:block; margin-bottom:6px; font-size:1rem; color:#6f5a3e; letter-spacing:.06em; text-transform:uppercase;">
+                  Password
+                </label>
+                <input id="addUserPass" type="password" placeholder="Set password"
+                  style="width:100%; border:1px solid var(--border); border-radius:12px; padding:12px 14px; background:#fff;
+                         box-shadow:0 1px 0 rgba(16,24,40,.02) inset; font-size:1.05rem;">
+              </div>
+              <button class="btn primary" type="button" onclick="addUser()" style="min-width:140px;">Add</button>
+            </div>
+
+            <!-- Change password -->
+            <div style="display:grid; grid-template-columns:1fr 1fr auto; gap:12px; align-items:end; margin-top:18px;">
+              <div>
+                <label style="font-weight:700; display:block; margin-bottom:6px; font-size:1rem; color:#6f5a3e; letter-spacing:.06em; text-transform:uppercase;">
+                  Change Password (user)
+                </label>
+                <select id="cpUser"
+                  style="width:100%; border:1px solid var(--border); border-radius:12px; padding:12px 14px; background:#fff;
+                         box-shadow:0 1px 0 rgba(16,24,40,.02) inset; font-size:1.05rem;"></select>
+              </div>
+              <div>
+                <label style="font-weight:700; display:block; margin-bottom:6px; font-size:1rem; color:#6f5a3e; letter-spacing:.06em; text-transform:uppercase;">
+                  New Password
+                </label>
+                <input id="cpPass" type="password" placeholder="New password"
+                  style="width:100%; border:1px solid var(--border); border-radius:12px; padding:12px 14px; background:#fff;
+                         box-shadow:0 1px 0 rgba(16,24,40,.02) inset; font-size:1.05rem;">
+              </div>
+              <button class="btn primary" type="button" onclick="setPassword()" style="min-width:140px;">Update</button>
+            </div>
+
+            <p class="small" style="margin-top:14px; color:var(--muted);">
+              Que viva Colombia hijueeeputaaaa....
+            </p>
           </div>
-
-          <hr>
-
-          <div style="display:grid; grid-template-columns:1fr 1fr auto; gap:8px; align-items:end; margin-top:12px;">
-            <div>
-              <label style="font-weight:700;display:block;margin-bottom:4px;">Add User (username)</label>
-              <input id="addUserName" placeholder="e.g. Maria" />
-            </div>
-            <div>
-              <label style="font-weight:700;display:block;margin-bottom:4px;">Password</label>
-              <input id="addUserPass" type="password" placeholder="Set password" />
-            </div>
-            <button class="btn primary" type="button" onclick="addUser()">Add</button>
-          </div>
-
-          <div style="display:grid; grid-template-columns:1fr 1fr auto; gap:8px; align-items:end; margin-top:12px;">
-            <div>
-              <label style="font-weight:700;display:block;margin-bottom:4px;">Change Password (user)</label>
-              <select id="cpUser"></select>
-            </div>
-            <div>
-              <label style="font-weight:700;display:block;margin-bottom:4px;">New Password</label>
-              <input id="cpPass" type="password" placeholder="New password" />
-            </div>
-            <button class="btn primary" type="button" onclick="setPassword()">Update</button>
-          </div>
-
-          <p class="small" style="margin-top:10px;">
-            Changes are saved to the server if your Apps Script supports it; otherwise they apply for this session.
-          </p>
         </div>
       </div>
+
 
 
       <!-- Customer Info panel -->
@@ -2049,40 +2081,50 @@ body.logged-in header { display: none; }
         sel.innerHTML = names.map(n => `<option value="${esc(n)}">${esc(n)}</option>`).join('');
       }
     }
-    function addUser() {
-      if (sessionUser !== 'Edwin') { alert('Edwin only'); return; }
-      const name = (document.getElementById('addUserName').value || '').trim();
-      const pass = (document.getElementById('addUserPass').value || '').trim();
-      if (!name || !pass) { alert('Enter username and password'); return; }
-      if (USERS[name]) { alert('User already exists'); return; }
+ function addUser() {
+  if (sessionUser !== 'Edwin') { alert('Edwin only'); return; }
+  const name = (document.getElementById('addUserName').value || '').trim();
+  const pass = (document.getElementById('addUserPass').value || '').trim();
+  if (!name || !pass) { alert('Enter username and password'); return; }
+  if (USERS[name]) { alert('User already exists'); return; }
 
-      // Local (immediate) update
-      USERS[name] = pass;
-      loadUsersUI();
-      initTasksUI(); // refresh recipients
+  // Local (immediate) + persist locally
+  USERS[name] = pass;
+  persistUsersToLocalStorage();
+  loadUsersUI();
+  initTasksUI();
 
-      // Try to persist on server (no-op if your Apps Script doesn’t handle it)
-      postToScript({ action: 'userAdd', password: sessionPassword, requester: sessionUser, newUser: name, newPassword: pass })
-        .catch(() => { /* ignore if not implemented */ });
+  // Try to persist on server (if implemented); ignore errors
+  postToScript({
+    action: 'userAdd', password: sessionPassword, requester: sessionUser,
+    newUser: name, newPassword: pass
+  }).catch(() => {/* no-op */});
 
-      document.getElementById('addUserName').value = '';
-      document.getElementById('addUserPass').value = '';
-    }
-    function setPassword() {
-      if (sessionUser !== 'Edwin') { alert('Edwin only'); return; }
-      const who = (document.getElementById('cpUser').value || '').trim();
-      const pass = (document.getElementById('cpPass').value || '').trim();
-      if (!who || !pass) { alert('Pick a user and enter a new password'); return; }
+  document.getElementById('addUserName').value = '';
+  document.getElementById('addUserPass').value = '';
+}
 
-      // Local (immediate) update
-      USERS[who] = pass;
-      document.getElementById('cpPass').value = '';
-      alert('Password updated');
+ function setPassword() {
+  if (sessionUser !== 'Edwin') { alert('Edwin only'); return; }
+  const who = (document.getElementById('cpUser').value || '').trim();
+  const pass = (document.getElementById('cpPass').value || '').trim();
+  if (!who || !pass) { alert('Pick a user and enter a new password'); return; }
 
-      // Try to persist on server
-      postToScript({ action: 'userSetPassword', password: sessionPassword, requester: sessionUser, user: who, newPassword: pass })
-        .catch(() => { /* ignore if not implemented */ });
-    }
+  USERS[who] = pass;                   // local update
+  persistUsersToLocalStorage();        // persist locally
+  document.getElementById('cpPass').value = '';
+  alert('Password updated');
+
+  // Best effort server persist
+  postToScript({
+    action: 'userSetPassword',
+    password: sessionPassword,
+    requester: sessionUser,
+    user: who,
+    newPassword: pass
+  }).catch(() => {/* no-op */});
+}
+
 
 
     function refreshData() {
@@ -2108,12 +2150,41 @@ body.logged-in header { display: none; }
 
     /* ===== Config / Constants ===== */
     const ROW_LIMIT = 25;
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbxyahQHU8BNJK6cZyYebKWMuSqSPRLTHI9OaJ-kABn5gxkToGaoaXxkv12syN45MvhF/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwZPZp3TEjx3LMIqjyZHfn8B3dIpd61QOm4g6rggd8Vse5Y_DgHF30prsAp-CAxC6gC/exec';
     const sheetId = '1q94KS8Dc2usWKc0h6iQvHP1sDfsPbgcybzXs4zpZANc';
     const apiKey = 'AIzaSyAhaKX_GIaCIXBsq43J3aMvqtGtFngdzrQ';
     const range = 'policies!A1:ZZZ'; // pull all columns, incl. Policy/Accord Forms
 
     const USERS = { Edwin: 'Insurance2025', Islendy: 'Insurance2026', Penelope: 'Insurance2027' };
+    // --- User persistence (local fallback) ---
+const USERS_LS_KEY = 'bestturizo_users_v1';
+function loadUsersFromLocalStorage() {
+  try {
+    const raw = localStorage.getItem(USERS_LS_KEY);
+    if (!raw) return; // nothing saved yet — keep defaults
+    const saved = JSON.parse(raw);
+    if (saved && typeof saved === 'object' && Object.keys(saved).length > 0) {
+      // Only overwrite if we actually have saved users
+      Object.keys(USERS).forEach(k => delete USERS[k]);
+      Object.assign(USERS, saved);
+    }
+  } catch (_) {
+    // On parse error keep defaults
+  }
+}
+
+
+function persistUsersToLocalStorage() {
+  try { localStorage.setItem(USERS_LS_KEY, JSON.stringify(USERS)); } catch (_) {}
+}
+
+// Boot: make sure we have whatever was saved locally
+loadUsersFromLocalStorage();
+if (Object.keys(USERS).length === 0) {
+  Object.assign(USERS, { Edwin:'Insurance2025', Islendy:'Insurance2026', Penelope:'Insurance2027' });
+  persistUsersToLocalStorage();
+}
+
 
     function initTasksUI() {
       const sel = document.getElementById('taskTo');
@@ -4002,16 +4073,17 @@ document.body.classList.add('logged-in');
     flatpickr("#ci_expDate", { dateFormat: "Y-m-d", allowInput: true });
 
     // Reminder field: enable time and close as soon as a value is chosen
-    flatpickr("#remWhen", 
-      enableTime: true,
-      dateFormat: "Y-m-d\\TH:i",   // literal T
-      time_24hr: false,
-      minuteIncrement: 1,
-      allowInput: true,
-      onChange: function (selDates, _str, instance) {
-        if (selDates && selDates.length) instance._input.blur();
-        });
-  });
+flatpickr("#remWhen", {
+  enableTime: true,
+  dateFormat: "Y-m-d\\TH:i",   // literal T
+  time_24hr: false,
+  minuteIncrement: 1,
+  allowInput: true,
+  onChange: function (selDates, _str, instance) {
+    if (selDates && selDates.length) instance._input.blur();
+  }
+});
+
 
 </script>
 
