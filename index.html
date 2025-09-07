@@ -99,9 +99,6 @@ body.logged-in header { display: none; }
       margin-top: 0 !important;
     }
 
-
-
-
     /* ===== Login (UNCHANGED) ===== */
     #loginSection {
       width: 100%;
@@ -165,7 +162,7 @@ body.logged-in header { display: none; }
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 12px;
+      gap: 2px;
       margin: 0 auto 12px;
       width: min(1250px, 96vw);
     }
@@ -272,81 +269,88 @@ body.logged-in header { display: none; }
     }
 
 
-    /* ===== Data Table ===== */
-    #dataTable {
-      width: 100%;
-      margin: 0 auto;
-      border-collapse: separate;
-      border-spacing: 0;
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 8px 24px rgba(16, 24, 40, .06);
-      table-layout: fixed;
-    }
+/* ===== Data Table ===== */
+#dataTable {
+  width: 100%;
+  margin: 0 auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(16, 24, 40, .06);
+  table-layout: fixed;
+}
 
-    #tab-files,
-    #tab-accord {
-      position: relative;
-      padding-right: 240px;
-      /* leaves room so content doesn’t hide under the box */
-    }
+#tab-files,
+#tab-accord {
+  position: relative;
+  padding-right: 240px;
+  /* leaves room so content doesn’t hide under the box */
+}
 
-    #dataTable thead th {
-      position: sticky;
-      top: 0;
-      z-index: 2;
-      /* Refined gold ribbon using same colors */
-      background: linear-gradient(180deg,
-          #d1a66e 0%,
-          #b1874f 20%,
-          #b3803d 45%,
-          #a06e2c 60%,
-          #b3803d 75%,
-          #b1874f 88%,
-          #d1a66e 100%);
-      color: #f3f4f7;
-      text-transform: uppercase;
-      letter-spacing: .10em;
-      font-weight: 800;
-      font-size: 1.45rem;
-      padding: 14px 16px;
-      text-align: center;
-      border-bottom: 1px solid rgba(0, 0, 0, .08);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, .25),
-        inset 0 -1px 0 rgba(0, 0, 0, .08);
-    }
+#dataTable thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  /* Refined gold ribbon using same colors */
+  background: linear-gradient(180deg,
+      #d1a66e 0%,
+      #b1874f 20%,
+      #b3803d 45%,
+      #a06e2c 60%,
+      #b3803d 75%,
+      #b1874f 88%,
+      #d1a66e 100%);
+  color: #f3f4f7;
+  text-transform: uppercase;
+  letter-spacing: .10em;
+  font-weight: 800;
+  font-size: 1.45rem;
+  padding: 14px 16px;
+  text-align: center;
+  border-bottom: 1px solid rgba(0, 0, 0, .08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .25),
+    inset 0 -1px 0 rgba(0, 0, 0, .08);
+}
 
-    /* Subtle column separators & rounded top corners */
-    #dataTable thead th+th {
-      box-shadow:
-        inset 1px 0 0 rgba(255, 255, 255, .18),
-        inset 0 -1px 0 rgba(0, 0, 0, .08);
-    }
+/* Subtle column separators & rounded top corners */
+#dataTable thead th+th {
+  box-shadow:
+    inset 1px 0 0 rgba(255, 255, 255, .18),
+    inset 0 -1px 0 rgba(0, 0, 0, .08);
+}
 
-    #dataTable thead th:first-child {
-      border-top-left-radius: 14px;
-    }
+#dataTable thead th:first-child {
+  border-top-left-radius: 14px;
+}
 
-    #dataTable thead th:last-child {
-      border-top-right-radius: 14px;
-    }
+#dataTable thead th:last-child {
+  border-top-right-radius: 14px;
+}
 
-    #dataTable tbody td,
-    #dataTable tbody th {
-      padding: 12px 14px;
-      border-top: 1px solid #eef2f7;
-      vertical-align: middle;
-      color: #0f172a;
-      font-size: 20px;
-      line-height: 1.35;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      text-align: center;
-    }
+#dataTable tbody td,
+#dataTable tbody th {
+  padding: 12px 14px;
+  border-top: 1px solid #eef2f7;
+  vertical-align: middle;
+  color: #0f172a;
+  font-size: 20px;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+/* Hide Address column (8th column) */
+#dataTable th:nth-child(8),
+#dataTable td:nth-child(8) {
+  display: none;
+}
+
 
 
     /* Hide specific inputs in the Customer Info form */
@@ -1174,51 +1178,89 @@ body.logged-in header { display: none; }
       transition: none !important;
     }
 
-    /* ===== Tasks Widget (modernized) ===== */
+    /* ===== Search & Data Card (Modern Elegant Design) ===== */
+.data-panel {
+  width: min(1250px, 96vw);
+  margin: 12px auto 24px;
+  padding: 24px 28px;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfbff 100%);
+  border: 1px solid #ece5d6;
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(16, 24, 40, .12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-left: 0.25in;
+  padding-right: 0.25in;
+}
+
+/* Remove the inline style that was causing the issue */
+.data-panel[style*="width: 98vw"] {
+  width: min(1250px, 96vw) !important;
+  max-width: none !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.data-panel h3 {
+  margin: 0 0 16px;
+  font-weight: 900;
+  letter-spacing: .02em;
+  font-size: 1.8rem;
+  background: linear-gradient(90deg, #7c5b2e, #c79d4b 60%, #7c5b2e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+}
+
+/* ===== Tasks Widget (Modern Professional Design) ===== */
 #taskTo{ min-width:200px; }
 
 .tasks-panel{
   width:min(1250px,96vw);
-  margin:12px auto 20px;
-  padding:16px 18px;
-  background:linear-gradient(180deg,#ffffff 0%,#fbfbff 100%);
-  border:1px solid #ece5d6;
-  border-radius:16px;
-  box-shadow:0 12px 26px rgba(16,24,40,.08);
+  margin: 24px auto 20px;
+  padding: 24px 28px;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfbff 100%);
+  border: 1px solid #ece5d6;
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(16, 24, 40, .12);
 }
 
 .tasks-panel h3{
-  margin:0 0 10px;
+  margin:0 0 16px;
   font-weight:900;
   letter-spacing:.02em;
+  font-size: 1.8rem;
   background:linear-gradient(90deg,#7c5b2e,#c79d4b 60%,#7c5b2e);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
+  text-align: center;
 }
 
 .tasks-row{
   display:grid;
   grid-template-columns:minmax(180px,220px) 1fr auto;
-  gap:10px;
+  gap:12px;
   align-items:stretch;
-  margin-bottom:14px;
+  margin-bottom:20px;
 }
 
 #tasksPanel select,
 #tasksPanel input{
   border:1px solid var(--border);
   border-radius:12px;
-  padding:12px 14px;
-  font-size:1.05rem;
+  padding:14px 16px;
+  font-size:1.1rem;
   background:#fff;
-  box-shadow:0 1px 0 rgba(16,24,40,.02) inset;
-  transition:border-color .15s, box-shadow .15s;
+  box-shadow:0 2px 4px rgba(16,24,40,.04);
+  transition: all 0.2s ease;
 }
 #tasksPanel select:focus,
 #tasksPanel input:focus{
   border-color:var(--brand1);
-  box-shadow:0 0 0 3px rgba(197,155,106,.18);
+  box-shadow:0 0 0 3px rgba(197,155,106,.18), 0 2px 4px rgba(16,24,40,.04);
   outline:none;
+  transform: translateY(-1px);
 }
 
 #taskText{ width:100%; }
@@ -1226,24 +1268,27 @@ body.logged-in header { display: none; }
 .tasks-columns{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:16px;
+  gap:20px;
 }
 
 .tasks-col{
   background:#fff;
   border:1px solid #ece5d6;
-  border-radius:14px;
-  padding:12px;
-  box-shadow:0 6px 18px rgba(16,24,40,.06);
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 8px 24px rgba(16,24,40,.08);
 }
 
 #tasksPanel h4{
-  margin:0 0 10px;
-  font-size:1.15rem;
+  margin:0 0 16px;
+  font-size:1.25rem;
   letter-spacing:.04em;
   text-transform:uppercase;
   color:#6f5a3e;
   font-weight:800;
+  text-align: center;
+  border-bottom: 2px solid #e7d4bd;
+  padding-bottom: 8px;
 }
 
 /* Show ~4 tasks; scroll to see the rest */
@@ -1251,7 +1296,7 @@ body.logged-in header { display: none; }
   list-style:none;
   padding:0;
   margin:0;
-  max-height:260px;
+  max-height:280px;
   overflow-y:auto;
   padding-right:8px;
   scrollbar-gutter:stable;
@@ -1262,43 +1307,50 @@ body.logged-in header { display: none; }
   -webkit-line-clamp:2;
   -webkit-box-orient:vertical;
   overflow:hidden;
+  font-size: 1.1rem;
 }
 
 #tasksPanel li{
   display:flex;
   align-items:flex-start;
-  gap:10px;
-  padding:10px 12px;
+  gap:12px;
+  padding:14px 16px;
   background:#fff;
   border:1px solid #eee5d6;
-  border-radius:12px;
-  box-shadow:0 3px 10px rgba(16,24,40,.05);
-  margin-bottom:10px;
-  transition:transform .08s ease, box-shadow .12s ease, border-color .12s ease;
+  border-radius:14px;
+  box-shadow:0 4px 12px rgba(16,24,40,.06);
+  margin-bottom:12px;
+  transition: all 0.2s ease;
 }
 #tasksPanel li:hover{
-  transform:translateY(-1px);
-  box-shadow:0 8px 20px rgba(16,24,40,.10);
-  border-color:#e2d6c2;
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(16,24,40,.12);
+  border-color:#d1a66e;
 }
 
 #tasksPanel li input[type="checkbox"]{
-  transform:scale(1.2);
-  margin-top:2px;
+  transform:scale(1.3);
+  margin-top:4px;
 }
 
-#tasksPanel .small{ font-size:.9rem; color:#6b7280; }
+#tasksPanel .small{ 
+  font-size:.95rem; 
+  color:#6b7280;
+  line-height: 1.4;
+}
 
 #tasksPanel .pill{
   border:1px solid #d1a66e;
-  padding:3px 10px;
+  padding:6px 14px;
   border-radius:999px;
   font-weight:800;
+  font-size: 0.9rem;
   background:linear-gradient(180deg,#fff 0%,#fbf7f0 100%);
 }
 #tasksPanel .done{
   background:#e7f7ec;
   border-color:#a7e0b8;
+  color: #166534;
 }
 
 #tasksPanel .btn-link{
@@ -1308,11 +1360,17 @@ body.logged-in header { display: none; }
   cursor:pointer;
   font-weight:900;
   padding:0;
+  font-size: 0.9rem;
 }
 
 @media(max-width:900px){
   .tasks-row{ grid-template-columns:1fr; }
   .tasks-columns{ grid-template-columns:1fr; }
+  .data-panel,
+  .tasks-panel {
+    padding: 20px;
+    margin: 20px auto;
+  }
 }
 
 
@@ -1408,7 +1466,7 @@ body.logged-in header { display: none; }
     /* Top-left user widget (logout) – layout handled by the grid at the bottom */
 #userWidget {
   display: flex;
-  gap: 8px;
+  gap: 2px;
   align-items: center;            /* keep centered vertically */
   justify-content: flex-start;    /* push the button to the left */
   width: auto;
@@ -1597,7 +1655,7 @@ body.logged-in header { display: none; }
   top: auto !important;
   right: auto !important;
   left: auto !important;
-  margin: 60px auto 12px !important; /* 2in ≈ 192px */
+  margin: 0px auto 8px !important; /* 2in ≈ 192px */
   width: 600px;
 }
 
@@ -1811,15 +1869,15 @@ body.logged-in header { display: none; }
   <small class="hint">All times Eastern (ET)</small>
 </aside>
 
-<!-- ===== Tasks (Sender / Receiver) ===== -->
+<!-- ===== Tasks Widget (Modern Professional Design) ===== -->
 <div id="tasksPanel" class="tasks-panel">
-  <h3 id="tasksHeader" style="margin:0 0 8px;">Tasks</h3>
+  <h3 id="tasksHeader">Task Management</h3>
 
   <!-- Compose to another user -->
   <div class="tasks-row">
     <select id="taskTo" title="Send task to"></select>
     <input type="text" id="taskText" placeholder="Write a task for another user">
-    <button type="button" class="btn primary" onclick="sendTask()">Send</button>
+    <button type="button" class="btn primary" onclick="sendTask()">Send Task</button>
   </div>
 
   <!-- Two lists -->
@@ -1835,22 +1893,25 @@ body.logged-in header { display: none; }
   </div>
 </div>
 
-
-    <form id="searchForm" onsubmit="event.preventDefault(); searchData();">
-      <div id="searchSection">
-        <input type="text" id="searchQuery" placeholder="Search by Policy #, Insurance, Name, Phone, Email, Notes">
+<!-- ===== Search Feature Card ===== -->
+<div class="data-panel" style="margin-top: 24px;">
+  <h3>Policy Search</h3>
+  
+  <form id="searchForm" onsubmit="event.preventDefault(); searchData();">
+    <div id="searchSection">
+      <input type="text" id="searchQuery" placeholder="Search by Policy #, Insurance, Name, Phone, Email, Notes">
+      <div style="display: flex; gap: 12px; justify-content: center; margin-top: 16px;">
         <button type="submit" class="search-btn">Search</button>
-        <!-- NEW -->
         <button type="button" class="search-btn" id="refreshBtn" onclick="refreshData()">Refresh</button>
       </div>
-    </form>
-
-
-
-
-
-
-    <table id="dataTable">
+    </div>
+  </form>
+</div>
+<!-- ===== Data Table Card (Centered) ===== -->
+<div class="data-panel" style="margin-top: 24px; padding-left: 0.25in; padding-right: 0.25in; width: 100%; max-width: none;">
+    <h3 style="text-align: center;">Policy Data</h3>
+  <div style="display: flex; justify-content: center;">
+    <table id="dataTable" style="width: 100%;">
       <thead>
         <tr>
           <th>Policy #</th>
@@ -1869,6 +1930,8 @@ body.logged-in header { display: none; }
       <tbody></tbody>
     </table>
   </div>
+</div>
+
 
   <!-- ===== Customer Overview Page ===== -->
   <div id="customerPage" style="display:none;">
@@ -2231,11 +2294,14 @@ body.logged-in header { display: none; }
       return nowET;
     }
 
-    function doLogout() {
-      // Refresh the browser to reset the app state
-      window.location.reload();
-    }
-    window.logout = doLogout; // keep the button working
+function doLogout() {
+  // Refresh the browser to reset the app state
+  window.location.reload();
+}
+window.logout = doLogout; // keep the button working
+window.sendTask = sendTask;
+window.sendReminder = sendReminder;
+
 
     // Hoist fixed UI so they pin to the viewport even if a parent scrolls/transforms
     function hoistFixedUI() {
@@ -2335,7 +2401,7 @@ body.logged-in header { display: none; }
 
     /* ===== Config / Constants ===== */
     const ROW_LIMIT = 25;
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbx2dwjTXDw1rEoU41bvh22cdpJJ7VDms9Mb9m23vGSQ8tVw1_TSGV0-bPNNLckrmN3g/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzytVLizLrc_xRZ4dYxnjsMZmi6VEBuX6ZAyAt0HTUiit_N7ywC4TTZIBaPVLnJYQw_/exec';
     const sheetId = '1q94KS8Dc2usWKc0h6iQvHP1sDfsPbgcybzXs4zpZANc';
     const apiKey = 'AIzaSyAhaKX_GIaCIXBsq43J3aMvqtGtFngdzrQ';
     const range = 'policies!A1:ZZZ'; // pull all columns, incl. Policy/Accord Forms
@@ -2425,42 +2491,52 @@ if (Object.keys(USERS).length === 0) {
       }
     }
 
-    function sendTask() {
-      const sel = document.getElementById('taskTo');
-      const to = sel ? (sel.value || '').trim() : '';
-      const text = (document.getElementById('taskText').value || '').trim();
-      if (!to) { alert('Pick who to send it to'); return; }
-      if (!text) { alert('Type the task'); return; }
+function sendTask() {
+  const sel = document.getElementById('taskTo');
+  const to = sel ? (sel.value || '').trim() : '';
+  const text = (document.getElementById('taskText').value || '').trim();
+  if (!to)  { alert('Pick who to send it to'); return; }
+  if (!text){ alert('Type the task'); return; }
 
-      postToScript({
-        action: 'taskAdd',
-        password: sessionPassword,
-        from: sessionUser,
-        to,
-        text,
-        reminder: 'false'
-      }).then((txt) => {
-        const resp = JSON.parse(txt || '{}');
-        if (!resp.ok) throw new Error(resp.error || 'Send failed');
+  const btn = document.querySelector('#sendTaskBtn, #taskSendBtn, #taskCard .btn.primary');
+  if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
 
-        document.getElementById('taskText').value = '';
+  // Optimistic local insert
+  const tempId = 'temp_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2);
+  const now = new Date();
+  const optimistic = {
+    id: tempId, from: sessionUser, to, text,
+    completed: false, createdAt: now, completedAt: '', dueAt: '', reminder: false
+  };
+  tasksSent = [optimistic, ...tasksSent];
+  sortTaskArrays(); renderTasks();
+  const tb = document.getElementById('taskText'); if (tb) tb.value = '';
 
-        const now = new Date();
-        const newTask = {
-          id: resp.id || '',
-          from: sessionUser,
-          to,
-          text,
-          completed: false,
-          createdAt: now,
-          completedAt: '',
-          dueAt: ''
-        };
-        tasksSent = [newTask, ...tasksSent];
-        sortTaskArrays();
-        renderTasks();
-      }).catch(err => alert(err.message || 'Failed to send task'));
-    }
+  // Ship to server (short timeout: 10s)
+  postToScript({
+    action: 'taskAdd',
+    password: sessionPassword,
+    from: sessionUser,
+    to,
+    text,
+    reminder: 'false'
+  }, 10000).then((txt) => {
+    let resp = {};
+    try { resp = JSON.parse(txt || '{}'); } catch(_) {}
+    if (!resp.ok) throw new Error(resp.error || 'Send failed');
+
+    // Swap temp id for real id
+    const i = tasksSent.findIndex(x => x.id === tempId);
+    if (i >= 0) tasksSent[i].id = resp.id || tasksSent[i].id;
+    sortTaskArrays(); renderTasks();
+  }).catch((err) => {
+    console.error(err);
+    alert('Saved locally. Server was unreachable — it will sync after a refresh when the endpoint is back.');
+  }).finally(() => {
+    if (btn) { btn.disabled = false; btn.textContent = 'Send'; }
+  });
+}
+
     
 function sendReminder() {
   const text = (document.getElementById('remText').value || '').trim();
@@ -2614,58 +2690,6 @@ let activeReminderTask = null; // currently shown reminder in the popup
       s.textContent = css;
       document.head.appendChild(s);
     }
-function snoozeReminder(mins){
-  const t = activeReminderTask;
-  if (!t || !mins) { hideReminderPopup(); return; }
-
-  // Compute new due time in ET and make a temp reminder
-  const newDate = new Date(Date.now() + mins*60000);
-  const dueAt = toEasternIsoFromDate(newDate);
-  const tempId = 'temp_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2);
-  const tempReminder = {
-    id: tempId, from: sessionUser, to: sessionUser,
-    text: t.text, completed: false, createdAt: new Date(),
-    completedAt: '', dueAt, reminder: true
-  };
-
-  // Instant UI: swap reminders + schedule new timer
-  tasksReceived = [tempReminder, ...tasksReceived.filter(x => x.id !== t.id)];
-  sortTaskArrays(); renderTasks();
-  scheduleOneReminder(tempReminder);
-  cancelTimerFor(t);
-  hideReminderPopup();
-
-  // Background: create snoozed reminder
-  postToScript({
-    action:'taskAdd',
-    password: sessionPassword,
-    from: sessionUser, to: sessionUser,
-    text: t.text, dueAt, reminder:'true'
-  }, 10000).then(txt => {
-    const resp = JSON.parse(txt || '{}');
-    if (!resp.ok) throw new Error(resp.error || 'add failed');
-
-    // swap temp id for real one and rekey any timer/fired maps
-    const i = tasksReceived.findIndex(x => x.id === tempId);
-    if (i >= 0) tasksReceived[i].id = resp.id || tempId;
-
-    const oldKey = tempId + ' @ ' + String(dueAt || '');
-    const newKey = (resp.id || tempId) + ' @ ' + String(dueAt || '');
-    if (scheduledTimers[oldKey]) { scheduledTimers[newKey] = scheduledTimers[oldKey]; delete scheduledTimers[oldKey]; }
-    if (firedReminders[oldKey]) {
-      firedReminders[newKey] = firedReminders[oldKey];
-      delete firedReminders[oldKey];
-      try { localStorage.setItem(REM_LS_KEY, JSON.stringify(firedReminders)); } catch(_){}
-    }
-  }).catch(err => console.error('snooze add failed:', err));
-
-  // Background: complete the original reminder
-  if (t.id) {
-    postToScript({ action:'taskComplete', password: sessionPassword, id: t.id }, 10000)
-      .catch(err => console.error('complete old failed:', err));
-  }
-}
-
 
     function showReminderPopup(task) {
       ensureReminderStyles(); ensureReminderModal();
@@ -3004,11 +3028,36 @@ item +=   '</div>';
     let headers = [];
     const rowCache = new Map(); // key: sheet row number, value: object keyed by header
 
-    function rowToObj(arr) {
-      const o = {};
-      headers.forEach((h, i) => (o[h] = arr[i] ?? ''));
-      return o;
-    }
+function rowToObj(arr) {
+  const o = {};
+  headers.forEach((h, i) => (o[h] = arr[i] ?? ''));
+  return o;
+}
+
+// Normalize helpers
+function norm(s){ return String(s || '').trim().toLowerCase(); }
+function phoneDigits(s){ return String(s || '').replace(/\D/g,''); }
+
+// Find the best matching sheet row by policy/email/name/phone using rowCache + header names
+function locateRowByFields({ policy, email, first, last, phone }) {
+  const P = norm(policy), E = norm(email), F = norm(first), L = norm(last), PH = phoneDigits(phone);
+
+  let best = null, bestScore = -1;
+  for (const o of allDataRows) {
+    const ro = rowCache.get(o.sheetRow) || rowToObj(o.r);
+
+    const score =
+      (P  && norm(getCell(ro, 'Policy #'))                    === P  ? 5 : 0) +
+      (E  && norm(getCell(ro, 'Email'))                        === E  ? 3 : 0) +
+      (F  && norm(getCell(ro, 'First Name','First'))           === F  ? 1 : 0) +
+      (L  && norm(getCell(ro, 'Last Name','Last'))             === L  ? 1 : 0) +
+      (PH && phoneDigits(getCell(ro, 'Phone'))                 === PH ? 2 : 0);
+
+    if (score > bestScore) { best = o; bestScore = score; }
+  }
+  return (bestScore > 0 && best) ? best.sheetRow : null;
+}
+
 
 
 
@@ -3119,22 +3168,69 @@ function ensureReminderModal(){
       ensureComposeLinkForInput('pe_email'); // Policies editor
     }
 
-    async function postToScript(params, timeoutMs = 60000) {
-      const ctrl = new AbortController();
-      const t = setTimeout(() => ctrl.abort('timeout'), timeoutMs);
-      try {
-        const res = await fetch(scriptURL, {
-          method: 'POST',
-          body: new URLSearchParams(params),
-          signal: ctrl.signal,
-        });
-        const text = await res.text();
-        if (!res.ok) throw new Error(`HTTP ${res.status}: ${text}`);
-        return text;
-      } finally {
-        clearTimeout(t);
+
+async function postToScript(params, timeoutMs = 60000) {
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), timeoutMs);
+  try {
+    const u = new URL(scriptURL);
+
+    // Mirror small primitive fields into the URL so Apps Script always sees them in e.parameter.*
+    if (params && typeof params === 'object') {
+      const skip = new Set(['fileB64','bytes','content','data','pdf','blob']);
+      for (const [k, v] of Object.entries(params)) {
+        if (skip.has(k) || v == null || typeof v === 'object') continue;
+        const s = String(v);
+        if (s.length <= 1400) u.searchParams.set(k, s);
       }
     }
+
+    const opts = {
+      method: 'POST',
+      body: (typeof params === 'string') ? params : JSON.stringify(params || {}),
+      mode: 'cors',
+      cache: 'no-store',
+      credentials: 'omit',
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      signal: ctrl.signal,
+    };
+
+    let res;
+    try {
+      res = await fetch(u.toString(), opts);
+    } catch (err) {
+      // Typical adblock/CORS hiccup → try a GET fallback (requires doGet on the server)
+      if (String(err?.message || '').includes('Failed to fetch')) {
+        const getUrl = new URL(u.toString());
+        getUrl.searchParams.set('__via', 'get-fallback');
+        const res2 = await fetch(getUrl.toString(), {
+          method: 'GET', mode: 'cors', cache: 'no-store',
+          credentials: 'omit', redirect: 'follow', referrerPolicy: 'no-referrer',
+          signal: ctrl.signal
+        });
+        const text2 = await res2.text();
+        if (!res2.ok) throw new Error(`HTTP ${res2.status}: ${text2}`);
+        return text2;
+      }
+      throw err;
+    }
+
+    const text = await res.text();
+    if (!res.ok) throw new Error(`HTTP ${res.status}: ${text}`);
+    return text;
+  } catch (e) {
+    if (e && (e.name === 'AbortError' || /aborted/i.test(String(e.message)))) {
+      throw new Error('Request timed out — check your Web App deployment or try again.');
+    }
+    throw e instanceof Error ? e : new Error('Failed to fetch');
+  } finally {
+    clearTimeout(t);
+  }
+}
+
+
+
 
 
     window.checkPassword = function () {
@@ -3219,8 +3315,7 @@ document.body.classList.add('logged-in');
       return '';
     }
 
-    // helper to read a sheet cell by case/space-insensitive aliases
-    // helper to read a sheet cell by case/space-insensitive aliases
+
     // helper to read a sheet cell by case/space-insensitive aliases (also strips zero-width spaces)
     function getCell(row, ...aliases) {
       const norm = s => String(s).toLowerCase().replace(/[\s\u200B-\u200D\uFEFF]/g, '');
@@ -3590,20 +3685,21 @@ document.body.classList.add('logged-in');
             fillCustomerInfo(custRowObj);
 
             // Reload data and try to locate the new sheet row so future "Save" does EDIT
-            return loadData().then(() => {
-              const match = allDataRows.find(o => {
-                const r = o.r;
-                return (String(r[0] || '').trim() === payload.policy) &&
-                  (String(r[8] || '').trim() === payload.email) &&
-                  (String(r[4] || '').trim().toLowerCase() === String(payload.firstName || '').toLowerCase()) &&
-                  (String(r[5] || '').trim().toLowerCase() === String(payload.lastName || '').toLowerCase());
-              });
-              if (match) {
-                custRowNum = match.sheetRow;
-                custRowObj = rowCache.get(custRowNum) || custRowObj;
-                renderCustomerHeader(custRowObj);
-              }
-            });
+        return loadData().then(() => {
+  const newRow = locateRowByFields({
+    policy: payload.policy,
+    email:  payload.email,
+    first:  payload.firstName,
+    last:   payload.lastName,
+    phone:  payload.phone
+  });
+  if (newRow) {
+    custRowNum = newRow;
+    custRowObj = rowCache.get(custRowNum) || custRowObj;
+    renderCustomerHeader(custRowObj);
+  }
+});
+
           })
           .catch(err => alert(err.message));
       } else {
@@ -3919,54 +4015,124 @@ function closeAccordEditor() {
 function proxyFileUrl(u){
   if (!u) return u;
   try {
-    // Same-origin: no proxy
-    if (new URL(u, location.href).origin === location.origin) return u;
-  } catch (_) {}
-  // Already proxied: no proxy (prevents recursion / “invalid pdf”)
-  if (u.startsWith(scriptURL)) return u;
-  return scriptURL + '?action=proxyfile&url=' + encodeURIComponent(u);
+    const host = new URL(u, location.href).host || '';
+    // Supabase public buckets already send CORS
+    if (host.includes('supabase.co')) return u;
+  } catch(_) {}
+  // Prefer direct, CORS-friendly links (Drive API, Dropbox direct, GitHub raw)
+  return normalizeDriveUrl(u);
 }
+
+
+// Turn Drive/Dropbox/GitHub links into CORS-friendly direct file links
+function normalizeDriveUrl(u){
+  try{
+    const url = new URL(u, location.href);
+
+    // --- Google Drive -> use Drive v3 alt=media (public file) ---
+    // patterns: /file/d/<id>/view or /open?id=<id>
+    if (url.hostname.includes('drive.google.com')) {
+      const byPath = url.pathname.match(/\/file\/d\/([^/]+)/);
+      const id = byPath ? byPath[1] : (url.searchParams.get('id') || '');
+      // Use the same apiKey you already have in this file for Sheets.
+      if (id) return `https://www.googleapis.com/drive/v3/files/${id}?alt=media&key=${apiKey}`;
+      return u;
+    }
+
+    // --- Dropbox: force direct download ---
+    if (url.hostname.endsWith('dropbox.com')) {
+      url.searchParams.set('dl','1');
+      return url.toString();
+    }
+
+    // --- GitHub "blob" -> raw.githubusercontent.com ---
+    if (url.hostname === 'github.com') {
+      const m = url.pathname.match(/^\/([^/]+)\/([^/]+)\/blob\/([^/]+)\/(.+)$/);
+      if (m) return `https://raw.githubusercontent.com/${m[1]}/${m[2]}/${m[3]}/${m[4]}`;
+    }
+
+    return u;
+  }catch(_){ return u; }
+}
+
 
 
 
 async function loadPdfForEdit(url) {
   try {
-    // Use our Apps Script proxy instead of direct URL
-const proxyUrl = proxyFileUrl(url);
-    console.log('Fetching from proxy:', proxyUrl);
-    
-    const res = await fetch(proxyUrl, { cache: 'no-store' });
-    
-    if (!res.ok) {
-      throw new Error('HTTP ' + res.status + ' - ' + res.statusText);
+    // Normalize Drive links + route via proxy to avoid CORS
+    const proxied = proxyFileUrl(url);
+
+    const b64ToBuf = (s) => {
+      if (!s) throw new Error('Empty base64 payload');
+      let clean = String(s);
+      const idx = clean.indexOf('base64,');
+      if (idx >= 0) clean = clean.slice(idx + 'base64,'.length);
+      clean = clean.replace(/\s+/g, '');
+      const bin = atob(clean);
+      const u8 = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+      return u8.buffer;
+    };
+
+    const tryFetch = async (requestUrl) => {
+      const res = await fetch(requestUrl, { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status + ' - ' + res.statusText);
+
+      const buf = await res.arrayBuffer();
+      const u8  = new Uint8Array(buf);
+      const ct  = (res.headers.get('content-type') || '').toLowerCase();
+
+      const isPdfHeader = u8.length >= 4 && u8[0] === 0x25 && u8[1] === 0x50 && u8[2] === 0x44 && u8[3] === 0x46;
+      if (isPdfHeader || ct.includes('application/pdf') || ct.includes('application/octet-stream')) {
+        return buf; // raw PDF bytes
+      }
+
+      const text = new TextDecoder('utf-8').decode(u8);
+
+      if (/^\s*<!DOCTYPE html|^\s*<html[\s>]/i.test(text)) {
+        throw new Error('Got HTML instead of a PDF (non-direct link or permissions issue).');
+      }
+
+      try {
+        const json = JSON.parse(text);
+        if (json && json.error) throw new Error('Server error: ' + json.error);
+        for (const k of ['b64','base64','data','content','file','bytes']) {
+          if (json && typeof json[k] === 'string' && json[k].length > 0) {
+            const s = String(json[k]).replace(/\s+/g,'');
+            const i = s.indexOf('base64,');
+            const b64 = (i >= 0 ? s.slice(i + 'base64,'.length) : s);
+            const bin = atob(b64);
+            const out = new Uint8Array(bin.length);
+            for (let j=0;j<bin.length;j++) out[j] = bin.charCodeAt(j);
+            return out.buffer;
+          }
+        }
+      } catch { /* not JSON */ }
+
+      if (text.startsWith('data:application/pdf;base64,')) {
+        const b64 = text.slice('data:application/pdf;base64,'.length).replace(/\s+/g,'');
+        const bin = atob(b64);
+        const out = new Uint8Array(bin.length);
+        for (let j=0;j<bin.length;j++) out[j] = bin.charCodeAt(j);
+        return out.buffer;
+      }
+
+      throw new Error('Unrecognized response (not PDF or JSON with b64). content-type=' + ct);
+    };
+
+
+
+
+    // Prefer proxy (handles Drive + CORS); fallback to direct URL
+    let bytes;
+    try { bytes = await tryFetch(proxied); }
+    catch (e1) {
+      console.warn('Proxy fetch failed, trying direct URL:', e1);
+      bytes = await tryFetch(url);
     }
 
-    // The proxy should return JSON with base64 data
-    const textResponse = await res.text();
-    console.log('Raw response:', textResponse.substring(0, 200) + '...');
-    
-    let jsonResponse;
-    try {
-      jsonResponse = JSON.parse(textResponse);
-    } catch (parseError) {
-      console.error('JSON parse error:', parseError);
-      throw new Error('Invalid JSON response from server');
-    }
-    
-    if (jsonResponse && jsonResponse.error) {
-      throw new Error('Server error: ' + jsonResponse.error);
-    }
-    
-    if (jsonResponse && jsonResponse.b64) {
-      // Decode the base64 PDF data
-      const bin = atob(jsonResponse.b64);
-      const buf = new Uint8Array(bin.length);
-      for (let i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i);
-      AE.bytes = buf.buffer;
-    } else {
-      throw new Error('No base64 data in response');
-    }
-
+    AE.bytes = bytes;
     AE.pdfDocJS = await pdfjsLib.getDocument({ data: AE.bytes }).promise;
     AE.pageCount = AE.pdfDocJS.numPages;
     AE.pageIndex = 0;
@@ -3974,10 +4140,11 @@ const proxyUrl = proxyFileUrl(url);
     await renderAccordPage(0);
   } catch (err) {
     console.error('PDF loading error:', err);
-    alert('Could not open PDF: ' + err.message);
+    alert('Could not open PDF. If the file is on Google Drive, make sure the link is shared (Anyone with the link) and that your Apps Script supports ?action=proxyfile. Details: ' + err.message);
     document.getElementById('accordEditor').style.display = 'none';
   }
 }
+
 
 function buildEditorUIOnce(){
   const wrap = document.getElementById('accordCanvasWrap');
@@ -4317,20 +4484,59 @@ async function saveAccordEdits(){
       try {
         const b64 = await fileToBase64(file);
 
-        // POST only once and only re-render the target table
+        // one-shot uploader
+        async function attemptUpload(rowNumber) {
         const text = await postToScript({
-          action: 'uploadAttachment',
-          password: sessionPassword,
-          row: custRowNum,
-          policyNumber: quickMeta.policyNumber,
-          kind,
-          fileName: file.name,
-          fileB64: b64,
-          addedBy: sessionUser
-        });
+  action: 'uploadAttachment',
+  password: sessionPassword,
+  row: rowNumber,
+  policyNumber: quickMeta.policyNumber,
+  // extra identifiers so backend can re-resolve if needed
+  email: getCell(custRowObj, 'Email'),
+  firstName: getCell(custRowObj, 'First Name','First'),
+  lastName: getCell(custRowObj, 'Last Name','Last'),
+  phone: getCell(custRowObj, 'Phone'),
+  kind,
+  fileName: file.name,
+  fileB64: b64,
+  addedBy: sessionUser
+});
 
-        const resp = JSON.parse(text);
-        if (!resp || !resp.ok) throw new Error(resp && resp.error ? resp.error : 'Upload failed');
+          const resp = JSON.parse(text || '{}');
+          if (!resp || resp.ok === false) {
+            throw new Error((resp && resp.error) || 'Upload failed');
+          }
+          return resp;
+        }
+
+        let resp;
+        try {
+          // First try with the current row
+          resp = await attemptUpload(custRowNum);
+} catch (e1) {
+  const msg = String(e1 && e1.message || '');
+  const low = msg.toLowerCase();
+  const looksRangeErr = (low.includes('row') && low.includes('range'));
+  if (!looksRangeErr) throw e1;
+
+  // === Row out of date → refresh index and retry once ===
+  await loadData();
+
+  const newRow = locateRowByFields({
+    policy: quickMeta.policyNumber || getCell(custRowObj, 'Policy #'),
+    email:  getCell(custRowObj, 'Email'),
+    first:  getCell(custRowObj, 'First Name','First'),
+    last:   getCell(custRowObj, 'Last Name','Last'),
+    phone:  getCell(custRowObj, 'Phone')
+  });
+
+  if (!newRow) throw e1;  // nothing to update
+
+  custRowNum = newRow;
+  custRowObj = rowCache.get(custRowNum) || custRowObj;
+  resp = await attemptUpload(custRowNum);
+}
+
 
         // Update our local cache so we don't need an extra fetch later
         if (!custRowObj) custRowObj = {};
@@ -4353,6 +4559,7 @@ async function saveAccordEdits(){
         input.value = '';
       }
     }
+
 
     // ⬇️ Helper to save the user-edited Accord PDF as a new form (keeps template visible)
     async function uploadEditedAccord() {
