@@ -220,6 +220,7 @@ body.logged-in header { display: none; }
       width: 100%;
       margin: 0 auto;
       border-collapse: separate;
+      table-layout: fixed;
       border-spacing: 0;
       background: #fff;
       border: 1px solid #e5e7eb;
@@ -330,21 +331,72 @@ body.logged-in header { display: none; }
       box-shadow: inset 0 0 0 2px rgba(59, 130, 246, .35);
     }
 
-    /* Remove Address column (8th) so the space is reclaimed */
+    /* Column width definitions for optimal display */
+    #dataTable thead th:nth-child(1),
+    #dataTable tbody td:nth-child(1) {
+      width: 9%;   /* Policy # */
+    }
+
+    #dataTable thead th:nth-child(2),
+    #dataTable tbody td:nth-child(2) {
+      width: 12%;   /* Insurer */
+    }
+
+    #dataTable thead th:nth-child(3),
+    #dataTable tbody td:nth-child(3) {
+      width: 12%;   /* Effective */
+    }
+
+    #dataTable thead th:nth-child(4),
+    #dataTable tbody td:nth-child(4) {
+      width: 12%;   /* Expiration */
+    }
+
+    #dataTable thead th:nth-child(5),
+    #dataTable tbody td:nth-child(5) {
+      width: 7%;    /* Status */
+    }
+
+    #dataTable thead th:nth-child(6),
+    #dataTable tbody td:nth-child(6) {
+      width: 9%;    /* First */
+    }
+
+    #dataTable thead th:nth-child(7),
+    #dataTable tbody td:nth-child(7) {
+      width: 9%;    /* Last */
+    }
+
     #dataTable thead th:nth-child(8),
     #dataTable tbody td:nth-child(8) {
+      width: 9%;    /* DOB */
+    }
+
+    #dataTable thead th:nth-child(9),
+    #dataTable tbody td:nth-child(9) {
+      width: 12%;    /* DL # */
+    }
+
+    /* Remove Address column (10th) so the space is reclaimed */
+    #dataTable thead th:nth-child(10),
+    #dataTable tbody td:nth-child(10) {
       display: none;
     }
 
-    /* Make Phone (9th) and Email (10th) wider to cover the freed gap */
-    #dataTable thead th:nth-child(9),
-    #dataTable tbody td:nth-child(9) {
-      width: 220px;   /* Phone */
+    /* Hide Email column (12th) and make Phone (11th) wider */
+    #dataTable thead th:nth-child(12),
+    #dataTable tbody td:nth-child(12) {
+      display: none;   /* Hide Email column */
     }
 
-    #dataTable thead th:nth-child(10),
-    #dataTable tbody td:nth-child(10) {
-      width: 260px;   /* Email */
+    #dataTable thead th:nth-child(11),
+    #dataTable tbody td:nth-child(11) {
+      width: 15%;   /* Phone - wider to use freed space */
+    }
+
+    #dataTable thead th:nth-child(13),
+    #dataTable tbody td:nth-child(13) {
+      width: 5%;    /* Go */
     }
 
 
@@ -1847,6 +1899,8 @@ body.logged-in header { display: none; }
           <th>Status</th>
           <th>First</th>
           <th>Last</th>
+          <th>DOB</th>
+          <th>DL #</th>
           <th>Address</th>
           <th>Phone</th>
           <th>Email</th>
@@ -2709,7 +2763,7 @@ function showModernAlert(title, message, type = 'info') {
 
       // optional quick feedback while reloading
       if (tbody) {
-        tbody.innerHTML = `<tr><td colspan="11" style="text-align:center; padding:12px;">Refreshing…</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="12" style="text-align:center; padding:12px;">Refreshing…</td></tr>`;
       }
 
       // pull again from Sheets and re-render
@@ -3697,8 +3751,8 @@ document.body.classList.add('logged-in');
       for (const o of rows) {
         const r = o.r;
         const status = computeStatus(r[3]);
-        const phoneHTML = phoneLinkHTML(r[7] ?? '');
-        const emailHTML = emailLinkHTML(r[8] ?? '');
+        const phoneHTML = phoneLinkHTML(r[9] ?? '');
+        const emailHTML = emailLinkHTML(r[10] ?? '');
         html += `
       <tr data-row="${o.sheetRow}">
         <td>${r[0] ?? ''}</td>
@@ -3709,6 +3763,8 @@ document.body.classList.add('logged-in');
         <td>${r[4] ?? ''}</td>
         <td>${r[5] ?? ''}</td>
         <td>${r[6] ?? ''}</td>
+        <td>${r[7] ?? ''}</td>
+        <td>${r[8] ?? ''}</td>
         <td>${phoneHTML}</td>
         <td>${emailHTML}</td>
         <td><button class="go-btn" data-row="${o.sheetRow}">Go</button></td>
