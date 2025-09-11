@@ -24,7 +24,7 @@ body.logged-in header { display: none; }
     body.is-customer .search-btn {
       animation: none !important;
     }
-    
+
 
     /* ===== Base / Theme ===== */
     :root {
@@ -672,6 +672,7 @@ body.logged-in header { display: none; }
     }
 
 
+
     .row-full {
       grid-column: 1/-1;
     }
@@ -707,6 +708,7 @@ body.logged-in header { display: none; }
       gap: 10px;
       margin: 10px 0;
     }
+
 
     .btn {
       padding: 12px 16px;
@@ -1370,7 +1372,6 @@ body.logged-in header { display: none; }
   position: fixed !important;
   top: 8px !important;
   left: 12px !important;
-  right: auto !important;
   z-index: 5000 !important;
 }
 
@@ -1499,15 +1500,15 @@ body.logged-in header { display: none; }
     /* Mobile: stay fixed at the top, full width */
 @media (max-width: 900px) {
     #userWidget     { 
-    top: 8px !important; 
-    left: 12px !important; 
-    right: auto !important;
+    position: fixed !important;
+    top: 8px !important;
+    left: 12px !important;
     z-index: 5000 !important; 
   }
 
   #fixedAddClient {
     position: fixed !important;
-    top: 64px !important;         /* leaves room under the logout button */
+    top: 8px !important;
     right: 12px !important;
     z-index: 5000 !important;
   }
@@ -1515,7 +1516,7 @@ body.logged-in header { display: none; }
   /* Put this AFTER any other #fixedAddClient rules */
 #fixedAddClient {
   position: fixed !important;
-  top: 64px !important;
+  top: 8px !important;
   right: 12px !important;
   z-index: 5000 !important;
 }
@@ -1523,7 +1524,11 @@ body.logged-in header { display: none; }
 
 /* Optional: nudge it down a bit on small screens */
 @media (max-width: 900px) {
-  #fixedAddClient { top: 64px !important; }
+  #fixedAddClient { 
+    position: fixed !important;
+    top: 8px !important;
+    right: 12px !important;
+  }
 }
 
 
@@ -1927,7 +1932,7 @@ body.logged-in header { display: none; }
               <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
                 <div style="width:4px; height:20px; background:linear-gradient(135deg, #c59b6a 0%, #a5743c 100%); border-radius:2px;"></div>
                 <h4 style="margin:0; font-size:1.1rem; font-weight:700; color:#2d1b0e; text-transform:none; letter-spacing:0;">
-                  Existing Users
+                Existing Users
                 </h4>
               </div>
               <div id="userList" style="margin:0;"></div>
@@ -1996,9 +2001,9 @@ body.logged-in header { display: none; }
             <p class="small" style="margin-top:14px; color:var(--muted);">
               Que Viva Colombia Hijueeeputaaaa Pinche Wey....
             </p>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 
   <!-- PDF Viewer Modal -->
   <div id="pdfViewerModal" style="display:none; position:fixed; inset:0; z-index:5000; 
@@ -2308,7 +2313,6 @@ body.logged-in header { display: none; }
       <th>Added By</th>
       <th>Policy #</th>
       <th>View</th>
-      <th>Edit</th>  <!-- NEW -->
     </tr>
   </thead>
   <tbody></tbody>
@@ -2714,11 +2718,10 @@ function showModernAlert(title, message, type = 'info') {
 
     /* ===== Config / Constants ===== */
     const ROW_LIMIT = 25;
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbx2dwjTXDw1rEoU41bvh22cdpJJ7VDms9Mb9m23vGSQ8tVw1_TSGV0-bPNNLckrmN3g/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxUBJp0X3j_ug62r6UBzwwh-uXJWqk5jyyDQJCJtb7KtIs8kCKohgJL89kMkis2SDT0/exec';
     const sheetId = '1q94KS8Dc2usWKc0h6iQvHP1sDfsPbgcybzXs4zpZANc';
     const apiKey = 'AIzaSyAhaKX_GIaCIXBsq43J3aMvqtGtFngdzrQ';
     const range = 'policies!A1:ZZZ'; // pull all columns, incl. Policy/Accord Forms
-
     const USERS = { Edwin: 'Insurance2025', Islendy: 'Insurance2026', Penelope: 'Insurance2027' };
     // --- User persistence (local fallback) ---
 const USERS_LS_KEY = 'bestturizo_users_v1';
@@ -3839,7 +3842,7 @@ document.body.classList.add('logged-in');
 
       // Show the logo only on Login + Main (list) pages
       document.body.classList.toggle('is-customer', which === 'customer');
-      
+
       // Update upload hints when showing customer page
       if (which === 'customer') {
         updateUploadHints();
@@ -4296,37 +4299,27 @@ function renderAttachmentTable(kind, jsonCell) {
       button.style.border = 'none';
       button.style.cursor = 'pointer';
       button.style.padding = '0';
-      button.title = 'View PDF (Click to open in viewer, Right-click to download)';
+      
+      // Check if it's a Google Drive file
+      if (url.includes('drive.google.com')) {
+        button.title = 'View PDF (Click to open in Google Drive viewer, Right-click for more options)';
+      } else {
+        button.title = 'View PDF (Click to open in viewer, Right-click for more options)';
+      }
+      
       button.onclick = (e) => {
         e.preventDefault();
         openPdfViewer(url, meta.name || 'document.pdf');
       };
       button.oncontextmenu = (e) => {
         e.preventDefault();
-        downloadPdfDirectly(url, meta.name || 'document.pdf');
+        showPdfContextMenu(e, url, meta.name || 'document.pdf');
         return false;
       };
       viewTd.appendChild(button);
     }
     tr.appendChild(viewTd);
 
-    // NEW: Edit button (Accord only)
-    if (!isPolicy) {
-      const editTd = document.createElement('td');
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'pill-btn';
-      btn.textContent = 'Edit';
-      btn.onclick = () => {
-        if (!url) {
-          alert('No file URL available for editing');
-          return;
-        }
-        openAccordEditor(url, meta.name || 'document.pdf');
-      };
-      editTd.appendChild(btn);
-      tr.appendChild(editTd);
-    }
 
     tbody.appendChild(tr);
   });
@@ -4400,36 +4393,36 @@ function openPdfViewer(url, name) {
     return;
   }
   
-  // First, let's try a quick connectivity test
-  testBasicConnectivity().then(connected => {
-    if (!connected) {
-      showPdfViewerError(`Network connectivity issue detected. Please check your internet connection and try again.\n\nIf the problem persists, try:\n1. Refreshing the page\n2. Checking your firewall settings\n3. Using the "Open in New Tab" option below`);
+  // For Google Drive files, use a simpler approach
+  if (url.includes('drive.google.com')) {
+    // Extract file ID and create a direct embed URL
+    const fileIdMatch = url.match(/\/file\/d\/([a-zA-Z0-9-_]+)/);
+    if (fileIdMatch) {
+      const fileId = fileIdMatch[1];
+      const embedUrl = `https://drive.google.com/file/d/${fileId}/preview`;
+      
+      // Open in new tab instead of trying to load in viewer
+      window.open(embedUrl, '_blank');
       return;
     }
-    
-    // Try to convert to direct download URL
-    const directUrl = convertToDirectDownloadUrl(url);
-    console.log('Using URL for PDF viewer:', directUrl);
-    
-    PDFViewer.url = directUrl;
-    PDFViewer.name = name || 'document.pdf';
-    PDFViewer.isOpen = true;
-    
-    // Update modal title
-    document.getElementById('pdfViewerTitle').textContent = PDFViewer.name;
-    document.getElementById('pdfViewerSubtitle').textContent = 'Loading document...';
-    
-    // Show modal
-    document.getElementById('pdfViewerModal').style.display = 'block';
-    
-    // Load PDF
-    loadPdfForViewer(directUrl).catch(err => {
-      console.error('PDF loading failed:', err);
-      showPdfViewerError(err.message);
-    });
-  }).catch(err => {
-    console.error('Connectivity test failed:', err);
-    showPdfViewerError(`Unable to test network connectivity. This suggests a serious network issue.\n\nPlease try:\n1. Refreshing the page\n2. Checking your internet connection\n3. Using the "Open in New Tab" option below`);
+  }
+  
+  // For other files, try the native viewer
+  PDFViewer.url = url;
+  PDFViewer.name = name || 'document.pdf';
+  PDFViewer.isOpen = true;
+  
+  // Update modal title
+  document.getElementById('pdfViewerTitle').textContent = PDFViewer.name;
+  document.getElementById('pdfViewerSubtitle').textContent = 'Loading document...';
+  
+  // Show modal
+  document.getElementById('pdfViewerModal').style.display = 'block';
+  
+  // Load PDF
+  loadPdfForViewer(url).catch(err => {
+    console.error('PDF loading failed:', err);
+    showPdfViewerError(err.message);
   });
 }
 
@@ -4533,6 +4526,11 @@ function showPdfViewerError(errorMessage) {
                          border-radius:6px; font-size:0.85rem; cursor:pointer;">
             Test Proxy
           </button>
+          <button onclick="window.testSpecificPdf()" 
+                  style="padding:8px 16px; background:#17a2b8; color:white; border:none; 
+                         border-radius:6px; font-size:0.85rem; cursor:pointer;">
+            Test This PDF
+          </button>
           <button onclick="showModernAlert('URL Information', 'Current URL: ${PDFViewer.url}', 'info')" 
                   style="padding:8px 16px; background:#6c757d; color:white; border:none; 
                          border-radius:6px; font-size:0.85rem; cursor:pointer;">
@@ -4615,16 +4613,45 @@ async function loadPdfForViewer(url) {
     if (!pdfBytes) {
       console.log('Trying proxy fetch for viewer...');
       
-      // Check if this is a Google Drive URL and try to convert it
-      let finalUrl = url;
-      if (url.includes('drive.google.com') && url.includes('/file/d/')) {
-        console.log('Detected Google Drive URL for viewer, attempting to convert...');
-        const fileId = url.match(/\/file\/d\/([a-zA-Z0-9-_]+)/);
-        if (fileId) {
-          finalUrl = `https://drive.google.com/uc?export=download&id=${fileId[1]}`;
-          console.log('Converted Google Drive URL for viewer:', finalUrl);
-        }
+  // Check if this is a Google Drive URL and try to convert it
+  let finalUrl = url;
+  if (url.includes('drive.google.com')) {
+    console.log('Detected Google Drive URL for viewer, attempting to convert...');
+    let fileId = null;
+    
+    // Try different Google Drive URL patterns
+    const patterns = [
+      /\/file\/d\/([a-zA-Z0-9-_]+)/,  // /file/d/ID/view or /file/d/ID/edit
+      /[?&]id=([a-zA-Z0-9-_]+)/,      // ?id=ID
+      /\/d\/([a-zA-Z0-9-_]+)/         // /d/ID/
+    ];
+    
+    for (const pattern of patterns) {
+      const match = url.match(pattern);
+      if (match) {
+        fileId = match[1];
+        break;
       }
+    }
+    
+    if (fileId) {
+      // Try multiple download URL formats
+      const downloadUrls = [
+        `https://drive.google.com/uc?export=download&id=${fileId}`,
+        `https://drive.google.com/uc?id=${fileId}&export=download`,
+        `https://docs.google.com/uc?export=download&id=${fileId}`
+      ];
+      
+      console.log('Found file ID:', fileId);
+      console.log('Will try download URLs:', downloadUrls);
+      
+      // Use the first format for now
+      finalUrl = downloadUrls[0];
+      console.log('Converted Google Drive URL for viewer:', finalUrl);
+    } else {
+      console.log('Could not extract file ID from Google Drive URL:', url);
+    }
+  }
       
       const proxyUrl = proxyFileUrl(finalUrl);
       console.log('Using proxy URL for viewer:', proxyUrl);
@@ -4636,12 +4663,12 @@ async function loadPdfForViewer(url) {
         });
         
         console.log('Proxy fetch response status:', res.status, res.statusText);
-        
-        if (!res.ok) {
+    
+    if (!res.ok) {
           throw new Error(`HTTP ${res.status} - ${res.statusText}`);
-        }
+    }
 
-        const textResponse = await res.text();
+    const textResponse = await res.text();
         console.log('Proxy response length for viewer:', textResponse.length);
         console.log('Proxy response first 200 chars:', textResponse.substring(0, 200));
         
@@ -4650,27 +4677,27 @@ async function loadPdfForViewer(url) {
           console.error('Proxy returned HTML instead of JSON for viewer:', textResponse.substring(0, 500));
           throw new Error('Server returned an error page instead of PDF data. The proxy may not be working correctly.');
         }
-        
-        let jsonResponse;
-        try {
-          jsonResponse = JSON.parse(textResponse);
-        } catch (parseError) {
+    
+    let jsonResponse;
+    try {
+      jsonResponse = JSON.parse(textResponse);
+    } catch (parseError) {
           console.error('JSON parse error for viewer:', parseError);
           console.error('Response was:', textResponse);
           throw new Error('Invalid JSON response from server. The proxy may not be working correctly.');
-        }
-        
-        if (jsonResponse && jsonResponse.error) {
-          throw new Error('Server error: ' + jsonResponse.error);
-        }
-        
-        if (jsonResponse && jsonResponse.b64) {
+    }
+    
+    if (jsonResponse && jsonResponse.error) {
+      throw new Error('Server error: ' + jsonResponse.error);
+    }
+    
+    if (jsonResponse && jsonResponse.b64) {
           console.log('Base64 data length for viewer:', jsonResponse.b64.length);
           
           try {
-            const bin = atob(jsonResponse.b64);
-            const buf = new Uint8Array(bin.length);
-            for (let i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i);
+      const bin = atob(jsonResponse.b64);
+      const buf = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i);
             
             // Check PDF header
             const header = new Uint8Array(buf, 0, 4);
@@ -4688,7 +4715,7 @@ async function loadPdfForViewer(url) {
             console.error('Base64 decode error for viewer:', decodeError);
             throw new Error('Failed to decode PDF data. The file might be corrupted or not a valid PDF.');
           }
-        } else {
+    } else {
           throw new Error('No base64 data in response. The proxy may not be working correctly.');
         }
       } catch (proxyError) {
@@ -4709,7 +4736,12 @@ async function loadPdfForViewer(url) {
     }
     
     if (!pdfBytes) {
-      const errorMessage = `Could not fetch PDF data from any source.\n\nErrors encountered:\n${errorDetails.join('\n')}\n\nThis might be due to:\n- CORS restrictions\n- Network connectivity issues\n- The file might not be accessible\n- The proxy server might not be working\n\nPlease try:\n1. Checking your internet connection\n2. Re-uploading the file\n3. Contacting support if the issue persists`;
+      const isCorsError = errorDetails.some(err => err.includes('CORS error'));
+      const quickSolution = isCorsError 
+        ? 'Quick Solution: Right-click the PDF icon and select "Download" to save the file directly to your computer.'
+        : 'Quick Solution: Try right-clicking the PDF icon to download the file directly.';
+        
+      const errorMessage = `Could not fetch PDF data from any source.\n\nErrors encountered:\n${errorDetails.join('\n')}\n\n${quickSolution}\n\nThis might be due to:\n- CORS restrictions\n- Network connectivity issues\n- The file might not be accessible\n- The proxy server might not be working\n\nPlease try:\n1. Right-click the PDF icon and download directly\n2. Checking your internet connection\n3. Re-uploading the file\n4. Contacting support if the issue persists`;
       throw new Error(errorMessage);
     }
     
@@ -4880,9 +4912,22 @@ function openPdfInNewTab(url) {
 
 function downloadPdfDirectly(url, filename) {
   try {
+    // Convert Google Drive URL to direct download URL
+    let downloadUrl = url;
+    
+    if (url.includes('drive.google.com')) {
+      const fileIdMatch = url.match(/\/file\/d\/([a-zA-Z0-9-_]+)/);
+      if (fileIdMatch) {
+        const fileId = fileIdMatch[1];
+        // Use the direct download URL format
+        downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+        console.log('Converted to download URL:', downloadUrl);
+      }
+    }
+    
     // Create a temporary link element to trigger download
     const link = document.createElement('a');
-    link.href = url;
+    link.href = downloadUrl;
     link.download = filename || 'document.pdf';
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
@@ -4899,6 +4944,137 @@ function downloadPdfDirectly(url, filename) {
     showModernAlert('Download Error', `Failed to start download: ${error.message}`, 'error');
   }
 }
+
+function showPdfContextMenu(event, url, filename) {
+  // Remove any existing context menu
+  const existingMenu = document.getElementById('pdfContextMenu');
+  if (existingMenu) {
+    existingMenu.remove();
+  }
+  
+  // Create context menu
+  const menu = document.createElement('div');
+  menu.id = 'pdfContextMenu';
+  menu.style.cssText = `
+    position: fixed;
+    top: ${event.clientY}px;
+    left: ${event.clientX}px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 10000;
+    min-width: 200px;
+    padding: 8px 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  `;
+  
+  const options = [
+    {
+      text: 'Download PDF',
+      icon: '📥',
+      action: () => downloadPdfDirectly(url, filename)
+    },
+    {
+      text: 'Open in LibreOffice Draw',
+      icon: '🎨',
+      action: () => openInLibreOfficeDraw(url, filename)
+    },
+    {
+      text: 'Open in New Tab',
+      icon: '🔗',
+      action: () => openPdfInNewTab(url)
+    }
+  ];
+  
+  options.forEach(option => {
+    const item = document.createElement('div');
+    item.style.cssText = `
+      padding: 12px 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: #333;
+      transition: background-color 0.2s;
+    `;
+    
+    item.innerHTML = `
+      <span style="font-size: 16px;">${option.icon}</span>
+      <span>${option.text}</span>
+    `;
+    
+    item.addEventListener('mouseenter', () => {
+      item.style.backgroundColor = '#f5f5f5';
+    });
+    
+    item.addEventListener('mouseleave', () => {
+      item.style.backgroundColor = 'transparent';
+    });
+    
+    item.addEventListener('click', () => {
+      option.action();
+      menu.remove();
+    });
+    
+    menu.appendChild(item);
+  });
+  
+  document.body.appendChild(menu);
+  
+  // Close menu when clicking outside
+  const closeMenu = (e) => {
+    if (!menu.contains(e.target)) {
+      menu.remove();
+      document.removeEventListener('click', closeMenu);
+    }
+  };
+  
+  setTimeout(() => {
+    document.addEventListener('click', closeMenu);
+  }, 100);
+}
+
+function openInLibreOfficeDraw(url, filename) {
+  try {
+    // Convert Google Drive URL to direct download URL
+    let downloadUrl = url;
+    
+    if (url.includes('drive.google.com')) {
+      const fileIdMatch = url.match(/\/file\/d\/([a-zA-Z0-9-_]+)/);
+      if (fileIdMatch) {
+        const fileId = fileIdMatch[1];
+        // Use the direct download URL format
+        downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+        console.log('Converted to download URL:', downloadUrl);
+      }
+    }
+    
+    // Create a temporary link element to trigger download
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = filename || 'document.pdf';
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    
+    // Add to DOM, click, and remove
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Show instructions to user
+    showModernAlert(
+      'Downloading for LibreOffice Draw', 
+      `The PDF is being downloaded to your computer. To open it in LibreOffice Draw:\n\n1. Wait for the download to complete\n2. Right-click the downloaded file in your Downloads folder\n3. Select "Open with" → "LibreOffice Draw"\n\nOr:\n1. Open LibreOffice Draw\n2. Go to File → Open\n3. Navigate to your Downloads folder and select the PDF file`, 
+      'info'
+    );
+    
+  } catch (error) {
+    showModernAlert('Error', `Failed to download PDF for LibreOffice: ${error.message}`, 'error');
+  }
+}
+
 
 async function testBasicConnectivity() {
   try {
@@ -4975,6 +5151,107 @@ function initPdfViewer() {
     });
   };
   
+  // Add a test specific PDF function
+  window.testSpecificPdf = async function() {
+    console.log('=== PDF TEST STARTED ===');
+    
+    if (!PDFViewer.url) {
+      console.log('ERROR: No PDF URL available to test');
+      showModernAlert('Test PDF', 'No PDF URL available to test', 'error');
+      return;
+    }
+    
+    console.log('Original PDF URL:', PDFViewer.url);
+    
+    try {
+      // Test URL conversion first
+      const convertedUrl = convertToDirectDownloadUrl(PDFViewer.url);
+      console.log('Converted URL:', convertedUrl);
+      
+      showModernAlert('Test PDF', 'Testing PDF URL: ' + convertedUrl, 'info');
+      
+      const proxyUrl = proxyFileUrl(convertedUrl);
+      console.log('Final proxy URL:', proxyUrl);
+      
+      console.log('Making fetch request...');
+      const response = await fetch(proxyUrl, { cache: 'no-store' });
+      console.log('Response status:', response.status);
+      console.log('Response statusText:', response.statusText);
+      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+      
+      const text = await response.text();
+      console.log('Response length:', text.length);
+      console.log('Response preview:', text.substring(0, 500));
+      
+      if (text.includes('<html') || text.includes('<!DOCTYPE')) {
+        console.log('ERROR: Response is HTML, not JSON');
+        showModernAlert('Test PDF', 'Server returned HTML instead of JSON. Response: ' + text.substring(0, 200), 'error');
+        return;
+      }
+      
+      const json = JSON.parse(text);
+      console.log('Parsed JSON response:', json);
+      
+      if (json.ok === false) {
+        console.log('ERROR: Server returned error:', json.error);
+        showModernAlert('Test PDF', 'Server error: ' + json.error, 'error');
+        return;
+      }
+      
+      if (json.b64) {
+        console.log('Base64 data length:', json.b64.length);
+        const decoded = atob(json.b64);
+        console.log('Decoded length:', decoded.length);
+        console.log('First 20 bytes:', Array.from(decoded.substring(0, 20)).map(c => c.charCodeAt(0)));
+        
+        const header = decoded.substring(0, 4);
+        console.log('PDF header:', header);
+        
+        if (header === '%PDF') {
+          console.log('SUCCESS: PDF data looks valid!');
+          showModernAlert('Test PDF', 'PDF data looks valid! Header: ' + header, 'success');
+        } else {
+          console.log('ERROR: Invalid PDF header:', header);
+          showModernAlert('Test PDF', 'Invalid PDF header: ' + header, 'error');
+        }
+      } else {
+        console.log('ERROR: No base64 data in response');
+        showModernAlert('Test PDF', 'No base64 data in response: ' + JSON.stringify(json), 'error');
+      }
+    } catch (error) {
+      console.error('Test PDF error:', error);
+      console.error('Error stack:', error.stack);
+      showModernAlert('Test PDF', 'Test failed: ' + error.message, 'error');
+    }
+    
+    console.log('=== PDF TEST COMPLETED ===');
+  };
+  
+  // Simple console test function
+  window.testPdfDirect = async function(url) {
+    console.log('=== DIRECT PDF TEST ===');
+    console.log('Testing URL:', url);
+    
+    try {
+      const proxyUrl = 'https://script.google.com/macros/s/AKfycbxUBJp0X3j_ug62r6UBzwwh-uXJWqk5jyyDQJCJtb7KtIs8kCKohgJL89kMkis2SDT0/exec?action=proxyfile&url=' + encodeURIComponent(url);
+      console.log('Proxy URL:', proxyUrl);
+      
+      const response = await fetch(proxyUrl);
+      console.log('Response status:', response.status);
+      
+      const text = await response.text();
+      console.log('Response:', text);
+      
+      const json = JSON.parse(text);
+      console.log('Parsed JSON:', json);
+      
+    } catch (error) {
+      console.error('Error:', error);
+    }
+    
+    console.log('=== DIRECT PDF TEST COMPLETED ===');
+  };
+  
   // Close on backdrop click
   document.getElementById('pdfViewerModal').onclick = (e) => {
     if (e.target.id === 'pdfViewerModal') {
@@ -5009,77 +5286,9 @@ function initPdfViewer() {
   });
 }
 
-/* ================== Accord PDF Editor (Text + Draw) ================== */
 
-const AE = {
-  url: '', name: 'document.pdf', bytes: null,
-  pdfDocJS: null,
-  pageCount: 0, pageIndex: 0,
-  scale: 1.3,                 // tweak if you want bigger/smaller on screen
-  canvases: new Map(),        // pageIndex -> {bg:canvas, draw:canvas}
-  textLayer: null,            // parent DIV that holds absolutely-positioned text boxes
-  tool: 'select',             // 'select' | 'text' | 'draw'
-  drawing: false, lastPt: null,
-};
 
-function openAccordEditor(url, name) {
-  console.log('Opening accord editor with URL:', url, 'Name:', name);
-  if (!url) { 
-    alert('No file URL provided for editing'); 
-    return; 
-  }
-  
-  // Validate URL format
-  try {
-    new URL(url);
-    console.log('URL is valid');
-  } catch (e) {
-    console.error('Invalid URL format:', url);
-    alert('Invalid file URL format: ' + url);
-    return;
-  }
-  
-  AE.url = url; 
-  AE.name = name || 'document.pdf';
-  document.getElementById('aeTitle').textContent = 'Editing: ' + AE.name;
-  document.getElementById('accordEditor').style.display = 'block';
-  
-  // Show loading message
-  const wrap = document.getElementById('accordCanvasWrap');
-  wrap.innerHTML = '<div style="display:flex; align-items:center; justify-content:center; height:200px; color:#666;"><div>Loading PDF...<br><small>URL: ' + url + '</small></div></div>';
-  
-  console.log('Starting PDF load...');
-  
-  // Test proxy first if it's an external URL
-  if (!url.startsWith(location.origin)) {
-    console.log('Testing proxy before loading PDF...');
-    testProxy().then(proxyWorking => {
-      if (!proxyWorking) {
-        console.warn('Proxy test failed, but continuing with PDF load...');
-      }
-    });
-  }
-  
-  loadPdfForEdit(url).catch(err => {
-    console.error('PDF loading failed:', err);
-    wrap.innerHTML = '<div style="display:flex; align-items:center; justify-content:center; height:200px; color:#e74c3c; text-align:center; padding:20px;"><div>Failed to load PDF:<br><br>' + err.message + '<br><br><small>URL: ' + url + '</small><br><br><button onclick="testProxy()" style="margin-top:10px; padding:5px 10px; background:#007bff; color:white; border:none; border-radius:4px; cursor:pointer;">Test Proxy</button></div></div>';
-    
-    // Don't hide the editor, show the error instead
-    // document.getElementById('accordEditor').style.display = 'none';
-  });
-}
 
-function closeAccordEditor() {
-  // reset light state, keep memory small
-  AE.url = ''; AE.name = 'document.pdf'; AE.bytes = null;
-  AE.pdfDocJS = null; AE.pageCount = 0; AE.pageIndex = 0;
-  AE.canvases.clear(); AE.textLayer = null;
-  AE.tool = 'select'; AE.drawing = false; AE.lastPt = null;
-
-  const wrap = document.getElementById('accordCanvasWrap');
-  wrap.innerHTML = '';
-  document.getElementById('accordEditor').style.display = 'none';
-}
 
 function proxyFileUrl(u){
   if (!u) return u;
@@ -5110,7 +5319,27 @@ function proxyFileUrl(u){
 // Test function to check if the proxy is working
 async function testProxy() {
   console.log('Testing proxy functionality...');
+  
+  // First test: Check if the script URL is accessible at all
   try {
+    console.log('Step 1: Testing basic script accessibility...');
+    const basicResponse = await fetch(scriptURL, { cache: 'no-store' });
+    console.log('Basic script response status:', basicResponse.status);
+    const basicText = await basicResponse.text();
+    console.log('Basic script response:', basicText);
+    
+    if (basicText !== 'OK') {
+      console.error('Script is not returning OK, got:', basicText);
+      return false;
+    }
+  } catch (err) {
+    console.error('Basic script test failed:', err);
+    return false;
+  }
+  
+  // Second test: Test the proxy function specifically
+  try {
+    console.log('Step 2: Testing proxy function...');
     const testUrl = 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
     const proxyUrl = proxyFileUrl(testUrl);
     console.log('Testing with URL:', proxyUrl);
@@ -5132,7 +5361,7 @@ async function testProxy() {
       console.log('Proxy test successful, base64 length:', json.b64.length);
       return true;
     } else {
-      console.error('Proxy test failed, no base64 data');
+      console.error('Proxy test failed, no base64 data. Response:', json);
       return false;
     }
   } catch (err) {
@@ -5143,437 +5372,13 @@ async function testProxy() {
 
 
 
-async function loadPdfForEdit(url) {
-  try {
-    console.log('Loading PDF for edit, original URL:', url);
-    
-    let pdfBytes = null;
-    
-    // First, try to fetch directly (for same-origin files)
-    try {
-      console.log('Attempting direct fetch...');
-      const directRes = await fetch(url, { cache: 'no-store' });
-      if (directRes.ok) {
-        const arrayBuffer = await directRes.arrayBuffer();
-        
-        // Validate PDF header
-        const header = new Uint8Array(arrayBuffer, 0, 4);
-        const headerStr = String.fromCharCode(...header);
-        if (headerStr === '%PDF') {
-          pdfBytes = arrayBuffer;
-          console.log('Direct fetch successful, size:', pdfBytes.byteLength);
-        } else {
-          console.error('Direct fetch: Invalid PDF header:', headerStr);
-          // Don't set pdfBytes, will try proxy instead
-        }
-      }
-    } catch (directError) {
-      console.log('Direct fetch failed:', directError.message);
-    }
-    
-    // If direct fetch failed, try the proxy
-    if (!pdfBytes) {
-      console.log('Trying proxy fetch...');
-      
-      // Check if this is a Google Drive URL and try to convert it
-      let finalUrl = url;
-      if (url.includes('drive.google.com') && url.includes('/file/d/')) {
-        console.log('Detected Google Drive URL, attempting to convert...');
-        const fileId = url.match(/\/file\/d\/([a-zA-Z0-9-_]+)/);
-        if (fileId) {
-          finalUrl = `https://drive.google.com/uc?export=download&id=${fileId[1]}`;
-          console.log('Converted Google Drive URL:', finalUrl);
-        }
-      }
-      
-      const proxyUrl = proxyFileUrl(finalUrl);
-      console.log('Using proxy URL:', proxyUrl);
-      
-      const res = await fetch(proxyUrl, { 
-        cache: 'no-store',
-        method: 'GET'
-      });
-      
-      if (!res.ok) {
-        throw new Error(`HTTP ${res.status} - ${res.statusText}`);
-      }
 
-      // The proxy should return JSON with base64 data
-      const textResponse = await res.text();
-      console.log('Proxy response length:', textResponse.length);
-      console.log('First 200 chars:', textResponse.substring(0, 200));
-      
-      // Check if response looks like HTML (error page)
-      if (textResponse.trim().startsWith('<') || textResponse.includes('<html') || textResponse.includes('<!DOCTYPE')) {
-        console.error('Proxy returned HTML instead of JSON:', textResponse.substring(0, 500));
-        throw new Error('Server returned an error page instead of PDF data. The file might not be accessible or the proxy failed.');
-      }
-      
-      let jsonResponse;
-      try {
-        jsonResponse = JSON.parse(textResponse);
-      } catch (parseError) {
-        console.error('JSON parse error:', parseError);
-        console.error('Response was:', textResponse);
-        throw new Error('Invalid JSON response from server. The file might not be accessible.');
-      }
-      
-      if (jsonResponse && jsonResponse.error) {
-        throw new Error('Server error: ' + jsonResponse.error);
-      }
-      
-      if (jsonResponse && jsonResponse.b64) {
-        console.log('Base64 data length:', jsonResponse.b64.length);
-        
-        // Validate that the base64 data looks like a PDF
-        try {
-          const bin = atob(jsonResponse.b64);
-          const buf = new Uint8Array(bin.length);
-          for (let i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i);
-          
-          // Check PDF header
-          const header = new Uint8Array(buf, 0, 4);
-          const headerStr = String.fromCharCode(...header);
-          if (headerStr !== '%PDF') {
-            console.error('Invalid PDF header:', headerStr);
-            throw new Error('The file does not appear to be a valid PDF. Header: ' + headerStr);
-          }
-          
-          pdfBytes = buf.buffer;
-          console.log('Proxy PDF bytes loaded, size:', pdfBytes.byteLength);
-        } catch (decodeError) {
-          console.error('Base64 decode error:', decodeError);
-          throw new Error('Failed to decode PDF data. The file might be corrupted or not a valid PDF.');
-        }
-      } else {
-        throw new Error('No base64 data in response. The file might not be accessible or the proxy failed.');
-      }
-    }
-    
-    if (!pdfBytes) {
-      throw new Error('Could not fetch PDF data from any source');
-    }
-    
-    AE.bytes = pdfBytes;
-    console.log('Loading PDF document with PDF.js...');
-    
-    try {
-      AE.pdfDocJS = await pdfjsLib.getDocument({ data: AE.bytes }).promise;
-      AE.pageCount = AE.pdfDocJS.numPages;
-      AE.pageIndex = 0;
-      console.log('PDF loaded successfully, pages:', AE.pageCount);
-      
-      buildEditorUIOnce();
-      await renderAccordPage(0);
-    } catch (pdfError) {
-      console.error('PDF.js loading error:', pdfError);
-      throw new Error('Invalid PDF structure: ' + pdfError.message + '. The file might be corrupted or not a valid PDF.');
-    }
-  } catch (err) {
-    console.error('PDF loading error:', err);
-    alert('Could not open PDF for editing: ' + err.message + '\n\nThis might be due to:\n- File access permissions\n- CORS restrictions\n- Network connectivity issues\n- The file might not exist or be accessible\n\nPlease try:\n1. Re-uploading the file\n2. Checking if the file URL is correct\n3. Contacting support if the issue persists');
-    document.getElementById('accordEditor').style.display = 'none';
-  }
-}
 
-function buildEditorUIOnce(){
-  console.log('Building editor UI...');
-  const wrap = document.getElementById('accordCanvasWrap');
-  if (!wrap) {
-    console.error('accordCanvasWrap element not found!');
-    return;
-  }
-  
-  wrap.innerHTML = '';
-  wrap.style.position = 'relative';
 
-  // text layer
-  const tl = document.createElement('div');
-  tl.id = 'aeTextLayer';
-  tl.style.position = 'absolute';
-  tl.style.inset = '0';
-  tl.style.pointerEvents = 'none'; // enable when placing text
-  wrap.appendChild(tl);
-  AE.textLayer = tl;
 
-  // tool buttons
-  const selectBtn = document.getElementById('aeToolSelect');
-  const textBtn = document.getElementById('aeToolText');
-  const drawBtn = document.getElementById('aeToolDraw');
-  const clearBtn = document.getElementById('aeClearPage');
-  const prevBtn = document.getElementById('aePrev');
-  const nextBtn = document.getElementById('aeNext');
-  const saveBtn = document.getElementById('aeSave');
-  const closeBtn = document.getElementById('aeClose');
 
-  if (selectBtn) selectBtn.onclick = () => setTool('select');
-  if (textBtn) textBtn.onclick = () => setTool('text');
-  if (drawBtn) drawBtn.onclick = () => setTool('draw');
-  if (clearBtn) clearBtn.onclick = clearCurrentPageOverlays;
-  if (prevBtn) prevBtn.onclick = () => navPage(-1);
-  if (nextBtn) nextBtn.onclick = () => navPage(+1);
-  if (saveBtn) {
-    saveBtn.onclick = saveAccordEdits;
-    console.log('Save button event handler attached');
-  }
-  if (closeBtn) closeBtn.onclick = closeAccordEditor;
-
-  // mouse handlers for draw & place text
-  wrap.onmousedown = aePointerDown;
-  wrap.onmousemove = aePointerMove;
-  window.addEventListener('mouseup', aePointerUp);
-  
-  console.log('Editor UI built successfully');
-}
-
-function setTool(t){
-  AE.tool = t;
-  const tl = AE.textLayer;
-  if (!tl) return;
-  // when placing text, clicks go to us
-  tl.style.pointerEvents = (t === 'text' ? 'auto' : 'none');
-
-  // visual button state (optional)
-  ['aeToolSelect','aeToolText','aeToolDraw'].forEach(id=>{
-    const b = document.getElementById(id);
-    if (!b) return;
-    b.style.filter = (id.toLowerCase().includes(t) ? 'brightness(1.05)' : 'none');
-  });
-}
-
-function viewSizeForPage(page) {
-  const vp = page.getViewport({ scale: AE.scale });
-  return { width: Math.floor(vp.width), height: Math.floor(vp.height), viewport: vp };
-}
-
-async function renderAccordPage(index){
-  console.log('Rendering accord page:', index);
-  AE.pageIndex = Math.max(0, Math.min(index, AE.pageCount-1));
-  document.getElementById('aePageInfo').textContent = `Page ${AE.pageIndex+1} / ${AE.pageCount}`;
-
-  const page = await AE.pdfDocJS.getPage(AE.pageIndex + 1);
-  const { width, height, viewport } = viewSizeForPage(page);
-
-  // ensure canvas pair exists for this page
-  let pair = AE.canvases.get(AE.pageIndex);
-  if (!pair) {
-    pair = { bg: document.createElement('canvas'), draw: document.createElement('canvas') };
-    AE.canvases.set(AE.pageIndex, pair);
-  }
-  const bg = pair.bg, draw = pair.draw;
-  [bg, draw].forEach(c => { c.width = width; c.height = height; c.style.position='absolute'; c.style.left='0'; c.style.top='0'; });
-
-  // render background
-  const ctx = bg.getContext('2d');
-  ctx.clearRect(0,0,width,height);
-  await page.render({ canvasContext: ctx, viewport }).promise;
-
-  // mount into viewer (ensure order: bg, draw, textLayer on top)
-  const wrap = document.getElementById('accordCanvasWrap');
-  wrap.style.width  = width + 'px';
-  wrap.style.height = height + 'px';
-  if (!bg.parentNode)  wrap.appendChild(bg);
-  if (!draw.parentNode) wrap.appendChild(draw);
-  AE.textLayer.style.width = width+'px';
-  AE.textLayer.style.height= height+'px';
-
-  // show only current page’s canvases
-  AE.canvases.forEach((p, i) => {
-    const on = (i === AE.pageIndex);
-    p.bg.style.display   = on ? 'block' : 'none';
-    p.draw.style.display = on ? 'block' : 'none';
-  });
-
-  // show only current page’s text boxes
-  Array.from(AE.textLayer.children).forEach(el=>{
-    el.style.display = (Number(el.dataset.page) === AE.pageIndex ? 'block' : 'none');
-  });
-}
-
-/* ---- Navigation / clear ---- */
-function navPage(delta){ renderAccordPage(AE.pageIndex + delta); }
-function clearCurrentPageOverlays(){
-  const p = AE.canvases.get(AE.pageIndex);
-  if (p) p.draw.getContext('2d').clearRect(0,0,p.draw.width,p.draw.height);
-  Array.from(AE.textLayer.children)
-    .filter(el => Number(el.dataset.page) === AE.pageIndex)
-    .forEach(el => el.remove());
-}
-
-/* ---- Pointer handlers ---- */
-function localXY(e){
-  const wrap = document.getElementById('accordCanvasWrap');
-  const r = wrap.getBoundingClientRect();
-  return { x: e.clientX - r.left, y: e.clientY - r.top };
-}
-
-function aePointerDown(e){
-  if (AE.tool === 'draw'){
-    AE.drawing = true;
-    AE.lastPt = localXY(e);
-  } else if (AE.tool === 'text'){
-    const pt = localXY(e);
-    placeTextBox(pt.x, pt.y);
-  }
-}
-
-function aePointerMove(e){
-  if (AE.tool !== 'draw' || !AE.drawing) return;
-  const pair = AE.canvases.get(AE.pageIndex);
-  if (!pair) return;
-  const ctx = pair.draw.getContext('2d');
-  const now = localXY(e);
-  ctx.lineCap = 'round';
-  ctx.lineJoin = 'round';
-  ctx.lineWidth = 2.2;
-  ctx.strokeStyle = '#111';
-  ctx.beginPath();
-  ctx.moveTo(AE.lastPt.x, AE.lastPt.y);
-  ctx.lineTo(now.x, now.y);
-  ctx.stroke();
-  AE.lastPt = now;
-}
-
-function aePointerUp(){ AE.drawing = false; AE.lastPt = null; }
-
-/* ---- Text boxes ---- */
-function placeTextBox(x, y){
-  const el = document.createElement('div');
-  el.className = 'ae-text';
-  el.contentEditable = 'true';
-  el.textContent = 'Text';
-  el.dataset.page = String(AE.pageIndex);
-
-  Object.assign(el.style, {
-    position: 'absolute',
-    left: Math.round(x) + 'px',
-    top:  Math.round(y) + 'px',
-    minWidth: '40px',
-    padding: '2px 4px',
-    font: '16px/1.25 Arial, sans-serif',
-    color: '#111',
-    background: 'rgba(255,255,255,0.01)', // keep caret visible, but looks invisible
-    border: '1px dashed rgba(0,0,0,.15)',
-    cursor: 'move',
-    pointerEvents: 'auto',
-  });
-
-  // drag to move (while tool is Select or Text)
-  let dragging = false, offX=0, offY=0;
-  el.addEventListener('mousedown', (e)=>{
-    if (AE.tool === 'draw') return; // ignore while drawing
-    dragging = true;
-    const r = el.getBoundingClientRect();
-    offX = e.clientX - r.left;
-    offY = e.clientY - r.top;
-    e.preventDefault();
-  });
-  window.addEventListener('mousemove', (e)=>{
-    if (!dragging) return;
-    const wrap = document.getElementById('accordCanvasWrap').getBoundingClientRect();
-    el.style.left = Math.round(e.clientX - wrap.left - offX) + 'px';
-    el.style.top  = Math.round(e.clientY - wrap.top  - offY) + 'px';
-  });
-  window.addEventListener('mouseup', ()=> dragging=false);
-
-  // dblclick to edit, enter blurs
-  el.addEventListener('dblclick', ()=> el.focus());
-  el.addEventListener('keydown', (e)=> {
-    if (e.key === 'Enter'){ e.preventDefault(); el.blur(); }
-  });
-
-  // show only on its page
-  el.style.display = (AE.pageIndex === Number(el.dataset.page)) ? 'block' : 'none';
-  AE.textLayer.appendChild(el);
-}
 
 /* ---- Save (flatten to new PDF, then upload via your existing pipeline) ---- */
-async function saveAccordEdits(){
-  console.log('Starting to save accord edits...');
-  if (!AE.bytes) {
-    console.error('No PDF bytes available for saving');
-    alert('No PDF data available for saving');
-    return;
-  }
-
-  try {
-    const srcPdf = await PDFLib.PDFDocument.load(AE.bytes);
-  const helv = await srcPdf.embedFont(PDFLib.StandardFonts.Helvetica);
-
-  // for each page, draw the overlay (pen) as an image, then draw text boxes
-  for (let i=0; i<srcPdf.getPageCount(); i++){
-    const page = srcPdf.getPage(i);
-    const pdfW = page.getWidth();
-    const pdfH = page.getHeight();
-
-    // figure DOM<->PDF scaling from bg canvas
-    const pair = AE.canvases.get(i);
-    if (pair){
-      const bgW = pair.bg.width, bgH = pair.bg.height;
-
-      // 1) draw freehand layer
-      const drawPNG = pair.draw.toDataURL('image/png');
-      if (drawPNG && drawPNG.length > 22){
-        const png = await srcPdf.embedPng(drawPNG);
-        // scale canvas pixels to PDF user space
-        page.drawImage(png, { x: 0, y: 0, width: pdfW, height: pdfH });
-      }
-
-      // 2) draw text boxes for this page
-      const boxes = Array.from(AE.textLayer.children)
-        .filter(el => Number(el.dataset.page) === i);
-      boxes.forEach(el => {
-        const text = (el.textContent || '').trim();
-        if (!text) return;
-
-        // compute DOM x/y -> PDF x/y
-        const left = parseFloat(el.style.left || '0');
-        const top  = parseFloat(el.style.top  || '0');
-
-        const scaleX = pdfW / bgW;
-        const scaleY = pdfH / bgH;
-
-        const fontSize = parseFloat(window.getComputedStyle(el).fontSize) || 16;
-        const pdfX = left * scaleX;
-        // pdf-lib origin is bottom-left:
-        const approxTextHeightPx = fontSize * 1.2;
-        const pdfY = pdfH - ((top + approxTextHeightPx) * scaleY);
-
-        page.drawText(text, {
-          x: pdfX, y: pdfY,
-          size: fontSize * scaleX, // scale proportionally
-          font: helv,
-          color: PDFLib.rgb(0.07,0.07,0.07)
-        });
-      });
-    }
-  }
-
-  const outBytes = await srcPdf.save();
-  const blob = new Blob([outBytes], { type: 'application/pdf' });
-
-  // file name: original + "-edited.pdf"
-  const base = AE.name.replace(/\.pdf$/i,'') || 'document';
-  const editedFile = new File([blob], base + '-edited.pdf', { type:'application/pdf' });
-
-  // hand it to your existing uploader path (uploadEditedAccord -> handleAttachmentUpload('accord'))
-  const input = document.getElementById('accordEditedFile');
-  const dt = new DataTransfer();
-  dt.items.add(editedFile);
-  input.files = dt.files;
-
-  // will show optimistic row and persist to server
-  console.log('Uploading edited file...');
-  await uploadEditedAccord();
-
-  console.log('File saved successfully');
-  alert('Saved as new Accord file.');
-  closeAccordEditor();
-  } catch (err) {
-    console.error('Error saving accord edits:', err);
-    alert('Error saving PDF: ' + err.message);
-  }
-}
 
     function fileToBase64(file) {
       return new Promise((resolve, reject) => {
@@ -5687,25 +5492,6 @@ async function saveAccordEdits(){
       }
     }
 
-    // ⬇️ Helper to save the user-edited Accord PDF as a new form (keeps template visible)
-    async function uploadEditedAccord() {
-      if (!custRowNum) { alert('Please select a customer from the main table first, then try uploading again.'); return; }
-      const input = document.getElementById('accordEditedFile');
-      const file = input.files && input.files[0];
-      if (!file) { alert('Choose the edited PDF first.'); return; }
-      if (file.type !== 'application/pdf') { alert('Please choose a PDF.'); return; }
-
-      // Reuse the same uploader pathway as normal Accord uploads
-      const dt = new DataTransfer();
-      dt.items.add(file);
-      const proxy = document.getElementById('accordUpload');
-      proxy.files = dt.files;
-
-      // Shows an optimistic row + persists via Apps Script
-      await handleAttachmentUpload('accord');
-
-      // keep viewer as-is (template remains editable)
-    }
 
 
 
@@ -5985,15 +5771,15 @@ async function saveAccordEdits(){
     flatpickr("#ci_expDate", { dateFormat: "Y-m-d", allowInput: true });
 
     // Reminder field: enable time and close as soon as a value is chosen
-    flatpickr("#remWhen", {
-      enableTime: true,
-      dateFormat: "Y-m-d\\TH:i",   // literal T
-      time_24hr: false,
-      minuteIncrement: 1,
-      allowInput: true,
-      onChange: function (selDates, _str, instance) {
-        if (selDates && selDates.length) instance._input.blur();
-      }
+flatpickr("#remWhen", {
+  enableTime: true,
+  dateFormat: "Y-m-d\\TH:i",   // literal T
+  time_24hr: false,
+  minuteIncrement: 1,
+  allowInput: true,
+  onChange: function (selDates, _str, instance) {
+    if (selDates && selDates.length) instance._input.blur();
+  }
     });
   });
 
